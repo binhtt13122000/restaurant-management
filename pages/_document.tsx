@@ -8,7 +8,7 @@ import Document, {
     DocumentInitialProps,
 } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
-import createEmotionCache from "../utils/createEmotionCache";
+import createEmotionCache from "utils/createEmotionCache";
 
 class MyDocument extends Document {
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -17,6 +17,7 @@ class MyDocument extends Document {
         const { extractCriticalToChunks } = createEmotionServer(cache);
         ctx.renderPage = () =>
             originalRenderPage({
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
             });
 
