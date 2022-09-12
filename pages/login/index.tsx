@@ -4,8 +4,34 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import WarningIcon from "@mui/icons-material/Warning";
+import LoginModel from "models/login.model";
+import useLogin from "hooks/login/useLogin";
+import Router from "next/router";
 
 const Login: NextPage = () => {
+    const { mutate } = useLogin();
+    const {
+        handleSubmit,
+        register,
+        setError,
+        formState: { errors },
+    } = useForm<LoginModel>();
+
+    const submitHandler = (data: LoginModel) => {
+        if (data) {
+            mutate(data, {
+                onError: (error) => {
+                    setError("username", { message: "" });
+                    setError("password", { message: error.response?.data.msg || "" });
+                },
+                onSuccess: () => {
+                    Router.push("/");
+                },
+            });
+        }
+    };
     return (
         <Box
             sx={{
@@ -36,11 +62,7 @@ const Login: NextPage = () => {
                         p: 2,
                     }}
                 >
-                    <form
-                        noValidate
-                        autoComplete="off"
-                        // onSubmit={handleSubmit(submitHandler)}
-                    >
+                    <form noValidate autoComplete="off" onSubmit={handleSubmit(submitHandler)}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -48,41 +70,61 @@ const Login: NextPage = () => {
                             fullWidth
                             id="email"
                             label="Username"
-                            name="username"
                             autoFocus
-                            // error={errors["email"] !== null && errors["email"] !== undefined}
-                            // inputRef={register({
-                            //     required: "Email không được để trống!",
-                            //     pattern: {
-                            //         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            //         message: "Email không hợp lệ!",
-                            //     },
-                            // })}
+                            error={errors["username"] !== null && errors["username"] !== undefined}
+                            {...register("username", {
+                                required: "Username is required!",
+                            })}
                         />
-                        {/* {errors["email"] && (
-                            <div className={classes.warming}>
-                                <WarningIcon className={classes.warmingIcon} />
-                                <span>{errors["email"].message}</span>
-                            </div>
-                        )} */}
+                        {errors["username"] && errors["username"].message && (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <WarningIcon
+                                    color="error"
+                                    sx={{
+                                        mr: 1,
+                                    }}
+                                />
+                                <Typography variant="inherit" color="red">
+                                    {errors["username"].message}
+                                </Typography>
+                            </Box>
+                        )}
                         <TextField
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
                             label="Password"
                             type="password"
                             id="password"
-                            // error={errors["password"] !== null && errors["password"] !== undefined}
-                            // inputRef={register({ required: "Mật khẩu không được để trống!" })}
+                            error={errors["password"] !== null && errors["password"] !== undefined}
+                            {...register("password", {
+                                required: "Password is required!",
+                            })}
                         />
-                        {/* {errors["password"] && (
-                            <div className={classes.warming}>
-                                <WarningIcon className={classes.warmingIcon} />
-                                <span>{errors["password"].message}</span>
-                            </div>
-                        )} */}
+                        {errors["password"] && (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <WarningIcon
+                                    color="error"
+                                    sx={{
+                                        mr: 1,
+                                    }}
+                                />
+                                <Typography variant="inherit" color="red">
+                                    {errors["password"].message}
+                                </Typography>
+                            </Box>
+                        )}
                         <Box
                             sx={{
                                 display: "flex",

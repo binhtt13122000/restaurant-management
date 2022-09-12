@@ -3,6 +3,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
 import createEmotionCache from "utils/createEmotionCache";
 import lightTheme from "styles/theme/lightTheme";
+import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -15,13 +16,18 @@ function MyApp({
     emotionCache = clientSideEmotionCache,
     pageProps,
 }: AppWithEmotionCache) {
+    const queryClient = new QueryClient({
+        queryCache: new QueryCache(),
+    });
     return (
-        <CacheProvider value={emotionCache}>
-            <ThemeProvider theme={lightTheme}>
-                <CssBaseline />
-                <Component {...pageProps} />
-            </ThemeProvider>
-        </CacheProvider>
+        <QueryClientProvider client={queryClient}>
+            <CacheProvider value={emotionCache}>
+                <ThemeProvider theme={lightTheme}>
+                    <CssBaseline />
+                    <Component {...pageProps} />
+                </ThemeProvider>
+            </CacheProvider>
+        </QueryClientProvider>
     );
 }
 
