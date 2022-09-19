@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,8 +8,10 @@ import WarningIcon from "@mui/icons-material/Warning";
 import LoginModel from "models/login.model";
 import useLogin from "hooks/login/useLogin";
 import Router from "next/router";
+import FullScreenLayout from "components/Layout/FullScreenLayout";
+import { NextPageWithLayout } from "utils/common";
 
-const Login: NextPage = () => {
+const Login: NextPageWithLayout = () => {
     const { mutate } = useLogin();
     const {
         handleSubmit,
@@ -154,6 +155,10 @@ const Login: NextPage = () => {
             </Box>
         </Box>
     );
+};
+
+Login.getLayout = function getLayout(page) {
+    return <FullScreenLayout>{page}</FullScreenLayout>;
 };
 
 export default Login;

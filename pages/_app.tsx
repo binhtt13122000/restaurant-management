@@ -1,13 +1,14 @@
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import type { AppProps } from "next/app";
 import createEmotionCache from "utils/createEmotionCache";
 import lightTheme from "styles/theme/lightTheme";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
+import DefaultLayout from "components/Layout/DefaultLayout";
+import { AppPropsWithLayout } from "utils/common";
 
 const clientSideEmotionCache = createEmotionCache();
 
-type AppWithEmotionCache = AppProps & {
+type AppWithEmotionCache = AppPropsWithLayout & {
     emotionCache: EmotionCache;
 };
 
@@ -19,12 +20,26 @@ function MyApp({
     const queryClient = new QueryClient({
         queryCache: new QueryCache(),
     });
+    const getLayout =
+        Component.getLayout ??
+        ((page) => {
+            return (
+                <DefaultLayout
+                    sx={{
+                        pt: 3,
+                    }}
+                >
+                    {page}
+                </DefaultLayout>
+            );
+        });
+
     return (
         <QueryClientProvider client={queryClient}>
             <CacheProvider value={emotionCache}>
                 <ThemeProvider theme={lightTheme}>
                     <CssBaseline />
-                    <Component {...pageProps} />
+                    {getLayout(<Component {...pageProps} />)}
                 </ThemeProvider>
             </CacheProvider>
         </QueryClientProvider>
