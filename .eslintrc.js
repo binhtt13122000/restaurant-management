@@ -40,6 +40,5 @@ module.exports = {
         "react/jsx-uses-react": "error",
         "react/react-in-jsx-scope": "off",
         "react-hooks/exhaustive-deps": "error",
-        "@typescript-eslint/no-explicit-any": "error",
     },
 };

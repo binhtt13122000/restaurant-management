@@ -5,6 +5,10 @@ import lightTheme from "styles/theme/lightTheme";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import DefaultLayout from "components/Layout/DefaultLayout";
 import { AppPropsWithLayout } from "utils/common";
+import SnackbarProvider from "context/SnackbarProvider.context";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import GraphQLQueryClientContextProvider from "components/Table/context/QueryClientContext";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -36,12 +40,18 @@ function MyApp({
 
     return (
         <QueryClientProvider client={queryClient}>
-            <CacheProvider value={emotionCache}>
-                <ThemeProvider theme={lightTheme}>
-                    <CssBaseline />
-                    {getLayout(<Component {...pageProps} />)}
-                </ThemeProvider>
-            </CacheProvider>
+            <GraphQLQueryClientContextProvider>
+                <CacheProvider value={emotionCache}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <ThemeProvider theme={lightTheme}>
+                            <SnackbarProvider>
+                                <CssBaseline />
+                                {getLayout(<Component {...pageProps} />)}
+                            </SnackbarProvider>
+                        </ThemeProvider>
+                    </LocalizationProvider>
+                </CacheProvider>
+            </GraphQLQueryClientContextProvider>
         </QueryClientProvider>
     );
 }

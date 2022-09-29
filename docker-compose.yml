@@ -1,29 +1,41 @@
-version: '3'
- 
+version: "3.6"
 services:
-  db:
-    image: mysql
-    container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: demo
-      MYSQL_USER: db_user
-      MYSQL_PASSWORD: 123456
-    ports:
-      - "3306:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma
-    links:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
+  postgres:
+    image: postgres:13
     restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
     ports:
-      - "8081:80"
+      - "5432:5432"
+    expose:
+      - "5432"
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - "postgres"
+  graphql-engine:
+    image: hasura/graphql-engine:v2.2.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+    restart: always
+    environment:
+      - HASURA_GRAPHQL_ADMIN_SECRET
+      - HASURA_GRAPHQL_DATABASE_URL
+      - HASURA_GRAPHQL_ENABLE_CONSOLE
+      - HASURA_GRAPHQL_DEV_MODE
+      - HASURA_GRAPHQL_ENABLED_LOG_TYPES
+      - HASURA_GRAPHQL_JWT_SECRET
 volumes:
-  dbdata:
+  db_data:

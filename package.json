@@ -18,13 +18,20 @@
         "@fontsource/roboto": "^4.5.8",
         "@mui/icons-material": "^5.10.3",
         "@mui/material": "^5.10.4",
+        "@mui/x-date-pickers": "^5.0.3",
         "axios": "^0.27.2",
+        "date-fns": "^2.29.3",
+        "graphql": "^16.6.0",
+        "graphql-request": "^5.0.0",
         "lodash": "^4.17.21",
         "next": "12.3.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.35.0",
-        "react-query": "^3.39.2"
+        "react-number-format": "^5.0.0",
+        "react-query": "^3.39.2",
+        "suneditor": "^2.44.1",
+        "suneditor-react": "^3.4.1"
     },
     "devDependencies": {
         "@next/eslint-plugin-next": "^12.3.0",
