@@ -46,7 +46,7 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                     display="flex"
                     gap={1}
                     alignItems="center"
-                    onClick={() => router.push(ROUTES.DASH_BOARD)}
+                    onClick={() => router.push(ROUTES.DEFAULT)}
                 >
                     <Image src="/images/cutlery.png" alt="logo" width={40} height={40} />
                     <Typography variant="h5">Management</Typography>
