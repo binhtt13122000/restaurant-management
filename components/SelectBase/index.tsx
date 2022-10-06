@@ -1,24 +1,18 @@
 import { FormControl, FormControlProps, InputLabel, Select } from "@mui/material";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
-export interface ReactHookFormSelectProps extends FormControlProps {
-    name: string;
+export interface ReactHookFormSelectProps<T extends FieldValues> extends FormControlProps {
+    name: Path<T>;
     label: string;
-    control: Control;
+    control: Control<T>;
     children: any;
     readOnly?: boolean;
 }
-const ReactHookFormSelect: React.FC<ReactHookFormSelectProps> = ({
-    name,
-    label,
-    control,
-    children,
-    readOnly,
-    ...props
-}) => {
+const ReactHookFormSelect = <T extends FieldValues>(props: ReactHookFormSelectProps<T>) => {
+    const { name, label, control, children, readOnly, ...rest } = props;
     const labelId = `${name}-label`;
     return (
-        <FormControl {...props}>
+        <FormControl {...rest}>
             <InputLabel id={labelId}>{label}</InputLabel>
             <Controller
                 render={({ field: { value, ref, onChange } }) => (

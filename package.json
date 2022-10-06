@@ -8,7 +8,9 @@
         "start": "next start",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "generate-schema": "dotenv -- cross-var \"get-graphql-schema --header x-hasura-admin-secret=%HASURA_ADMIN_SECRET% %HASURA_END_POINT% > schema.graphql\"",
+        "generate-interface": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
         "@emotion/cache": "^11.10.3",
@@ -34,6 +36,13 @@
         "suneditor-react": "^3.4.1"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^2.13.4",
+        "@graphql-codegen/introspection": "^2.2.1",
+        "@graphql-codegen/typescript": "^2.7.3",
+        "@graphql-codegen/typescript-document-nodes": "^2.3.3",
+        "@graphql-codegen/typescript-graphql-files-modules": "^2.2.1",
+        "@graphql-codegen/typescript-graphql-request": "^4.5.5",
+        "@graphql-codegen/typescript-operations": "^2.5.3",
         "@next/eslint-plugin-next": "^12.3.0",
         "@types/lodash": "^4.14.185",
         "@types/node": "18.7.16",
@@ -41,6 +50,8 @@
         "@types/react-dom": "18.0.6",
         "@typescript-eslint/eslint-plugin": "^5.36.2",
         "@typescript-eslint/parser": "^5.36.2",
+        "cross-var": "^1.1.0",
+        "dotenv-cli": "^6.0.0",
         "eslint": "^8.23.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-next": "^12.3.0",
@@ -51,6 +62,7 @@
         "eslint-plugin-react": "^7.31.8",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-unused-imports": "^2.0.0",
+        "get-graphql-schema": "^2.1.2",
         "husky": "^8.0.1",
         "lint-staged": "^13.0.3",
         "prettier": "^2.7.1",

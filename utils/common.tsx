@@ -2,6 +2,20 @@ import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 import { format } from "date-fns";
+
+export interface GraphQLErrorType extends Error {
+    response: {
+        status: number;
+        errors: Array<{
+            message: string;
+            extensions: {
+                path: string;
+                code: string;
+            };
+        }>;
+    };
+}
+
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode;
 };

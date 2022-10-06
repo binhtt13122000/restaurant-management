@@ -73,12 +73,12 @@ export const FilterTable: React.FC<IFilterTable> = (props: IFilterTable) => {
                                         {...params}
                                         size="small"
                                         variant="standard"
-                                        value={`${props.filters[key].value.length} rows are selected.`}
+                                        value={`${props.filters[key].value.length} hàng được chọn.`}
                                         placeholder={
                                             props.filters[key].value.length ===
                                             column.enumValue?.length
                                                 ? ""
-                                                : `${props.filters[key].value.length} rows are selected.`
+                                                : `${props.filters[key].value.length} hàng được chọn.`
                                         }
                                     />
                                 )}
@@ -134,12 +134,12 @@ export const FilterTable: React.FC<IFilterTable> = (props: IFilterTable) => {
                                         {...params}
                                         size="small"
                                         variant="standard"
-                                        value={`${props.filters[key].value.length} rows are selected.`}
+                                        value={`${props.filters[key].value.length} hàng được chọn.`}
                                         placeholder={
                                             props.filters[key].value.length ===
                                             column.enumBooleanValue?.length
                                                 ? ""
-                                                : `${props.filters[key].value.length} rows are selected.`
+                                                : `${props.filters[key].value.length} hàng được chọn.`
                                         }
                                     />
                                 )}
@@ -235,12 +235,12 @@ export const FilterTable: React.FC<IFilterTable> = (props: IFilterTable) => {
                                         {...params}
                                         size="small"
                                         variant="standard"
-                                        value={`${props.filters[key].value.length} rows are selected.`}
+                                        value={`${props.filters[key].value.length} hàng được chọn.`}
                                         placeholder={
                                             props.filters[key].value.length ===
                                             column.enumValue?.length
                                                 ? ""
-                                                : `${props.filters[key].value.length} rows are selected.`
+                                                : `${props.filters[key].value.length} hàng được chọn.`
                                         }
                                     />
                                 )}

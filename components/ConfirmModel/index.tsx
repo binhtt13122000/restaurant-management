@@ -19,16 +19,16 @@ export const ConfirmModal: React.FC<IConfirmModel> = (props: IConfirmModel) => {
     const { open, handleClose, message } = props;
     return (
         <Dialog open={open}>
-            <DialogTitle>{"Do you want to confirm this action?"}</DialogTitle>
+            <DialogTitle>{"Bạn có chắc chắn với hành động của mình?"}</DialogTitle>
             <DialogContent>
                 <DialogContentText>{message}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={(e) => handleClose(e, "CANCEL")} color="secondary">
-                    {"Cancel"}
+                    {"Hủy"}
                 </Button>
                 <Button onClick={(e) => handleClose(e, "CONFIRM")} color="primary" autoFocus>
-                    {"Approve"}
+                    {"Đồng ý"}
                 </Button>
             </DialogActions>
         </Dialog>

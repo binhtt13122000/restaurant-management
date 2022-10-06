@@ -75,8 +75,8 @@ export const TableData = <T extends Record<string, any>>(
                 open={open}
                 message={
                     type === "DELETE"
-                        ? "Do you want to delete this?"
-                        : "Do you want to change this status?"
+                        ? "Bạn có muốn thực hiện xóa?"
+                        : "Bạn có muốn thực hiện chuyển trạng thái?"
                 }
                 handleClose={handleClose}
             />

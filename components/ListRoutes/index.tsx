@@ -246,7 +246,7 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                                             }}
                                         />
                                     </ListItemIcon>
-                                    <ListItemText primary={"Profile"} />
+                                    <ListItemText primary={"Thông tin cá nhân"} />
                                 </ListItemButton>
                                 <ListItemButton
                                     sx={{
@@ -261,7 +261,7 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                                             }}
                                         />
                                     </ListItemIcon>
-                                    <ListItemText primary={"Change Password"} />
+                                    <ListItemText primary={"Thay đổi mật khẩu"} />
                                 </ListItemButton>
                                 <ListItemButton
                                     sx={{
@@ -276,7 +276,7 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                                             }}
                                         />
                                     </ListItemIcon>
-                                    <ListItemText primary={"Log out"} />
+                                    <ListItemText primary={"Đăng xuất"} />
                                 </ListItemButton>
                             </List>
                         </Collapse>

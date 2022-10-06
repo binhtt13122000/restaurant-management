@@ -49,7 +49,7 @@ export const TableHeader: React.FC<ITableHeader> = (props: ITableHeader) => {
                             backgroundColor: "white",
                         }}
                     >
-                        {"Manipulation"}
+                        {"Thao tác"}
                     </TableCell>
                 )}
             </TableRow>

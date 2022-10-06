@@ -9,7 +9,6 @@ const ChipBase = React.forwardRef<HTMLDivElement, ChipBaseProps>((props: ChipBas
                 color: "white",
                 fontWeight: "400",
                 cursor: "pointer",
-                minWidth: 80,
                 textTransform: "uppercase",
             }}
             {...props}

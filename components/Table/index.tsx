@@ -407,7 +407,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                         labelDisplayedRows={labelDisplayedRows}
-                        labelRowsPerPage={"Rows per page:"}
+                        labelRowsPerPage={"Số hàng mỗi trang:"}
                     />
                 </Paper>
             </Box>

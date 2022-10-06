@@ -3,24 +3,24 @@ import { ROUTES } from "utils/routes";
 export const routes = [
     {
         id: 1,
-        name: "Account Manager",
+        name: "Quản lý tài khoản",
         path: ROUTES.DEFAULT,
         icon: "/images/account.png",
     },
     {
         id: 2,
-        name: "Restaurant Manager",
+        name: "Quản lý nhà hàng",
         icon: "/images/management.png",
         children: [
             {
                 id: 2.1,
-                name: "Restaurants",
+                name: "Cấu hình chung",
                 path: ROUTES.DEFAULT,
                 icon: "/images/employees.png",
             },
             {
                 id: 2.2,
-                name: "Locations",
+                name: "Địa điểm",
                 path: ROUTES.DEFAULT,
                 icon: "/images/combo.png",
             },
@@ -34,13 +34,8 @@ export const routes = [
     },
     {
         id: 4,
-        name: "Payment Method",
+        name: "Phương thức thanh toán",
+        path: ROUTES.PAYMENT_METHOD,
         icon: "/images/deposit.png",
-    },
-    {
-        id: 6,
-        name: "System Setting",
-        path: ROUTES.DEFAULT,
-        icon: "/images/settings.png",
     },
 ];

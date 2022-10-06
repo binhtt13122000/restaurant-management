@@ -50,8 +50,8 @@ export const CheckboxesHeader: React.FC<ICheckBoxHeader> = (props: ICheckBoxHead
                     {...params}
                     size="small"
                     variant="standard"
-                    value={`${props.selectedColumns.length} rows are selected.`}
-                    placeholder={`${props.selectedColumns.length} rows are selected.`}
+                    value={`${props.selectedColumns.length} hàng được chọn.`}
+                    placeholder={`${props.selectedColumns.length} hàng được chọn.`}
                 />
             )}
         />

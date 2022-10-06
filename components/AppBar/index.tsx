@@ -49,7 +49,7 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                     onClick={() => router.push(ROUTES.DEFAULT)}
                 >
                     <Image src="/images/cutlery.png" alt="logo" width={40} height={40} />
-                    <Typography variant="h5">Management</Typography>
+                    <Typography variant="h5">Quản lý nhà hàng</Typography>
                 </Box>
                 <Box
                     sx={{

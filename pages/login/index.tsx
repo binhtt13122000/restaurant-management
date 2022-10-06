@@ -52,7 +52,7 @@ const Login: NextPageWithLayout = () => {
                 }}
             >
                 <Typography variant="h4" mb={3} align="center" color="white">
-                    Restaurant Online Ordering System
+                    Hệ thống quản lý nhà hàng
                 </Typography>
                 <Box
                     sx={{
@@ -69,8 +69,8 @@ const Login: NextPageWithLayout = () => {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Username"
+                            id="username"
+                            label="Tên đăng nhập"
                             autoFocus
                             error={errors["username"] !== null && errors["username"] !== undefined}
                             {...register("username", {
@@ -100,7 +100,7 @@ const Login: NextPageWithLayout = () => {
                             margin="normal"
                             required
                             fullWidth
-                            label="Password"
+                            label="Mật khẩu"
                             type="password"
                             id="password"
                             error={errors["password"] !== null && errors["password"] !== undefined}
@@ -143,11 +143,11 @@ const Login: NextPageWithLayout = () => {
                                         cursor: "pointer",
                                     }}
                                 >
-                                    Forgot password?
+                                    Quên mật khẩu?
                                 </Typography>
                             </Link>
                             <Button type="submit" variant="contained" color="primary">
-                                Login
+                                Đăng nhập
                             </Button>
                         </Box>
                     </form>
