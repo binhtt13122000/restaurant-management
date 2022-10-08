@@ -9,7 +9,7 @@ import SnackbarProvider from "context/SnackbarProvider.context";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import GraphQLQueryClientContextProvider from "components/Table/context/QueryClientContext";
-
+import "../styles/global.css";
 const clientSideEmotionCache = createEmotionCache();
 
 type AppWithEmotionCache = AppPropsWithLayout & {

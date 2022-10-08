@@ -9914,6 +9914,52 @@ export type UpdatePaymentmethodMutation = {
     } | null;
 };
 
+export type CreateSettingMutationMutationVariables = Exact<{
+    address?: InputMaybe<Scalars["String"]>;
+    restaurantimage?: InputMaybe<Scalars["String"]>;
+    restaurantname?: InputMaybe<Scalars["String"]>;
+    taxvalue?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type CreateSettingMutationMutation = {
+    __typename?: "mutation_root";
+    insert_systemsetting_one?: { __typename?: "systemsetting"; id: number } | null;
+};
+
+export type GetSystemSettingQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSystemSettingQuery = {
+    __typename?: "query_root";
+    systemsetting: Array<{
+        __typename?: "systemsetting";
+        address: string;
+        id: number;
+        restaurantimage: string;
+        restaurantname: string;
+        taxvalue: number;
+    }>;
+};
+
+export type UpdateSettingMutationMutationVariables = Exact<{
+    address?: InputMaybe<Scalars["String"]>;
+    restaurantimage?: InputMaybe<Scalars["String"]>;
+    restaurantname?: InputMaybe<Scalars["String"]>;
+    taxvalue?: InputMaybe<Scalars["Int"]>;
+    id?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type UpdateSettingMutationMutation = {
+    __typename?: "mutation_root";
+    update_systemsetting_by_pk?: {
+        __typename?: "systemsetting";
+        id: number;
+        restaurantimage: string;
+        restaurantname: string;
+        taxvalue: number;
+        address: string;
+    } | null;
+};
+
 export type MyQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MyQueryQuery = {
