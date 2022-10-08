@@ -265,13 +265,13 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
                                 setSelectedColumns={setSelectedColumns}
                                 columns={columns.filter((col) => !col.disable)}
                             />
-                            <Tooltip title={"Refresh data"}>
+                            <Tooltip title={"Tải lại"}>
                                 <IconButton size="large" onClick={() => refetchPage()}>
                                     <CachedIcon />
                                 </IconButton>
                             </Tooltip>
                             {!!props?.action?.onAdd && (
-                                <Tooltip title={"Add"}>
+                                <Tooltip title={"Thêm mới"}>
                                     <IconButton size="large" onClick={() => onAddHandler()}>
                                         <AddBoxRounded />
                                     </IconButton>
@@ -388,7 +388,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
                                                         }}
                                                     >
                                                         {emptyRows === paging.limit &&
-                                                            `No data available`}
+                                                            `Không có dữ liệu nào hiện tại`}
                                                     </Box>
                                                 </TableCell>
                                             </TableRow>

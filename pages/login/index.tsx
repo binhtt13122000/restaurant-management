@@ -5,13 +5,22 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import WarningIcon from "@mui/icons-material/Warning";
-import LoginModel from "models/login.model";
+import { LoginResponseModel, LoginModel } from "models/login.model";
 import useLogin from "hooks/login/useLogin";
 import Router from "next/router";
 import FullScreenLayout from "components/Layout/FullScreenLayout";
 import { NextPageWithLayout } from "utils/common";
+import { USER_ENUM } from "utils/enums";
+import { useEffect } from "react";
+import router from "next/router";
 
 const Login: NextPageWithLayout = () => {
+    useEffect(() => {
+        const userJson = localStorage.getItem("user");
+        if (userJson) {
+            router.push("/");
+        }
+    }, []);
     const { mutate } = useLogin();
     const {
         handleSubmit,
@@ -27,7 +36,25 @@ const Login: NextPageWithLayout = () => {
                     setError("username", { message: "" });
                     setError("password", { message: error.response?.data.msg || "" });
                 },
-                onSuccess: () => {
+                onSuccess: (user: LoginResponseModel | null) => {
+                    if (!user) {
+                        setError("username", { message: "" });
+                        setError("password", {
+                            message: "Tên đăng nhập hoặc mật khẩu không chính xác!",
+                        });
+                        return;
+                    }
+                    if (user.roleid !== 1) {
+                        setError("username", { message: "" });
+                        setError("password", { message: "Người dùng không phải là admin!" });
+                        return;
+                    }
+                    if (user.status === USER_ENUM.INACTIVE) {
+                        setError("username", { message: "" });
+                        setError("password", { message: "Người dùng đã bị khóa!" });
+                        return;
+                    }
+                    localStorage.setItem("user", JSON.stringify(user));
                     Router.push("/");
                 },
             });
@@ -74,7 +101,7 @@ const Login: NextPageWithLayout = () => {
                             autoFocus
                             error={errors["username"] !== null && errors["username"] !== undefined}
                             {...register("username", {
-                                required: "Username is required!",
+                                required: "Yêu cầu nhập tên đăng nhập!",
                             })}
                         />
                         {errors["username"] && errors["username"].message && (
@@ -91,7 +118,7 @@ const Login: NextPageWithLayout = () => {
                                     }}
                                 />
                                 <Typography variant="inherit" color="red">
-                                    {errors["username"].message}
+                                    {`${String(errors["username"].message || "")}`}
                                 </Typography>
                             </Box>
                         )}
@@ -105,7 +132,7 @@ const Login: NextPageWithLayout = () => {
                             id="password"
                             error={errors["password"] !== null && errors["password"] !== undefined}
                             {...register("password", {
-                                required: "Password is required!",
+                                required: "Yêu cầu nhập mật khẩu!",
                             })}
                         />
                         {errors["password"] && (
@@ -122,7 +149,7 @@ const Login: NextPageWithLayout = () => {
                                     }}
                                 />
                                 <Typography variant="inherit" color="red">
-                                    {errors["password"].message}
+                                    {`${String(errors["password"].message || "")}`}
                                 </Typography>
                             </Box>
                         )}

@@ -73,7 +73,7 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                     >
                         {` Administrator | Nguyen Duc Huy`}
                     </Typography>
-                    <Tooltip title="Notification">
+                    <Tooltip title="Thông báo">
                         <IconButton
                             size="large"
                             aria-label="notification"

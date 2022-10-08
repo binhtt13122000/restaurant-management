@@ -138,7 +138,10 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
         }
     };
 
-    const logout = async () => {};
+    const logout = async () => {
+        localStorage.clear();
+        router.push("/login");
+    };
 
     const changePasswordData = () => {
         // setOpenFormChangePassword(true);

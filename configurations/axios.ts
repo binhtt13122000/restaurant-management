@@ -7,6 +7,7 @@ const configAxios = axios.create({
     baseURL: publicRuntimeConfig.NEXT_PUBLIC_API_ROOT_URL,
     headers: {
         "Content-type": "application/json",
+        "x-hasura-admin-secret": publicRuntimeConfig.NEXT_PUBLIC_HASURA_ADMIN_SECRET,
     },
 });
 

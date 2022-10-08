@@ -1,7 +1,7 @@
 import CRUDTable from "components/Table";
 import { IColumn } from "components/Table/models";
 import { NextPage } from "next";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ChipBase from "components/Chip";
 import { BASIC_ENUM } from "utils/enums";
 import useCreatePaymentMethod from "hooks/payment-methods/useCreatePaymentMethod";
@@ -11,8 +11,15 @@ import PaymentMethodForm, {
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useUpdatePaymentMethod from "hooks/payment-methods/useUpdatePaymentMethod";
 import useDeletePaymentMethod from "hooks/payment-methods/useDeletePaymentMethod";
+import router from "next/router";
 
 const PaymentMethod: NextPage = () => {
+    useEffect(() => {
+        const userJson = localStorage.getItem("user");
+        if (!userJson) {
+            router.push("/login");
+        }
+    }, []);
     const initData: PaymentmethodMutationType = {
         id: 0,
         name: "",

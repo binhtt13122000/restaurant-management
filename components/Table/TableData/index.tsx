@@ -189,7 +189,7 @@ export const TableData = <T extends Record<string, any>>(
                                     }}
                                 >
                                     {props.isHaveActionEdit && (
-                                        <Tooltip title={String("Update")}>
+                                        <Tooltip title={String("Chỉnh sửa")}>
                                             <IconButton
                                                 size="large"
                                                 onClick={() => {
@@ -205,7 +205,7 @@ export const TableData = <T extends Record<string, any>>(
                                         </Tooltip>
                                     )}
                                     {props.isHaveActionView && (
-                                        <Tooltip title={String("View")}>
+                                        <Tooltip title={String("Xem chi tiết")}>
                                             <IconButton
                                                 size="large"
                                                 onClick={() => {
@@ -219,7 +219,7 @@ export const TableData = <T extends Record<string, any>>(
                                         </Tooltip>
                                     )}
                                     {props.isHaveActionDelete && (
-                                        <Tooltip title={String("Delete")}>
+                                        <Tooltip title={String("Xóa")}>
                                             <IconButton
                                                 size="large"
                                                 onClick={() => {
@@ -233,7 +233,7 @@ export const TableData = <T extends Record<string, any>>(
                                         </Tooltip>
                                     )}
                                     {props.isHaveActionChangeStatus && (
-                                        <Tooltip title={String("Change Status")}>
+                                        <Tooltip title={String("Thay đổi trạng thái")}>
                                             <IconButton
                                                 size="large"
                                                 onClick={() => {
