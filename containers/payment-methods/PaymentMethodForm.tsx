@@ -121,6 +121,7 @@ const PaymentMethodForm: React.FC<IForm<PaymentmethodMutationType>> = (
                             control={control}
                             label="Trạng thái"
                             name="status"
+                            readOnly={isView}
                         >
                             <MenuItem value={BASIC_ENUM.ACTIVE}>Đang hoạt động</MenuItem>
                             <MenuItem value={BASIC_ENUM.INACTIVE}>Ngừng hoạt động</MenuItem>
@@ -145,9 +146,11 @@ const PaymentMethodForm: React.FC<IForm<PaymentmethodMutationType>> = (
                         >
                             {"Trở về"}
                         </Button>
-                        <Button variant="contained" type="submit" autoFocus>
-                            {defaultData.id ? "Chỉnh sửa" : "Tạo mới"}
-                        </Button>
+                        {isView || (
+                            <Button variant="contained" type="submit" autoFocus>
+                                {defaultData.id ? "Chỉnh sửa" : "Tạo mới"}
+                            </Button>
+                        )}
                     </Box>
                 </Grid>
             </CardContainer>

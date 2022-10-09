@@ -8739,7 +8739,7 @@ export type Systemsetting = {
     id: Scalars["Int"];
     restaurantimage: Scalars["String"];
     restaurantname: Scalars["String"];
-    taxvalue: Scalars["Int"];
+    taxvalue: Scalars["String"];
 };
 
 /** aggregated selection of "systemsetting" */
@@ -8775,7 +8775,6 @@ export type Systemsetting_Aggregate_FieldsCountArgs = {
 export type Systemsetting_Avg_Fields = {
     __typename?: "systemsetting_avg_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** Boolean expression to filter rows from the table "systemsetting". All fields are combined with a logical 'AND'. */
@@ -8787,7 +8786,7 @@ export type Systemsetting_Bool_Exp = {
     id?: InputMaybe<Int_Comparison_Exp>;
     restaurantimage?: InputMaybe<String_Comparison_Exp>;
     restaurantname?: InputMaybe<String_Comparison_Exp>;
-    taxvalue?: InputMaybe<Int_Comparison_Exp>;
+    taxvalue?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "systemsetting" */
@@ -8799,7 +8798,6 @@ export enum Systemsetting_Constraint {
 /** input type for incrementing numeric columns in table "systemsetting" */
 export type Systemsetting_Inc_Input = {
     id?: InputMaybe<Scalars["Int"]>;
-    taxvalue?: InputMaybe<Scalars["Int"]>;
 };
 
 /** input type for inserting data into table "systemsetting" */
@@ -8808,7 +8806,7 @@ export type Systemsetting_Insert_Input = {
     id?: InputMaybe<Scalars["Int"]>;
     restaurantimage?: InputMaybe<Scalars["String"]>;
     restaurantname?: InputMaybe<Scalars["String"]>;
-    taxvalue?: InputMaybe<Scalars["Int"]>;
+    taxvalue?: InputMaybe<Scalars["String"]>;
 };
 
 /** aggregate max on columns */
@@ -8818,7 +8816,7 @@ export type Systemsetting_Max_Fields = {
     id?: Maybe<Scalars["Int"]>;
     restaurantimage?: Maybe<Scalars["String"]>;
     restaurantname?: Maybe<Scalars["String"]>;
-    taxvalue?: Maybe<Scalars["Int"]>;
+    taxvalue?: Maybe<Scalars["String"]>;
 };
 
 /** aggregate min on columns */
@@ -8828,7 +8826,7 @@ export type Systemsetting_Min_Fields = {
     id?: Maybe<Scalars["Int"]>;
     restaurantimage?: Maybe<Scalars["String"]>;
     restaurantname?: Maybe<Scalars["String"]>;
-    taxvalue?: Maybe<Scalars["Int"]>;
+    taxvalue?: Maybe<Scalars["String"]>;
 };
 
 /** response of any mutation on the table "systemsetting" */
@@ -8881,35 +8879,31 @@ export type Systemsetting_Set_Input = {
     id?: InputMaybe<Scalars["Int"]>;
     restaurantimage?: InputMaybe<Scalars["String"]>;
     restaurantname?: InputMaybe<Scalars["String"]>;
-    taxvalue?: InputMaybe<Scalars["Int"]>;
+    taxvalue?: InputMaybe<Scalars["String"]>;
 };
 
 /** aggregate stddev on columns */
 export type Systemsetting_Stddev_Fields = {
     __typename?: "systemsetting_stddev_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Systemsetting_Stddev_Pop_Fields = {
     __typename?: "systemsetting_stddev_pop_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Systemsetting_Stddev_Samp_Fields = {
     __typename?: "systemsetting_stddev_samp_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** aggregate sum on columns */
 export type Systemsetting_Sum_Fields = {
     __typename?: "systemsetting_sum_fields";
     id?: Maybe<Scalars["Int"]>;
-    taxvalue?: Maybe<Scalars["Int"]>;
 };
 
 /** update columns of table "systemsetting" */
@@ -8930,21 +8924,18 @@ export enum Systemsetting_Update_Column {
 export type Systemsetting_Var_Pop_Fields = {
     __typename?: "systemsetting_var_pop_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** aggregate var_samp on columns */
 export type Systemsetting_Var_Samp_Fields = {
     __typename?: "systemsetting_var_samp_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** aggregate variance on columns */
 export type Systemsetting_Variance_Fields = {
     __typename?: "systemsetting_variance_fields";
     id?: Maybe<Scalars["Float"]>;
-    taxvalue?: Maybe<Scalars["Float"]>;
 };
 
 /** columns and relationships of "table" */
@@ -9918,12 +9909,21 @@ export type CreateSettingMutationMutationVariables = Exact<{
     address?: InputMaybe<Scalars["String"]>;
     restaurantimage?: InputMaybe<Scalars["String"]>;
     restaurantname?: InputMaybe<Scalars["String"]>;
-    taxvalue?: InputMaybe<Scalars["Int"]>;
+    taxvalue?: InputMaybe<Scalars["String"]>;
 }>;
 
 export type CreateSettingMutationMutation = {
     __typename?: "mutation_root";
     insert_systemsetting_one?: { __typename?: "systemsetting"; id: number } | null;
+};
+
+export type DeleteSettingMutationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type DeleteSettingMutationMutation = {
+    __typename?: "mutation_root";
+    delete_systemsetting_by_pk?: { __typename?: "systemsetting"; id: number } | null;
 };
 
 export type GetSystemSettingQueryVariables = Exact<{ [key: string]: never }>;
@@ -9936,7 +9936,7 @@ export type GetSystemSettingQuery = {
         id: number;
         restaurantimage: string;
         restaurantname: string;
-        taxvalue: number;
+        taxvalue: string;
     }>;
 };
 
@@ -9944,7 +9944,7 @@ export type UpdateSettingMutationMutationVariables = Exact<{
     address?: InputMaybe<Scalars["String"]>;
     restaurantimage?: InputMaybe<Scalars["String"]>;
     restaurantname?: InputMaybe<Scalars["String"]>;
-    taxvalue?: InputMaybe<Scalars["Int"]>;
+    taxvalue?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
 }>;
 
@@ -9955,7 +9955,7 @@ export type UpdateSettingMutationMutation = {
         id: number;
         restaurantimage: string;
         restaurantname: string;
-        taxvalue: number;
+        taxvalue: string;
         address: string;
     } | null;
 };

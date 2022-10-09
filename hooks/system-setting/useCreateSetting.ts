@@ -26,7 +26,7 @@ const useCreateSetting = (queryKey: string) => {
                         $address: String = ""
                         $restaurantimage: String = ""
                         $restaurantname: String = ""
-                        $taxvalue: Int = 10
+                        $taxvalue: String = ""
                     ) {
                         insert_systemsetting_one(
                             object: {

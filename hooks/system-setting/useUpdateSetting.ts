@@ -26,7 +26,7 @@ const useUpdateSetting = (queryKey: string) => {
                         $address: String = ""
                         $restaurantimage: String = ""
                         $restaurantname: String = ""
-                        $taxvalue: Int = 10
+                        $taxvalue: String = ""
                         $id: Int = 10
                     ) {
                         update_systemsetting_by_pk(

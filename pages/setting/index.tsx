@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Button,
     Card,
@@ -23,7 +23,13 @@ import LoadingCustomize from "components/Loading";
 import { NextPage } from "next";
 import router from "next/router";
 import RestaurantImage from "containers/setting/RestaurantImage";
+import SettingForm from "containers/setting/Form";
 import useGetSystemSetting from "hooks/system-setting/useGetSystemSetting";
+import useCreateSetting from "hooks/system-setting/useCreateSetting";
+import useUpdateSetting from "hooks/system-setting/useUpdateSetting";
+import useDeleteSetting from "hooks/system-setting/useDeleteSetting";
+import useSnackbar from "components/Snackbar/useSnackbar";
+import { CreateSettingMutationMutationVariables, Systemsetting } from "generated/graphql";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
@@ -43,32 +49,123 @@ const Setting: NextPage = () => {
         }
     }, []);
 
+    const initData: Systemsetting = {
+        id: 0,
+        restaurantimage: "",
+        restaurantname: "",
+        address: "",
+        taxvalue: "",
+    };
+
+    const { mutate: mutateCreate } = useCreateSetting("GetSystemSetting");
+    const { mutate: mutateUpdate } = useUpdateSetting("GetSystemSetting");
+    const { mutate: mutateDelete } = useDeleteSetting("GetSystemSetting");
+    const showSnackbar = useSnackbar();
+    const [record, setRecord] = useState<Systemsetting>(initData);
+    const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
+    const openPopUpCreate = () => {
+        setIsOpenForm(true);
+        setRecord(initData);
+    };
+
+    const openPopUpUpdate = () => {
+        setIsOpenForm(true);
+        setRecord({
+            // data.
+        });
+    };
+
     const { data, isLoading } = useGetSystemSetting();
+
+    const resetData = () => {
+        setRecord(initData);
+        setIsOpenForm(false);
+    };
+
+    const handleClose = useCallback(
+        (type: "SAVE" | "CANCEL", data?: Systemsetting, clearErrors?: Function) => {
+            if (type === "SAVE") {
+                if (data) {
+                    if (!data.id) {
+                        // eslint-disable-next-line unused-imports/no-unused-vars
+                        const { id, ...rest } = data;
+                        const record: CreateSettingMutationMutationVariables = {
+                            ...rest,
+                        };
+                        mutateCreate(record, {
+                            onSuccess: () => {
+                                showSnackbar({
+                                    children: "Thêm mới thành công",
+                                    severity: "success",
+                                });
+                            },
+                            onError: () => {
+                                showSnackbar({
+                                    children: "Thêm mới thất bại",
+                                    severity: "error",
+                                });
+                            },
+                        });
+                    } else {
+                        mutateUpdate(data, {
+                            onSuccess: () => {
+                                showSnackbar({
+                                    children: "Chỉnh sửa thành công",
+                                    severity: "success",
+                                });
+                            },
+                            onError: () => {
+                                showSnackbar({
+                                    children: "Chỉnh sửa thất bại",
+                                    severity: "error",
+                                });
+                            },
+                        });
+                    }
+                }
+            }
+            if (clearErrors) {
+                clearErrors();
+            }
+            resetData();
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    );
 
     if (data?.systemsetting.length === 0) {
         return (
-            <Box sx={{ mt: 10 }}>
-                <Typography variant="h6">
-                    Hiện tại chưa có setting cho hệ thống, Vui lòng tạo mới!
-                </Typography>
-                <Box
-                    sx={{
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Button sx={{ mt: 3 }} color="primary" variant="contained">
-                        {"Tạo mới"}
-                    </Button>
+            <>
+                <SettingForm opened={isOpenForm} data={record} handleClose={handleClose} />
+                <Box sx={{ mt: 10 }}>
+                    <Typography variant="h6">
+                        Hiện tại chưa có setting cho hệ thống, Vui lòng tạo mới!
+                    </Typography>
+                    <Box
+                        sx={{
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Button
+                            sx={{ mt: 3 }}
+                            color="primary"
+                            variant="contained"
+                            onClick={() => openPopUpCreate()}
+                        >
+                            {"Tạo mới"}
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
+            </>
         );
     }
     const setting = data?.systemsetting[0];
     return (
         <>
+            <SettingForm opened={isOpenForm} data={record} handleClose={handleClose} />
             <LoadingCustomize isLoading={isLoading}>
                 <Card>
                     <CardContent sx={{ height: "100%", width: "100%" }}>
@@ -265,6 +362,7 @@ const Setting: NextPage = () => {
                                                 color="primary"
                                                 variant="contained"
                                                 size="small"
+                                                onClick={() => openPopUpUpdate()}
                                             >
                                                 {"Chỉnh sửa"}
                                             </Button>

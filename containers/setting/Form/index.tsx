@@ -2,15 +2,14 @@ import React, { useEffect } from "react";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Avatar, Button, Grid, Modal, Typography } from "@mui/material";
+import { Button, Grid, Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { IForm } from "utils/common";
 import CardContainer from "components/Card/Container";
 import TextfieldBase from "components/BaseTextField";
-import AccountDTO from "models/account.model";
-import CustomizeAutocomplete from "components/CustomizedAutocomplete";
+import { Systemsetting } from "generated/graphql";
 
-const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
+const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>) => {
     const { data: defaultData, isView } = props;
     const {
         register,
@@ -19,21 +18,17 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
         setValue,
         getValues,
         clearErrors,
-        control,
-    } = useForm<AccountDTO>({});
+    } = useForm<Systemsetting>({});
 
     useEffect(() => {
         setValue("id", defaultData.id);
-        setValue("username", defaultData.username);
-        setValue("email", defaultData.email);
-        setValue("fullName", defaultData.fullName);
-        setValue("phone", defaultData.phone);
-        setValue("restaurantId", defaultData.restaurantId);
-        setValue("roleId", defaultData.roleId);
-        setValue("avatar", defaultData.avatar);
+        setValue("restaurantimage", defaultData.restaurantimage);
+        setValue("restaurantname", defaultData.restaurantname);
+        setValue("taxvalue", defaultData.taxvalue);
+        setValue("address", defaultData.address);
     }, [defaultData, setValue]);
 
-    const submitHandler: SubmitHandler<AccountDTO> = async (data: AccountDTO) => {
+    const submitHandler: SubmitHandler<Systemsetting> = async (data: Systemsetting) => {
         try {
             if (data) {
                 props.handleClose("SAVE", data, clearErrors);
@@ -51,9 +46,9 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                     <Typography variant="h6" component="h2">
                         {defaultData.id
                             ? props.isView
-                                ? "Account Detail"
-                                : "Update Account"
-                            : "Create Account"}
+                                ? "Xem cấu hình hệ thống"
+                                : "Chỉnh sửa cấu hình hệ thống"
+                            : "Tạo mới cấu hình hệ thống"}
                     </Typography>
                 </Box>
                 <Grid
@@ -66,7 +61,7 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         },
                     }}
                 >
-                    <Grid
+                    {/* <Grid
                         item
                         xs={12}
                         gap={3}
@@ -82,12 +77,12 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             src={
                                 !defaultData.id
                                     ? "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
-                                    : defaultData.avatar ||
+                                    : defaultData.restaurantimage ||
                                       "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
                             }
                             sx={{ width: 80, height: 80, alignItems: "center" }}
                         ></Avatar>
-                    </Grid>
+                    </Grid> */}
                     <Grid
                         item
                         xs={12}
@@ -98,62 +93,27 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         }}
                     >
                         <TextfieldBase
-                            id="username"
-                            label={"Username"}
+                            id="restaurantname"
+                            label={"Tên nhà hàng"}
                             variant="outlined"
                             InputProps={{
                                 readOnly: isView,
                             }}
                             required
                             fullWidth
-                            error={!!errors.username}
-                            helperText={errors.username && errors.username.message}
-                            {...register("username", {
+                            error={!!errors.restaurantname}
+                            helperText={errors.restaurantname && errors.restaurantname.message}
+                            {...register("restaurantname", {
                                 required: {
                                     value: true,
-                                    message: "Username is required!",
+                                    message: "Tên nhà hàng là bắt buộc!",
                                 },
                                 onBlur: () =>
                                     setValue(
-                                        "username",
-                                        getValues("username")
-                                            ? getValues("username").trim()
-                                            : getValues("username")
-                                    ),
-                            })}
-                        />
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        gap={3}
-                        display="flex"
-                        sx={{
-                            flexWrap: { xs: "wrap", md: "nowrap" },
-                        }}
-                    >
-                        <TextfieldBase
-                            id="fullName"
-                            label={"Full Name"}
-                            variant="outlined"
-                            fullWidth
-                            InputProps={{
-                                readOnly: isView,
-                            }}
-                            required
-                            error={!!errors.fullName}
-                            helperText={errors.fullName && errors.fullName.message}
-                            {...register("fullName", {
-                                required: {
-                                    value: true,
-                                    message: String("Fullname is required!"),
-                                },
-                                onBlur: () =>
-                                    setValue(
-                                        "fullName",
-                                        getValues("fullName")
-                                            ? getValues("fullName").trim()
-                                            : getValues("fullName")
+                                        "restaurantname",
+                                        getValues("restaurantname")
+                                            ? getValues("restaurantname").trim()
+                                            : getValues("restaurantname")
                                     ),
                             })}
                         />
@@ -168,108 +128,64 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         }}
                     >
                         <TextfieldBase
-                            id="email"
-                            label={"Email"}
+                            id="address"
+                            label={"Địa chỉ"}
                             variant="outlined"
+                            fullWidth
                             InputProps={{
                                 readOnly: isView,
                             }}
                             required
-                            error={!!errors.email}
-                            helperText={errors.email && errors.email.message}
-                            {...register("email", {
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                    message: String("Email is in wrong format!"),
-                                },
+                            error={!!errors.address}
+                            helperText={errors.address && errors.address.message}
+                            {...register("address", {
                                 required: {
                                     value: true,
-                                    message: String("Email is required!"),
+                                    message: "Địa chỉ là bắt buộc",
                                 },
                                 onBlur: () =>
                                     setValue(
-                                        "email",
-                                        getValues("email")
-                                            ? getValues("email").trim()
-                                            : getValues("email")
+                                        "address",
+                                        getValues("address")
+                                            ? getValues("address").trim()
+                                            : getValues("address")
                                     ),
                             })}
-                            fullWidth
-                        />
-                        <TextfieldBase
-                            id="phone"
-                            label={"Phone number"}
-                            variant="outlined"
-                            required
-                            InputProps={{
-                                readOnly: isView,
-                            }}
-                            error={!!errors.phone}
-                            helperText={errors.phone && errors.phone.message}
-                            {...register("phone", {
-                                required: {
-                                    value: true,
-                                    message: String("Phone is required!"),
-                                },
-                                pattern: {
-                                    value: /(\+84[3|5|7|8|9])+([0-9]{8})\b/i,
-                                    message: "Phone is in wrong format",
-                                },
-                                onBlur: () =>
-                                    setValue(
-                                        "phone",
-                                        getValues("phone")
-                                            ? getValues("phone").trim()
-                                            : getValues("phone")
-                                    ),
-                            })}
-                            fullWidth
-                            // disabled={Boolean(!!defaultData.id)}
                         />
                     </Grid>
                     <Grid
                         item
+                        xs={12}
                         gap={3}
                         display="flex"
                         sx={{
                             flexWrap: { xs: "wrap", md: "nowrap" },
                         }}
                     >
-                        <CustomizeAutocomplete
-                            defaultId={!!defaultData.id ? defaultData.roleId : undefined}
-                            conditionField="isActive"
-                            control={control}
-                            rules={{
-                                min: {
-                                    value: 1,
-                                    message: "Role is required",
-                                },
+                        <TextfieldBase
+                            id="taxvalue"
+                            label={"Mã số thuế"}
+                            variant="outlined"
+                            InputProps={{
+                                readOnly: isView,
                             }}
-                            readonly={isView}
-                            name="roleId"
-                            entity="role"
-                            displayField="name"
-                            label={"Role"}
-                            fullWidth
                             required
-                        />
-                        <CustomizeAutocomplete
-                            defaultId={!!defaultData.id ? defaultData.restaurantId : undefined}
-                            conditionField="isActive"
-                            control={control}
-                            rules={{
-                                min: {
-                                    value: 1,
-                                    message: "Restaurant is required",
+                            error={!!errors.taxvalue}
+                            helperText={errors.taxvalue && errors.taxvalue.message}
+                            {...register("taxvalue", {
+                                required: {
+                                    value: true,
+                                    message: "Mã số thuế là bắt buộc",
                                 },
-                            }}
-                            readonly={isView}
-                            name="restaurantId"
-                            entity="restaurant"
-                            displayField="name"
-                            label={"Restaurant"}
+                                onBlur: () =>
+                                    setValue(
+                                        "taxvalue",
+                                        getValues("taxvalue")
+                                            ? getValues("taxvalue").trim()
+                                            : getValues("taxvalue")
+                                    ),
+                            })}
                             fullWidth
-                            required
                         />
                     </Grid>
                     <Box
@@ -289,10 +205,10 @@ const SettingForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                                 props.handleClose("CANCEL", undefined, clearErrors);
                             }}
                         >
-                            {"Back"}
+                            {"Trở lại"}
                         </Button>
                         <Button variant="contained" type="submit" autoFocus>
-                            {defaultData.id ? "Update" : "Create"}
+                            {defaultData.id ? "Chỉnhh sửa" : "Tạo mới"}
                         </Button>
                     </Box>
                 </Grid>
