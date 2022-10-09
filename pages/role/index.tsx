@@ -44,6 +44,7 @@ const Role: NextPage = () => {
                 firstOrderField="id"
                 sort
                 enableFilter
+                maxWidth="100%"
             />
         </>
     );

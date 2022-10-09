@@ -218,6 +218,7 @@ const PaymentMethod: NextPage = () => {
                 firstOrderField="id"
                 sort
                 enableFilter
+                maxWidth="100%"
                 action={{
                     onView: (rowData: PaymentmethodMutationType) => viewRowData(rowData),
                     onAdd: () => addRowData(),

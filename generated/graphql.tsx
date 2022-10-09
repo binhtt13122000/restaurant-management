@@ -9858,6 +9858,48 @@ export type Worksession_Variance_Fields = {
     updaterid?: Maybe<Scalars["Float"]>;
 };
 
+export type CreateAccountMutationMutationVariables = Exact<{
+    avatar?: InputMaybe<Scalars["String"]>;
+    email?: InputMaybe<Scalars["String"]>;
+    fullname?: InputMaybe<Scalars["String"]>;
+    password?: InputMaybe<Scalars["String"]>;
+    phone?: InputMaybe<Scalars["String"]>;
+    roleid?: InputMaybe<Scalars["Int"]>;
+    status?: InputMaybe<Scalars["user_status"]>;
+    username?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type CreateAccountMutationMutation = {
+    __typename?: "mutation_root";
+    insert_account_one?: { __typename?: "account"; id: number } | null;
+};
+
+export type DeleteAccountMutationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    status?: InputMaybe<Scalars["user_status"]>;
+}>;
+
+export type DeleteAccountMutationMutation = {
+    __typename?: "mutation_root";
+    update_account_by_pk?: { __typename?: "account"; id: number } | null;
+};
+
+export type UpdateAccountMutationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    avatar?: InputMaybe<Scalars["String"]>;
+    email?: InputMaybe<Scalars["String"]>;
+    fullname?: InputMaybe<Scalars["String"]>;
+    phone?: InputMaybe<Scalars["String"]>;
+    roleid?: InputMaybe<Scalars["Int"]>;
+    status?: InputMaybe<Scalars["user_status"]>;
+    username?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type UpdateAccountMutationMutation = {
+    __typename?: "mutation_root";
+    update_account_by_pk?: { __typename?: "account"; id: number } | null;
+};
+
 export type CreatePaymentmethodMutationVariables = Exact<{
     name?: InputMaybe<Scalars["String"]>;
     status?: InputMaybe<Scalars["basic_status"]>;
@@ -9903,6 +9945,21 @@ export type UpdatePaymentmethodMutation = {
         name: string;
         status: any;
     } | null;
+};
+
+export type GetRoleQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRoleQueryQuery = {
+    __typename?: "query_root";
+    role: Array<{
+        __typename?: "role";
+        name: string;
+        id: number;
+        accounts_aggregate: {
+            __typename?: "account_aggregate";
+            aggregate?: { __typename?: "account_aggregate_fields"; count: number } | null;
+        };
+    }>;
 };
 
 export type CreateSettingMutationMutationVariables = Exact<{

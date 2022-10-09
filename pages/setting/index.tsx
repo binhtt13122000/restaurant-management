@@ -30,6 +30,7 @@ import useUpdateSetting from "hooks/system-setting/useUpdateSetting";
 import useDeleteSetting from "hooks/system-setting/useDeleteSetting";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import { CreateSettingMutationMutationVariables, Systemsetting } from "generated/graphql";
+import { ConfirmModal } from "components/ConfirmModel";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
@@ -63,15 +64,23 @@ const Setting: NextPage = () => {
     const showSnackbar = useSnackbar();
     const [record, setRecord] = useState<Systemsetting>(initData);
     const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
+    const [isOpenConfirmForm, setIsOpenConfirmForm] = useState<boolean>(false);
     const openPopUpCreate = () => {
         setIsOpenForm(true);
         setRecord(initData);
     };
 
-    const openPopUpUpdate = () => {
+    const openPopUpUpdate = (setting: Systemsetting) => {
         setIsOpenForm(true);
         setRecord({
-            // data.
+            ...setting,
+        });
+    };
+
+    const openDeleteSetting = (setting: Systemsetting) => {
+        setIsOpenConfirmForm(true);
+        setRecord({
+            ...setting,
         });
     };
 
@@ -80,6 +89,34 @@ const Setting: NextPage = () => {
     const resetData = () => {
         setRecord(initData);
         setIsOpenForm(false);
+    };
+
+    const handleCloseConfirmModal = async (
+        e: React.MouseEvent<HTMLButtonElement | MouseEvent>,
+        action: "CONFIRM" | "CANCEL"
+    ) => {
+        if (action === "CONFIRM") {
+            mutateDelete(
+                {
+                    id: record.id,
+                },
+                {
+                    onSuccess: () => {
+                        showSnackbar({
+                            children: "Xóa thành công",
+                            severity: "success",
+                        });
+                    },
+                    onError: () => {
+                        showSnackbar({
+                            children: "Xóa thất bại",
+                            severity: "error",
+                        });
+                    },
+                }
+            );
+        }
+        setIsOpenConfirmForm(false);
     };
 
     const handleClose = useCallback(
@@ -165,6 +202,11 @@ const Setting: NextPage = () => {
     const setting = data?.systemsetting[0];
     return (
         <>
+            <ConfirmModal
+                open={isOpenConfirmForm}
+                message={"Bạn có muốn xóa cấu hình hệ thống hiện tại?"}
+                handleClose={handleCloseConfirmModal}
+            />
             <SettingForm opened={isOpenForm} data={record} handleClose={handleClose} />
             <LoadingCustomize isLoading={isLoading}>
                 <Card>
@@ -357,16 +399,26 @@ const Setting: NextPage = () => {
                                         alignItems="center"
                                         mt={3}
                                     >
-                                        <Box display={"flex"} columnGap={2}>
-                                            <Button
-                                                color="primary"
-                                                variant="contained"
-                                                size="small"
-                                                onClick={() => openPopUpUpdate()}
-                                            >
-                                                {"Chỉnh sửa"}
-                                            </Button>
-                                        </Box>
+                                        {setting && (
+                                            <Box display={"flex"} columnGap={2}>
+                                                <Button
+                                                    color="error"
+                                                    variant="contained"
+                                                    size="small"
+                                                    onClick={() => openDeleteSetting(setting)}
+                                                >
+                                                    {"Xóa cấu hình"}
+                                                </Button>
+                                                <Button
+                                                    color="primary"
+                                                    variant="contained"
+                                                    size="small"
+                                                    onClick={() => openPopUpUpdate(setting)}
+                                                >
+                                                    {"Chỉnh sửa"}
+                                                </Button>
+                                            </Box>
+                                        )}
                                     </Box>
                                 </Grid>
                             </Grid>

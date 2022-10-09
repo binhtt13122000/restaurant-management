@@ -11,13 +11,21 @@ const RestaurantImage: React.FC<RestaurantImagesProps> = (props: RestaurantImage
     const [img, setImg] = useState<ReactImageGalleryItem[]>([]);
 
     useEffect(() => {
-        image &&
-            setImg([
-                {
-                    original: `${image}`,
-                    thumbnail: `${image}`,
-                },
-            ]);
+        image
+            ? setImg([
+                  {
+                      original: `${image}`,
+                      thumbnail: `${image}`,
+                  },
+              ])
+            : setImg([
+                  {
+                      original:
+                          "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg",
+                      thumbnail:
+                          "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg",
+                  },
+              ]);
     }, [image]);
 
     return (

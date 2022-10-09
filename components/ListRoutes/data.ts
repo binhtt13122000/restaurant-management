@@ -4,7 +4,7 @@ export const routes = [
     {
         id: 1,
         name: "Quản lý tài khoản",
-        path: ROUTES.DEFAULT,
+        path: ROUTES.ACCOUNT,
         icon: "/images/account.png",
     },
     {

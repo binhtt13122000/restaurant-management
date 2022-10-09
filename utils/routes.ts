@@ -4,4 +4,5 @@ export enum ROUTES {
     PAYMENT_METHOD = "/payment-method",
     ROLE = "/role",
     SETTING = "/setting",
+    ACCOUNT = "/account",
 }

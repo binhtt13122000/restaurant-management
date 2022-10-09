@@ -26,11 +26,11 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
         setValue("id", defaultData.id);
         setValue("username", defaultData.username);
         setValue("email", defaultData.email);
-        setValue("fullName", defaultData.fullName);
+        setValue("fullname", defaultData.fullname);
         setValue("phone", defaultData.phone);
-        setValue("restaurantId", defaultData.restaurantId);
-        setValue("roleId", defaultData.roleId);
+        setValue("roleid", defaultData.roleid);
         setValue("avatar", defaultData.avatar);
+        setValue("status", defaultData.status);
     }, [defaultData, setValue]);
 
     const submitHandler: SubmitHandler<AccountDTO> = async (data: AccountDTO) => {
@@ -51,9 +51,9 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                     <Typography variant="h6" component="h2">
                         {defaultData.id
                             ? props.isView
-                                ? "Account Detail"
-                                : "Update Account"
-                            : "Create Account"}
+                                ? "Xem chi tiết tài khoản"
+                                : "Chỉnh sửa tài khoản"
+                            : "Thêm mới tài khoản"}
                     </Typography>
                 </Box>
                 <Grid
@@ -99,7 +99,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                     >
                         <TextfieldBase
                             id="username"
-                            label={"Username"}
+                            label={"Tên đăng nhập"}
                             variant="outlined"
                             InputProps={{
                                 readOnly: isView,
@@ -111,7 +111,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             {...register("username", {
                                 required: {
                                     value: true,
-                                    message: "Username is required!",
+                                    message: "Tên đăng nhập là bắt buộc!",
                                 },
                                 onBlur: () =>
                                     setValue(
@@ -133,27 +133,27 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         }}
                     >
                         <TextfieldBase
-                            id="fullName"
-                            label={"Full Name"}
+                            id="fullname"
+                            label={"Tên đầy đủ"}
                             variant="outlined"
                             fullWidth
                             InputProps={{
                                 readOnly: isView,
                             }}
                             required
-                            error={!!errors.fullName}
-                            helperText={errors.fullName && errors.fullName.message}
-                            {...register("fullName", {
+                            error={!!errors.fullname}
+                            helperText={errors.fullname && errors.fullname.message}
+                            {...register("fullname", {
                                 required: {
                                     value: true,
-                                    message: String("Fullname is required!"),
+                                    message: String("Tên đầy đủ là bắt buộc!"),
                                 },
                                 onBlur: () =>
                                     setValue(
-                                        "fullName",
-                                        getValues("fullName")
-                                            ? getValues("fullName").trim()
-                                            : getValues("fullName")
+                                        "fullname",
+                                        getValues("fullname")
+                                            ? getValues("fullname").trim()
+                                            : getValues("fullname")
                                     ),
                             })}
                         />
@@ -180,11 +180,11 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             {...register("email", {
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                    message: String("Email is in wrong format!"),
+                                    message: String("Email không hợp lệ!"),
                                 },
                                 required: {
                                     value: true,
-                                    message: String("Email is required!"),
+                                    message: String("Email là bắt buộc!"),
                                 },
                                 onBlur: () =>
                                     setValue(
@@ -198,7 +198,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         />
                         <TextfieldBase
                             id="phone"
-                            label={"Phone number"}
+                            label={"Số điện thoại"}
                             variant="outlined"
                             required
                             InputProps={{
@@ -209,11 +209,11 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             {...register("phone", {
                                 required: {
                                     value: true,
-                                    message: String("Phone is required!"),
+                                    message: String("Số điện thoại là bắt buộc!"),
                                 },
                                 pattern: {
-                                    value: /(\+84[3|5|7|8|9])+([0-9]{8})\b/i,
-                                    message: "Phone is in wrong format",
+                                    value: /(0[3|5|7|8|9])+([0-9]{8})\b/i,
+                                    message: "Số điện thại không đúng định dạng!",
                                 },
                                 onBlur: () =>
                                     setValue(
@@ -236,38 +236,20 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         }}
                     >
                         <CustomizeAutocomplete
-                            defaultId={!!defaultData.id ? defaultData.roleId : undefined}
+                            defaultId={!!defaultData.id ? defaultData.roleid : undefined}
                             conditionField="isActive"
                             control={control}
                             rules={{
                                 min: {
                                     value: 1,
-                                    message: "Role is required",
+                                    message: "Vai trò là bắt buộc",
                                 },
                             }}
                             readonly={isView}
-                            name="roleId"
+                            name="roleid"
                             entity="role"
                             displayField="name"
-                            label={"Role"}
-                            fullWidth
-                            required
-                        />
-                        <CustomizeAutocomplete
-                            defaultId={!!defaultData.id ? defaultData.restaurantId : undefined}
-                            conditionField="isActive"
-                            control={control}
-                            rules={{
-                                min: {
-                                    value: 1,
-                                    message: "Restaurant is required",
-                                },
-                            }}
-                            readonly={isView}
-                            name="restaurantId"
-                            entity="restaurant"
-                            displayField="name"
-                            label={"Restaurant"}
+                            label={"Vai trò"}
                             fullWidth
                             required
                         />
@@ -289,11 +271,13 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                                 props.handleClose("CANCEL", undefined, clearErrors);
                             }}
                         >
-                            {"Back"}
+                            {"Trở về"}
                         </Button>
-                        <Button variant="contained" type="submit" autoFocus>
-                            {defaultData.id ? "Update" : "Create"}
-                        </Button>
+                        {isView || (
+                            <Button variant="contained" type="submit" autoFocus>
+                                {defaultData.id ? "Chỉnh sửa" : "Tạo mới"}
+                            </Button>
+                        )}
                     </Box>
                 </Grid>
             </CardContainer>
