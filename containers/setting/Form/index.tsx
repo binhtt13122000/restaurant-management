@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -8,8 +8,11 @@ import { IForm } from "utils/common";
 import CardContainer from "components/Card/Container";
 import TextfieldBase from "components/BaseTextField";
 import { Systemsetting } from "generated/graphql";
+import Image from "next/image";
 
 const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>) => {
+    const ref = useRef<HTMLInputElement | null>(null);
+    const [x, setX] = useState<string>("");
     const { data: defaultData, isView } = props;
     const {
         register,
@@ -39,6 +42,18 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
         }
     };
 
+    const uploadProfilePic = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onloadend = (e) => {
+                if (reader.result !== null) {
+                    setX(reader.result.toString());
+                }
+            };
+        }
+    };
+
     return (
         <Modal open={props.opened}>
             <CardContainer width="90%" maxWidth={820}>
@@ -61,7 +76,7 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                         },
                     }}
                 >
-                    {/* <Grid
+                    <Grid
                         item
                         xs={12}
                         gap={3}
@@ -70,19 +85,36 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                             flexWrap: { xs: "wrap", md: "nowrap" },
                             display: "flex",
                             justifyContent: "center",
+                            mb: 5,
                         }}
                     >
-                        <Avatar
+                        <Image
                             alt="Remy Sharp"
                             src={
-                                !defaultData.id
+                                !x
                                     ? "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
-                                    : defaultData.restaurantimage ||
+                                    : x ||
                                       "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
                             }
-                            sx={{ width: 80, height: 80, alignItems: "center" }}
-                        ></Avatar>
-                    </Grid> */}
+                            width={300}
+                            height={300}
+                            style={{
+                                cursor: "pointer",
+                            }}
+                            onClick={() => {
+                                ref.current?.click();
+                            }}
+                            // sx={{ width: 80, height: 80, alignItems: "center" }}
+                        ></Image>
+                        <input
+                            type="file"
+                            onChange={uploadProfilePic}
+                            style={{
+                                display: "none",
+                            }}
+                            ref={ref}
+                        />
+                    </Grid>
                     <Grid
                         item
                         xs={12}

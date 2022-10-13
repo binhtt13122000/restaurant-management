@@ -14,6 +14,9 @@ const publicRuntimeConfig =
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+    images: {
+        domains: ["st3.depositphotos.com", ""],
+    },
     publicRuntimeConfig: {
         ...publicRuntimeConfig,
     },

@@ -85,14 +85,12 @@ const PaymentMethod: NextPage = () => {
             type: "index",
             disableSort: true,
             disableFilter: true,
-            width: "100px",
         },
         {
             field: "name",
             title: "Tên phuơng thức thanh toán",
             index: 2,
             type: "string",
-            width: "150px",
         },
         {
             field: "status",

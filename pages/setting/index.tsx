@@ -175,7 +175,7 @@ const Setting: NextPage = () => {
             <>
                 <SettingForm opened={isOpenForm} data={record} handleClose={handleClose} />
                 <Box sx={{ mt: 10 }}>
-                    <Typography variant="h6">
+                    <Typography variant="h6" align="center">
                         Hiện tại chưa có setting cho hệ thống, Vui lòng tạo mới!
                     </Typography>
                     <Box

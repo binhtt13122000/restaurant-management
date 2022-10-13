@@ -48,7 +48,7 @@ const DefaultLayout: React.FC<{ sx?: SxProps<Theme>; children?: React.ReactNode 
                         alignItems: "center",
                     }}
                 >
-                    <Box sx={sx}>{children}</Box>
+                    <Box sx={{ width: "100%" }}>{children}</Box>
                 </Box>
                 <Footer />
             </Box>

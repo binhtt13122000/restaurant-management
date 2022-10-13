@@ -226,7 +226,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
 
     const labelDisplayedRows = (paginationInfo: LabelDisplayedRowsArgs) => {
         const { from, to, count } = paginationInfo;
-        return String(`${from}–${to} of ${count}`);
+        return String(`${from}–${to} của ${count}`);
         // return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
     };
 
@@ -241,8 +241,8 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
                     sx={{
                         mb: 2,
                         overflowX: "auto",
-                        width: { md: "calc(100vw - (250px * 1.2))", xs: "90vw" },
-                        maxWidth: { maxWidth },
+                        maxWidth: { md: "calc(100vw - 250px)", xs: "90vw" },
+                        // maxWidth: "100%",
                     }}
                 >
                     <Toolbar
