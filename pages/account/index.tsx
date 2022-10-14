@@ -264,7 +264,7 @@ const Account: NextPage = () => {
         setIsOpenForm(false);
     };
 
-    const [index, setIndex] = React.useState(1);
+    const [index, setIndex] = React.useState(0);
 
     return (
         <>
@@ -276,12 +276,12 @@ const Account: NextPage = () => {
                     }}
                     aria-label="basic tabs example"
                 >
-                    {roles?.role?.map((x) => {
+                    {roles?.role?.map((x, key) => {
                         return (
                             <Tab
                                 key={x.name}
                                 label={`${x.name}(${x.accounts_aggregate.aggregate?.count || 0})`}
-                                value={x.id}
+                                value={key}
                             />
                         );
                     })}
@@ -293,9 +293,9 @@ const Account: NextPage = () => {
                 data={data}
                 handleClose={handleClose}
             />
-            {roles?.role?.map((x) => {
+            {roles?.role?.map((x, key) => {
                 return (
-                    <TabPanel key={x.name} index={index} value={x.id}>
+                    <TabPanel key={x.name} index={index} value={key}>
                         <CRUDTable
                             queryKey="AccountQuery"
                             columns={columns}

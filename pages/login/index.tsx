@@ -44,7 +44,7 @@ const Login: NextPageWithLayout = () => {
                         });
                         return;
                     }
-                    if (user.roleid !== 1) {
+                    if (user.role.name.toLocaleUpperCase() !== "ADMIN") {
                         setError("username", { message: "" });
                         setError("password", { message: "Người dùng không phải là admin!" });
                         return;

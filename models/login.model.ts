@@ -14,4 +14,7 @@ export interface LoginResponseModel {
     fullname: string;
     id: number;
     phone: string;
+    role: {
+        name: string;
+    };
 }
