@@ -37,16 +37,16 @@ services:
       - HASURA_GRAPHQL_DEV_MODE
       - HASURA_GRAPHQL_ENABLED_LOG_TYPES
       - HASURA_GRAPHQL_JWT_SECRET
-  admin:
-    image: binhtt13122000/restaurant
-    ports:
-      - "3000:3000"
-    depends_on:
-      - "graphql-engine"
-    restart: always
-    environment:
-      - NEXT_PUBLIC_API_ROOT_URL
-      - NEXT_PUBLIC_HASURA_END_POINT
-      - NEXT_PUBLIC_HASURA_ADMIN_SECRET
+  # admin:
+  #   image: binhtt13122000/restaurant
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - "graphql-engine"
+  #   restart: always
+  #   environment:
+  #     - NEXT_PUBLIC_API_ROOT_URL
+  #     - NEXT_PUBLIC_HASURA_END_POINT
+  #     - NEXT_PUBLIC_HASURA_ADMIN_SECRET
 volumes:
   db_data:
