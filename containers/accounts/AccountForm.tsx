@@ -1,17 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Avatar, Button, Grid, Modal, Typography } from "@mui/material";
+import {
+    Avatar,
+    Button,
+    Grid,
+    IconButton,
+    InputAdornment,
+    Modal,
+    Tooltip,
+    Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { IForm } from "utils/common";
 import CardContainer from "components/Card/Container";
 import TextfieldBase from "components/BaseTextField";
 import AccountDTO from "models/account.model";
 import CustomizeAutocomplete from "components/CustomizedAutocomplete";
+import useEmailExist from "hooks/account/useEmailExist";
+import usePhoneExist from "hooks/account/usePhoneExist";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import PendingIcon from "@mui/icons-material/Pending";
+import { handleUpload } from "configurations/firebase";
 
 const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
     const { data: defaultData, isView } = props;
+    const ref = useRef<HTMLInputElement | null>(null);
+
     const {
         register,
         handleSubmit,
@@ -19,6 +36,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
         setValue,
         getValues,
         clearErrors,
+        setError,
         control,
     } = useForm<AccountDTO>({});
 
@@ -33,11 +51,61 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
         setValue("status", defaultData.status);
     }, [defaultData, setValue]);
 
+    const [avatar, setAvatar] = useState("");
+    const [file, setFile] = useState<File | null>(null);
+    const uploadProfilePic = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onloadend = () => {
+                if (reader.result !== null) {
+                    setAvatar(reader.result.toString());
+                }
+            };
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+
+    const { data: emailExist, isLoading: emailLoading } = useEmailExist(email);
+    const { data: phoneExist, isLoading: phoneLoading } = usePhoneExist(phone);
+
+    useEffect(() => {
+        if (email) {
+            if (emailExist?.account && emailExist?.account.length > 0) {
+                setError("email", {
+                    message: "Email đã được sử dụng",
+                    type: "manual",
+                });
+            }
+        }
+    }, [email, emailExist, setError]);
+
+    useEffect(() => {
+        if (phone) {
+            if (phoneExist?.account && phoneExist?.account.length > 0) {
+                setError("phone", {
+                    message: "Số điện thoại đã được sử dụng",
+                    type: "manual",
+                });
+            }
+        }
+    }, [phone, phoneExist, setError]);
+
     const submitHandler: SubmitHandler<AccountDTO> = async (data: AccountDTO) => {
         try {
             if (data) {
+                if (file && avatar) {
+                    data.avatar = await handleUpload(file);
+                }
                 props.handleClose("SAVE", data, clearErrors);
             }
+            setFile(null);
+            setAvatar("");
+            setEmail("");
+            setPhone("");
         } catch (error) {
             // eslint-disable-next-line no-console
             console.log(error);
@@ -80,13 +148,30 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         <Avatar
                             alt="Remy Sharp"
                             src={
-                                !defaultData.id
-                                    ? "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
-                                    : defaultData.avatar ||
-                                      "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
+                                avatar ||
+                                defaultData.avatar ||
+                                "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
                             }
-                            sx={{ width: 80, height: 80, alignItems: "center" }}
+                            sx={{
+                                width: 80,
+                                height: 80,
+                                alignItems: "center",
+                                cursor: isView ? "default" : "pointer",
+                            }}
+                            onClick={() => {
+                                if (!isView) {
+                                    ref.current?.click();
+                                }
+                            }}
                         ></Avatar>
+                        <input
+                            type="file"
+                            onChange={uploadProfilePic}
+                            style={{
+                                display: "none",
+                            }}
+                            ref={ref}
+                        />
                     </Grid>
                     <Grid
                         item
@@ -173,6 +258,36 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             variant="outlined"
                             InputProps={{
                                 readOnly: isView,
+                                endAdornment: email && (
+                                    <InputAdornment position="end">
+                                        <Tooltip
+                                            title={
+                                                emailLoading
+                                                    ? "Đang kiểm tra"
+                                                    : emailExist?.account &&
+                                                      emailExist?.account.length > 0
+                                                    ? "Đã tồn tại"
+                                                    : "Email hợp lệ"
+                                            }
+                                        >
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                edge="end"
+                                            >
+                                                {errors.email ? (
+                                                    <ErrorIcon color="error" />
+                                                ) : emailLoading ? (
+                                                    <PendingIcon color="warning" />
+                                                ) : emailExist?.account &&
+                                                  emailExist?.account.length === 0 ? (
+                                                    <CheckCircleIcon color="success" />
+                                                ) : (
+                                                    <ErrorIcon color="error" />
+                                                )}
+                                            </IconButton>
+                                        </Tooltip>
+                                    </InputAdornment>
+                                ),
                             }}
                             required
                             error={!!errors.email}
@@ -186,13 +301,12 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                                     value: true,
                                     message: String("Email là bắt buộc!"),
                                 },
-                                onBlur: () =>
-                                    setValue(
-                                        "email",
-                                        getValues("email")
-                                            ? getValues("email").trim()
-                                            : getValues("email")
-                                    ),
+                                onBlur: () => {
+                                    let email = getValues("email");
+                                    email = email ? email.trim() : email;
+                                    setValue("email", email);
+                                    setEmail(email);
+                                },
                             })}
                             fullWidth
                         />
@@ -203,6 +317,36 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             required
                             InputProps={{
                                 readOnly: isView,
+                                endAdornment: phone && (
+                                    <InputAdornment position="end">
+                                        <Tooltip
+                                            title={
+                                                phoneLoading
+                                                    ? "Đang kiểm tra"
+                                                    : phoneExist?.account &&
+                                                      phoneExist?.account.length > 0
+                                                    ? "Đã tồn tại"
+                                                    : "Số điện thoại hợp lệ"
+                                            }
+                                        >
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                edge="end"
+                                            >
+                                                {errors.phone ? (
+                                                    <ErrorIcon color="error" />
+                                                ) : phoneLoading ? (
+                                                    <PendingIcon color="warning" />
+                                                ) : phoneExist?.account &&
+                                                  phoneExist?.account.length === 0 ? (
+                                                    <CheckCircleIcon color="success" />
+                                                ) : (
+                                                    <ErrorIcon color="error" />
+                                                )}
+                                            </IconButton>
+                                        </Tooltip>
+                                    </InputAdornment>
+                                ),
                             }}
                             error={!!errors.phone}
                             helperText={errors.phone && errors.phone.message}
@@ -215,13 +359,12 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                                     value: /(0[3|5|7|8|9])+([0-9]{8})\b/i,
                                     message: "Số điện thại không đúng định dạng!",
                                 },
-                                onBlur: () =>
-                                    setValue(
-                                        "phone",
-                                        getValues("phone")
-                                            ? getValues("phone").trim()
-                                            : getValues("phone")
-                                    ),
+                                onBlur: () => {
+                                    let phone = getValues("phone");
+                                    phone = phone ? phone.trim() : phone;
+                                    setValue("phone", phone);
+                                    setPhone(phone);
+                                },
                             })}
                             fullWidth
                             // disabled={Boolean(!!defaultData.id)}
@@ -268,13 +411,29 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                         <Button
                             variant="outlined"
                             onClick={() => {
+                                setFile(null);
+                                setAvatar("");
+                                setEmail("");
+                                setPhone("");
                                 props.handleClose("CANCEL", undefined, clearErrors);
                             }}
                         >
                             {"Trở về"}
                         </Button>
                         {isView || (
-                            <Button variant="contained" type="submit" autoFocus>
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                disabled={
+                                    email !== "" &&
+                                    emailExist?.account &&
+                                    emailExist?.account.length > 0 &&
+                                    phone !== "" &&
+                                    phoneExist?.account &&
+                                    phoneExist?.account.length > 0
+                                }
+                                autoFocus
+                            >
                                 {defaultData.id ? "Chỉnh sửa" : "Tạo mới"}
                             </Button>
                         )}

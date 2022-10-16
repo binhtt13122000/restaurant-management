@@ -213,7 +213,7 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                                     setValue(
                                         "taxvalue",
                                         getValues("taxvalue")
-                                            ? getValues("taxvalue").trim()
+                                            ? getValues("taxvalue")
                                             : getValues("taxvalue")
                                     ),
                             })}

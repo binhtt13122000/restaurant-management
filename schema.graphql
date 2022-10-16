@@ -10731,7 +10731,7 @@ type systemsetting {
   id: Int!
   restaurantimage: String!
   restaurantname: String!
-  taxvalue: String!
+  taxvalue: Int!
 }
 
 """
@@ -10762,6 +10762,7 @@ type systemsetting_aggregate_fields {
 """aggregate avg on columns"""
 type systemsetting_avg_fields {
   id: Float
+  taxvalue: Float
 }
 
 """
@@ -10775,7 +10776,7 @@ input systemsetting_bool_exp {
   id: Int_comparison_exp
   restaurantimage: String_comparison_exp
   restaurantname: String_comparison_exp
-  taxvalue: String_comparison_exp
+  taxvalue: Int_comparison_exp
 }
 
 """
@@ -10791,6 +10792,7 @@ input type for incrementing numeric columns in table "systemsetting"
 """
 input systemsetting_inc_input {
   id: Int
+  taxvalue: Int
 }
 
 """
@@ -10801,7 +10803,7 @@ input systemsetting_insert_input {
   id: Int
   restaurantimage: String
   restaurantname: String
-  taxvalue: String
+  taxvalue: Int
 }
 
 """aggregate max on columns"""
@@ -10810,7 +10812,7 @@ type systemsetting_max_fields {
   id: Int
   restaurantimage: String
   restaurantname: String
-  taxvalue: String
+  taxvalue: Int
 }
 
 """aggregate min on columns"""
@@ -10819,7 +10821,7 @@ type systemsetting_min_fields {
   id: Int
   restaurantimage: String
   restaurantname: String
-  taxvalue: String
+  taxvalue: Int
 }
 
 """
@@ -10884,27 +10886,31 @@ input systemsetting_set_input {
   id: Int
   restaurantimage: String
   restaurantname: String
-  taxvalue: String
+  taxvalue: Int
 }
 
 """aggregate stddev on columns"""
 type systemsetting_stddev_fields {
   id: Float
+  taxvalue: Float
 }
 
 """aggregate stddev_pop on columns"""
 type systemsetting_stddev_pop_fields {
   id: Float
+  taxvalue: Float
 }
 
 """aggregate stddev_samp on columns"""
 type systemsetting_stddev_samp_fields {
   id: Float
+  taxvalue: Float
 }
 
 """aggregate sum on columns"""
 type systemsetting_sum_fields {
   id: Int
+  taxvalue: Int
 }
 
 """
@@ -10930,16 +10936,19 @@ enum systemsetting_update_column {
 """aggregate var_pop on columns"""
 type systemsetting_var_pop_fields {
   id: Float
+  taxvalue: Float
 }
 
 """aggregate var_samp on columns"""
 type systemsetting_var_samp_fields {
   id: Float
+  taxvalue: Float
 }
 
 """aggregate variance on columns"""
 type systemsetting_variance_fields {
   id: Float
+  taxvalue: Float
 }
 
 """
