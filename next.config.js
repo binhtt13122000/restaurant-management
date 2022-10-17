@@ -15,7 +15,7 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-        domains: ["st3.depositphotos.com", ""],
+        domains: ["st3.depositphotos.com", "firebasestorage.googleapis.com"],
     },
     publicRuntimeConfig: {
         ...publicRuntimeConfig,

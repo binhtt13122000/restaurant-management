@@ -55,7 +55,7 @@ const Setting: NextPage = () => {
         restaurantimage: "",
         restaurantname: "",
         address: "",
-        taxvalue: "",
+        taxvalue: 0,
     };
 
     const { mutate: mutateCreate } = useCreateSetting("GetSystemSetting");

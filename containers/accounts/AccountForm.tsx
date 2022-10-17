@@ -10,9 +10,9 @@ import {
     InputAdornment,
     Modal,
     Tooltip,
+    Box,
     Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { IForm } from "utils/common";
 import CardContainer from "components/Card/Container";
 import TextfieldBase from "components/BaseTextField";

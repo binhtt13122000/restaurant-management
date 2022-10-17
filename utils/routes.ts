@@ -5,4 +5,6 @@ export enum ROUTES {
     ROLE = "/role",
     SETTING = "/setting",
     ACCOUNT = "/account",
+    WORKSESSION = "/worksession",
+    SHIFT = "/shift",
 }

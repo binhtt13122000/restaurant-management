@@ -1,7 +1,6 @@
 import React from "react";
-import { Typography, useTheme } from "@mui/material";
+import { Typography, useTheme, Box } from "@mui/material";
 import Link from "@mui/material/Link";
-import { Box } from "@mui/system";
 
 function Copyright() {
     return (

@@ -10050,3 +10050,15 @@ export type MyQueryQuery = {
     __typename?: "query_root";
     account: Array<{ __typename?: "account"; avatar?: string | null }>;
 };
+
+export type InsertMultiWorkSessionMutationVariables = Exact<{
+    objects?: InputMaybe<Array<Worksession_Insert_Input> | Worksession_Insert_Input>;
+}>;
+
+export type InsertMultiWorkSessionMutation = {
+    __typename?: "mutation_root";
+    insert_worksession?: {
+        __typename?: "worksession_mutation_response";
+        returning: Array<{ __typename?: "worksession"; id: number }>;
+    } | null;
+};

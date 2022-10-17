@@ -11,6 +11,20 @@ export const routes = [
         id: 2,
         name: "Quản lý nhà hàng",
         icon: "/images/management.png",
+        children: [
+            {
+                id: 2.1,
+                name: "Quản lý ca làm việc",
+                path: ROUTES.SHIFT,
+                icon: "/images/combo.png",
+            },
+            {
+                id: 2.2,
+                name: "Quản lý phiên làm việc",
+                path: ROUTES.WORKSESSION,
+                icon: "/images/combo.png",
+            },
+        ],
     },
     {
         id: 3,

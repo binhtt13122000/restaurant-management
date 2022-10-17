@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import { SubmitHandler, useForm } from "react-hook-form";
-
-import { Button, Grid, Modal, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Button, Grid, Modal, Typography, Box } from "@mui/material";
 import { IForm } from "utils/common";
 import CardContainer from "components/Card/Container";
 import TextfieldBase from "components/BaseTextField";
 import { Systemsetting } from "generated/graphql";
 import Image from "next/image";
+import { NumberFormatInput } from "components/NumberInput";
+import { handleUpload } from "configurations/firebase";
 
 const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>) => {
     const ref = useRef<HTMLInputElement | null>(null);
-    const [x, setX] = useState<string>("");
+    const [avatar, setAvatar] = useState<string>("");
+    const [file, setFile] = useState<File | null>(null);
     const { data: defaultData, isView } = props;
     const {
         register,
@@ -21,6 +21,7 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
         setValue,
         getValues,
         clearErrors,
+        control,
     } = useForm<Systemsetting>({});
 
     useEffect(() => {
@@ -34,8 +35,13 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
     const submitHandler: SubmitHandler<Systemsetting> = async (data: Systemsetting) => {
         try {
             if (data) {
+                if (file && avatar) {
+                    data.restaurantimage = await handleUpload(file);
+                }
                 props.handleClose("SAVE", data, clearErrors);
             }
+            setAvatar("");
+            setFile(null);
         } catch (error) {
             // eslint-disable-next-line no-console
             console.log(error);
@@ -46,9 +52,10 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
         if (e.target.files) {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
-            reader.onloadend = (e) => {
+            reader.onloadend = () => {
                 if (reader.result !== null) {
-                    setX(reader.result.toString());
+                    setAvatar(reader.result.toString());
+                    setFile(e.target.files && e.target.files[0]);
                 }
             };
         }
@@ -91,10 +98,9 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                         <Image
                             alt="Remy Sharp"
                             src={
-                                !x
-                                    ? "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
-                                    : x ||
-                                      "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
+                                avatar ||
+                                defaultData.restaurantimage ||
+                                "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
                             }
                             width={300}
                             height={300}
@@ -194,31 +200,27 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                             flexWrap: { xs: "wrap", md: "nowrap" },
                         }}
                     >
-                        <TextfieldBase
-                            id="taxvalue"
-                            label={"Mã số thuế"}
-                            variant="outlined"
-                            InputProps={{
-                                readOnly: isView,
-                            }}
-                            required
-                            error={!!errors.taxvalue}
-                            helperText={errors.taxvalue && errors.taxvalue.message}
-                            {...register("taxvalue", {
-                                required: {
-                                    value: true,
-                                    message: "Mã số thuế là bắt buộc",
-                                },
-                                onBlur: () =>
-                                    setValue(
-                                        "taxvalue",
-                                        getValues("taxvalue")
-                                            ? getValues("taxvalue")
-                                            : getValues("taxvalue")
-                                    ),
-                            })}
+                        <NumberFormatInput
+                            control={control}
+                            name="taxvalue"
+                            label="Thuế cửa hàng"
+                            rules={{ required: true, min: 1, max: 100 }}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        display="flex"
+                        sx={{
+                            flexWrap: { xs: "wrap", md: "nowrap" },
+                        }}
+                    >
+                        {errors.taxvalue && (
+                            <Typography mt={-1.8} marginLeft={2} variant="caption" color="red">
+                                Giá trị thuế không hợp lệ
+                            </Typography>
+                        )}
                     </Grid>
                     <Box
                         sx={{
@@ -235,6 +237,8 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                             variant="outlined"
                             onClick={() => {
                                 props.handleClose("CANCEL", undefined, clearErrors);
+                                setAvatar("");
+                                setFile(null);
                             }}
                         >
                             {"Trở lại"}
