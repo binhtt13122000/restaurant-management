@@ -8,7 +8,6 @@ const drawerWidth = 250;
 const appbarHeight = 70;
 
 const DefaultLayout: React.FC<{ sx?: SxProps<Theme>; children?: React.ReactNode }> = ({
-    sx = undefined,
     children,
 }) => {
     const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);

@@ -2,14 +2,7 @@ import useQueryClient from "components/Table/hooks/useQueryClient";
 import { gql } from "graphql-request";
 import { useQuery } from "react-query";
 
-const useGetListEntity = (
-    entity: string,
-    displayField: string,
-    search: string,
-    extraJoinFilter: string,
-    extraWhereFilter: string,
-    conditionField: string
-) => {
+const useGetListEntity = (entity: string, displayField: string, search: string) => {
     const quyeryClient = useQueryClient();
     search = `%${search}%`;
     return useQuery(["Get" + entity + displayField, search], async () => {

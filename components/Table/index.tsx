@@ -36,7 +36,6 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
         typeOrder = "desc",
         defaultFilter,
         defaultFilterForCount,
-        maxWidth = "1200px",
         queryKey,
     } = props;
     const [paging, setPaging] = useState<{ offset: number; limit: number }>({
