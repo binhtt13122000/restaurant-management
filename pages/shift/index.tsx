@@ -22,7 +22,7 @@ export const SchedulerOk: React.FC<SchedulerProps & { children: React.ReactNode 
     return <Scheduler {...rest}>{children}</Scheduler>;
 };
 
-const WorkSession = () => {
+const Shift = () => {
     const Appointment: React.FC = (props: any) => {
         const { children, style, data, ...restProps } = props;
         return (
@@ -67,9 +67,8 @@ const WorkSession = () => {
                                 }}
                             >
                                 <Button variant="contained" color="warning" sx={{ mr: 1 }}>
-                                    Tạo phiên làm việc theo tháng
+                                    Tạo phiên làm việc
                                 </Button>
-                                <Button variant="contained">Tạo nhanh phiên làm việc</Button>
                             </Box>
                         );
                     }}
@@ -113,4 +112,4 @@ const WorkSession = () => {
     );
 };
 
-export default WorkSession;
+export default Shift;

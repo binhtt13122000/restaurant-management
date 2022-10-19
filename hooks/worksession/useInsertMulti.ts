@@ -4,11 +4,12 @@ import {
     InsertMultiWorkSessionMutationVariables,
 } from "generated/graphql";
 import { gql } from "graphql-request";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { GraphQLErrorType } from "utils/common";
 
-const useInsertMulti = () => {
+const useInsertMulti = (queryKey: string) => {
     const queryClient = useCustomQueryClient();
+    const cache = useQueryClient();
     const result = useMutation<
         InsertMultiWorkSessionMutation,
         GraphQLErrorType,
@@ -35,7 +36,7 @@ const useInsertMulti = () => {
         },
         {
             onSuccess: () => {
-                // cache.invalidateQueries(queryKey);
+                cache.invalidateQueries(queryKey);
             },
         }
     );

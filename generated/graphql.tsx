@@ -10051,6 +10051,22 @@ export type MyQueryQuery = {
     account: Array<{ __typename?: "account"; avatar?: string | null }>;
 };
 
+export type GetAllWorkSessionQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllWorkSessionQueryQuery = {
+    __typename?: "query_root";
+    worksession: Array<{
+        __typename?: "worksession";
+        creationtime: any;
+        creatorid: number;
+        id: number;
+        isopen: boolean;
+        updaterid?: number | null;
+        updatetime?: any | null;
+        workdate: any;
+    }>;
+};
+
 export type InsertMultiWorkSessionMutationVariables = Exact<{
     objects?: InputMaybe<Array<Worksession_Insert_Input> | Worksession_Insert_Input>;
 }>;
