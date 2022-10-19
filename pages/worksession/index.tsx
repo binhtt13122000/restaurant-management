@@ -28,7 +28,7 @@ import { Box } from "@mui/system";
 import { DatePicker } from "@mui/x-date-pickers";
 import CardContainer from "components/Card/Container";
 import useSnackbar from "components/Snackbar/useSnackbar";
-import { add } from "date-fns";
+import { add, format } from "date-fns";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import useInsertMulti from "hooks/worksession/useInsertMulti";
 import { useEffect, useState } from "react";
@@ -48,18 +48,18 @@ export interface ShiftCreate {
 
 const WorkSession = () => {
     const Appointment: React.FC = (props: any) => {
-        const { children, style, data, ...restProps } = props;
+        const { style, data, ...restProps } = props;
         return (
             <Appointments.Appointment
                 {...restProps}
                 style={{
                     ...style,
                     backgroundColor: data.backgroundColor,
-                    color: data.color,
+                    color: data.color || "white",
                     fontSize: 12,
                 }}
             >
-                {children}
+                {data.content}
             </Appointments.Appointment>
         );
     };
@@ -82,11 +82,28 @@ const WorkSession = () => {
                 new Date(x.workdate).getFullYear(),
                 new Date(x.workdate).getMonth(),
                 new Date(x.workdate).getDate(),
-                10,
-                10,
-                10
+                23,
+                59,
+                59
             ),
-            title: "cc",
+            content: x.isopen ? (
+                <Box sx={{ p: 1 }}>
+                    <Box>Người mở: {x.creatorid}</Box>
+                    <Box>
+                        Thời gian mở: {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
+                    </Box>
+                </Box>
+            ) : (
+                <Box sx={{ p: 1 }}>
+                    <Box>Người đóng: {x.updaterid}</Box>
+                    <Box>
+                        Thời gian đóng: {format(new Date(x.updatetime), "dd/MM/yyyy hh:mm:ss")}
+                    </Box>
+                </Box>
+            ),
+            allDay: true,
+            id: x.id,
+            backgroundColor: x.isopen ? "#1e88e5" : "#fb8c00",
         };
     });
 
