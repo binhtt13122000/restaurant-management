@@ -48,11 +48,8 @@ const CustomizeAutocomplete = <T extends {}>(props: ICustomizeAuto<T>) => {
         readonly,
         label,
         disabled,
-        extraJoinFilter = "",
-        extraWhereFilter = "",
         rules,
         defaultId,
-        conditionField,
         onGetConditionState,
         required,
         type,
@@ -60,14 +57,7 @@ const CustomizeAutocomplete = <T extends {}>(props: ICustomizeAuto<T>) => {
     } = props;
 
     const [search, setSearch] = useState("");
-    const { data, isLoading } = useGetListEntity(
-        entity,
-        displayField,
-        search,
-        extraJoinFilter,
-        extraWhereFilter,
-        conditionField
-    );
+    const { data, isLoading } = useGetListEntity(entity, displayField, search);
 
     const [autoCompleteKey, setAutoCompleteKey] = useState(
         defaultId !== undefined && !!defaultId ? defaultId : 0
