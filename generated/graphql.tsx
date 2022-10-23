@@ -10051,6 +10051,15 @@ export type MyQueryQuery = {
     account: Array<{ __typename?: "account"; avatar?: string | null }>;
 };
 
+export type DeleteWorksessionMutationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type DeleteWorksessionMutationMutation = {
+    __typename?: "mutation_root";
+    delete_worksession_by_pk?: { __typename?: "worksession"; id: number } | null;
+};
+
 export type GetAllWorkSessionQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllWorkSessionQueryQuery = {
@@ -10067,6 +10076,25 @@ export type GetAllWorkSessionQueryQuery = {
     }>;
 };
 
+export type GetWorksessionByIdQueryVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type GetWorksessionByIdQuery = {
+    __typename?: "query_root";
+    worksession_by_pk?: {
+        __typename?: "worksession";
+        creationtime: any;
+        creatorid: number;
+        id: number;
+        isopen: boolean;
+        updaterid?: number | null;
+        updatetime?: any | null;
+        workdate: any;
+        shifts: Array<{ __typename?: "shift"; id: number; isopen: boolean }>;
+    } | null;
+};
+
 export type InsertMultiWorkSessionMutationVariables = Exact<{
     objects?: InputMaybe<Array<Worksession_Insert_Input> | Worksession_Insert_Input>;
 }>;
@@ -10076,5 +10104,21 @@ export type InsertMultiWorkSessionMutation = {
     insert_worksession?: {
         __typename?: "worksession_mutation_response";
         returning: Array<{ __typename?: "worksession"; id: number }>;
+    } | null;
+};
+
+export type UpdateWorkSessionMutationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    updaterid?: InputMaybe<Scalars["Int"]>;
+    isopen?: InputMaybe<Scalars["Boolean"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
+}>;
+
+export type UpdateWorkSessionMutationMutation = {
+    __typename?: "mutation_root";
+    update_worksession_by_pk?: { __typename?: "worksession"; id: number } | null;
+    delete_itemoutofstock?: {
+        __typename?: "itemoutofstock_mutation_response";
+        returning: Array<{ __typename?: "itemoutofstock"; id: number }>;
     } | null;
 };

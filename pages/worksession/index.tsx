@@ -25,12 +25,16 @@ import {
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import TextfieldBase from "components/BaseTextField";
 import CardContainer from "components/Card/Container";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import { add, format } from "date-fns";
+import useDeleteWorksession from "hooks/worksession/useDeleteWorksession";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
+import useGetWorksessionById from "hooks/worksession/useGetWorksessionById";
 import useInsertMulti from "hooks/worksession/useInsertMulti";
+import useUpdateWorkSession from "hooks/worksession/useUpdateWorkSession";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -47,6 +51,11 @@ export interface ShiftCreate {
 }
 
 const WorkSession = () => {
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [startTime, setStartTime] = useState<Date | null>(null);
+    const [check, setCheck] = useState(false);
+    const [endTime, setEndTime] = useState<Date | null>(null);
+    const [selected, setSelected] = useState<null | number>(null);
     const Appointment: React.FC = (props: any) => {
         const { style, data, ...restProps } = props;
         return (
@@ -58,6 +67,7 @@ const WorkSession = () => {
                     color: data.color || "white",
                     fontSize: 12,
                 }}
+                onDoubleClick={() => setSelected(data.id)}
             >
                 {data.content}
             </Appointments.Appointment>
@@ -65,10 +75,13 @@ const WorkSession = () => {
     };
 
     const { mutate } = useInsertMulti("GetAllWorkSessionQuery");
+    const { mutate: updateMutate } = useUpdateWorkSession("GetAllWorkSessionQuery");
+    const { mutate: deleteMutation } = useDeleteWorksession("GetAllWorkSessionQuery");
 
-    const { data, isLoading } = useGetAllWorkSession();
+    const { data: dataAll, isLoading } = useGetAllWorkSession();
+    const { data: dataById, isLoading: isLoadingById } = useGetWorksessionById(selected);
 
-    const appointments: AppointmentModel[] | undefined = data?.worksession.map((x) => {
+    const appointments: AppointmentModel[] | undefined = dataAll?.worksession.map((x) => {
         return {
             startDate: new Date(
                 new Date(x.workdate).getFullYear(),
@@ -86,33 +99,47 @@ const WorkSession = () => {
                 59,
                 59
             ),
-            content: x.isopen ? (
-                <Box sx={{ p: 1 }}>
-                    <Box>Người mở: {x.creatorid}</Box>
-                    <Box>
-                        Thời gian mở: {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
+            content:
+                !x.updaterid && !x.isopen ? (
+                    <Box sx={{ p: 1 }}>
+                        <Box>
+                            <Typography variant="inherit">
+                                Thời gian tạo:{" "}
+                                {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
+                            </Typography>
+                            <Typography variant="inherit">Trạng thái: Mới tạo</Typography>
+                        </Box>
                     </Box>
-                </Box>
-            ) : (
-                <Box sx={{ p: 1 }}>
-                    <Box>Người đóng: {x.updaterid}</Box>
-                    <Box>
-                        Thời gian đóng: {format(new Date(x.updatetime), "dd/MM/yyyy hh:mm:ss")}
+                ) : x.isopen ? (
+                    <Box sx={{ p: 1 }}>
+                        <Box>
+                            <Typography variant="inherit">
+                                Thời gian mở:{" "}
+                                {x.updatetime
+                                    ? format(new Date(x.updatetime), "dd/MM/yyyy hh:mm:ss")
+                                    : "Chưa xử lí"}
+                            </Typography>
+                            <Typography variant="inherit">Trạng thái: Đang mở</Typography>
+                        </Box>
                     </Box>
-                </Box>
-            ),
+                ) : (
+                    <Box sx={{ p: 1 }}>
+                        <Box>
+                            <Typography variant="inherit">
+                                Thời gian đóng:{" "}
+                                {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
+                            </Typography>
+                            <Typography variant="inherit">Trạng thái: Đã đóng</Typography>
+                        </Box>
+                    </Box>
+                ),
             allDay: true,
             id: x.id,
-            backgroundColor: x.isopen ? "#1e88e5" : "#fb8c00",
+            backgroundColor: !x.isopen && !x.updaterid ? "grey" : x.isopen ? "#1e88e5" : "#fb8c00",
         };
     });
 
     const { handleSubmit, setValue } = useForm<ShiftCreate>({});
-
-    const [openModal, setOpenModal] = useState<boolean>(false);
-    const [startTime, setStartTime] = useState<Date | null>(null);
-    const [check, setCheck] = useState(false);
-    const [endTime, setEndTime] = useState<Date | null>(null);
 
     const commitChanges = (changes: ChangeSet) => {
         // eslint-disable-next-line no-console
@@ -143,6 +170,7 @@ const WorkSession = () => {
                         days: 1,
                     });
                 }
+                // dataAll?.worksession.map((x) => listOfDates.findIndex((k) => k === x.workdate));
                 mutate(
                     {
                         objects: listOfDates.map((workingDate) => {
@@ -151,9 +179,9 @@ const WorkSession = () => {
                                     hours: 7,
                                 }),
                                 creatorid: 1,
-                                isopen: true,
+                                isopen: false,
                                 workdate: add(workingDate, {
-                                    days: 1,
+                                    hours: 7,
                                 }),
                             };
                         }),
@@ -190,6 +218,68 @@ const WorkSession = () => {
         date.setMonth(11);
         date.setDate(31);
         setEndTime(date);
+    };
+
+    const deleteWorkSession = () => {
+        deleteMutation(
+            {
+                id: selected,
+            },
+            {
+                onSuccess: () => {
+                    showSnackbar({
+                        children: "Xóa thành công",
+                        variant: "filled",
+                        severity: "success",
+                    });
+                    setSelected(null);
+                },
+            }
+        );
+    };
+
+    const hanldeWorkSessionItem = (id: number | null) => {
+        if (id) {
+            if (
+                dataById?.worksession_by_pk?.isopen &&
+                dataById?.worksession_by_pk?.shifts &&
+                dataById?.worksession_by_pk?.shifts.length > 0 &&
+                dataById?.worksession_by_pk?.shifts.findIndex((x) => x.isopen) !== -1
+            ) {
+                showSnackbar({
+                    children: "Các ca làm việc chưa được đóng hết",
+                    variant: "filled",
+                    severity: "error",
+                });
+                return;
+            }
+            updateMutate(
+                {
+                    isopen: !dataById?.worksession_by_pk?.isopen,
+                    updaterid: 1,
+                    updatetime: add(new Date(), {
+                        hours: 7,
+                    }),
+                    id: id,
+                },
+                {
+                    onSuccess: () => {
+                        showSnackbar({
+                            children:
+                                !dataById?.worksession_by_pk?.isopen &&
+                                !dataById?.worksession_by_pk?.updaterid
+                                    ? "Mở thành công"
+                                    : dataById?.worksession_by_pk?.isopen
+                                    ? "Đóng thành công"
+                                    : "Mở thành công",
+                            variant: "filled",
+                            severity: "success",
+                        });
+                        setSelected(null);
+                    },
+                }
+            );
+        }
     };
 
     if (isLoading) {
@@ -283,7 +373,14 @@ const WorkSession = () => {
                                 "& > :not(style)": { m: 1 },
                             }}
                         >
-                            <Button variant="outlined" onClick={() => {}}>
+                            <Button
+                                variant="outlined"
+                                onClick={() => {
+                                    setOpenModal(false);
+                                    setStartTime(null);
+                                    setEndTime(null);
+                                }}
+                            >
                                 {"Trở về"}
                             </Button>
                             <Button
@@ -297,6 +394,187 @@ const WorkSession = () => {
                         </Box>
                     </Grid>
                 </CardContainer>
+            </Modal>
+            <Modal open={Boolean(selected)} disableEnforceFocus>
+                {!isLoadingById ? (
+                    <CardContainer width="90%" maxWidth={820}>
+                        <Box sx={{ display: "flex", justifyContent: "center", m: 3 }}>
+                            <Typography variant="h6" component="h2">
+                                Phiên làm việc ngày{" "}
+                                {format(
+                                    dataById?.worksession_by_pk?.workdate
+                                        ? new Date(dataById?.worksession_by_pk?.workdate)
+                                        : new Date(),
+                                    "dd/MM/yyyy"
+                                )}
+                            </Typography>
+                        </Box>
+                        <Grid
+                            sx={{
+                                "& > :not(style)": {
+                                    m: 2,
+                                    display: "flex",
+                                },
+                            }}
+                        >
+                            <Grid
+                                item
+                                xs={12}
+                                gap={3}
+                                display="flex"
+                                sx={{
+                                    flexWrap: { xs: "wrap", md: "nowrap" },
+                                }}
+                            >
+                                <DateTimePicker
+                                    renderInput={(params) => <TextField fullWidth {...params} />}
+                                    label={"Thời gian tạo"}
+                                    value={dataById?.worksession_by_pk?.creationtime}
+                                    onChange={() => {}}
+                                    inputFormat="dd/MM/yyyy hh:mm:ss"
+                                    readOnly
+                                />
+                                <DatePicker
+                                    renderInput={(params) => <TextField fullWidth {...params} />}
+                                    label={
+                                        !dataById?.worksession_by_pk?.isopen &&
+                                        !dataById?.worksession_by_pk?.updaterid
+                                            ? "Thời gian mở"
+                                            : dataById?.worksession_by_pk?.isopen
+                                            ? "Thời gian mở"
+                                            : "Thời gian đóng"
+                                    }
+                                    value={dataById?.worksession_by_pk?.updatetime}
+                                    onChange={() => {}}
+                                    inputFormat="dd/MM/yyyy hh:mm:ss"
+                                    readOnly
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                gap={3}
+                                display="flex"
+                                sx={{
+                                    flexWrap: { xs: "wrap", md: "nowrap" },
+                                }}
+                            >
+                                <TextfieldBase
+                                    id="creator"
+                                    label={"Người tạo"}
+                                    variant="outlined"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    required
+                                    fullWidth
+                                    value={dataById?.worksession_by_pk?.creatorid || undefined}
+                                />
+                                <TextfieldBase
+                                    id="creator"
+                                    label={
+                                        !dataById?.worksession_by_pk?.isopen &&
+                                        !dataById?.worksession_by_pk?.updaterid
+                                            ? "Người mở"
+                                            : dataById?.worksession_by_pk?.isopen
+                                            ? "Người mở"
+                                            : "Người đóng"
+                                    }
+                                    variant="outlined"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    required
+                                    fullWidth
+                                    value={dataById?.worksession_by_pk?.updaterid || undefined}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                gap={3}
+                                display="flex"
+                                sx={{
+                                    flexWrap: { xs: "wrap", md: "nowrap" },
+                                }}
+                            >
+                                <TextfieldBase
+                                    id="statud"
+                                    label={"Trạng thái"}
+                                    variant="outlined"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    required
+                                    fullWidth
+                                    value={
+                                        !dataById?.worksession_by_pk?.isopen &&
+                                        !dataById?.worksession_by_pk?.updaterid
+                                            ? "Chưa mở"
+                                            : dataById?.worksession_by_pk?.isopen
+                                            ? "Đang mở"
+                                            : "Đã đóng"
+                                    }
+                                />
+                            </Grid>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: { xs: "column-reverse", sm: "row" },
+                                    justifyContent: "center",
+                                    mx: "auto",
+                                    p: 1,
+                                    m: 1,
+                                    "& > :not(style)": { m: 1 },
+                                }}
+                            >
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => {
+                                        setSelected(null);
+                                    }}
+                                >
+                                    {"Trở về"}
+                                </Button>
+                                {!dataById?.worksession_by_pk?.isopen &&
+                                !dataById?.worksession_by_pk?.updaterid &&
+                                dataById?.worksession_by_pk?.shifts &&
+                                dataById?.worksession_by_pk?.shifts.length === 0 ? (
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={() => deleteWorkSession()}
+                                    >
+                                        Xóa phiên làm việc
+                                    </Button>
+                                ) : null}
+                                {!dataById?.worksession_by_pk?.isopen &&
+                                dataById?.worksession_by_pk?.updaterid ? null : (
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => hanldeWorkSessionItem(selected)}
+                                        disabled={
+                                            format(
+                                                dataById?.worksession_by_pk?.workdate
+                                                    ? new Date(
+                                                          dataById?.worksession_by_pk?.workdate
+                                                      )
+                                                    : new Date(),
+                                                "dd/MM/yyyy"
+                                            ) !== format(new Date(), "dd/MM/yyyy")
+                                        }
+                                    >
+                                        {dataById?.worksession_by_pk?.isopen
+                                            ? "Đóng phiên làm việc"
+                                            : "Mở phiên làm việc"}
+                                    </Button>
+                                )}
+                            </Box>
+                        </Grid>
+                    </CardContainer>
+                ) : (
+                    <div>cc</div>
+                )}
             </Modal>
             <SchedulerOk data={appointments} locale={"vi-VN"}>
                 <EditingState onCommitChanges={commitChanges} />
