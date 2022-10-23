@@ -28,8 +28,8 @@ export const routes = [
     },
     {
         id: 3,
-        name: "Void Reason",
-        path: ROUTES.DEFAULT,
+        name: "Lí do",
+        path: ROUTES.VOID_REASON,
         icon: "/images/price-list.png",
     },
     {

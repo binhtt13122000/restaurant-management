@@ -7,4 +7,5 @@ export enum ROUTES {
     ACCOUNT = "/account",
     WORKSESSION = "/worksession",
     SHIFT = "/shift",
+    VOID_REASON = "/void-reason",
 }

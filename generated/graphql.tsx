@@ -10051,6 +10051,53 @@ export type MyQueryQuery = {
     account: Array<{ __typename?: "account"; avatar?: string | null }>;
 };
 
+export type CreateVoidReasonMutationVariables = Exact<{
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type CreateVoidReasonMutation = {
+    __typename?: "mutation_root";
+    insert_voidreason_one?: {
+        __typename?: "voidreason";
+        id: number;
+        name: string;
+        status: any;
+    } | null;
+};
+
+export type DeleteVoidReasonMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type DeleteVoidReasonMutation = {
+    __typename?: "mutation_root";
+    update_voidreason_by_pk?: {
+        __typename?: "voidreason";
+        id: number;
+        name: string;
+        status: any;
+    } | null;
+};
+
+export type UpdateVoidreasonMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type UpdateVoidreasonMutation = {
+    __typename?: "mutation_root";
+    update_voidreason_by_pk?: {
+        __typename?: "voidreason";
+        id: number;
+        name: string;
+        status: any;
+    } | null;
+};
+
 export type DeleteWorksessionMutationMutationVariables = Exact<{
     id?: InputMaybe<Scalars["Int"]>;
 }>;
