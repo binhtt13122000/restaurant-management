@@ -10,10 +10,11 @@ import {
     TodayButton,
     ViewSwitcher,
     DayView,
-    MonthView,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { Button, MenuItem, Paper, Select } from "@mui/material";
 import { Box } from "@mui/system";
+import ShiftForm from "containers/shift/ShiftForm";
+import { useState } from "react";
 
 export const SchedulerOk: React.FC<SchedulerProps & { children: React.ReactNode }> = ({
     children,
@@ -40,20 +41,23 @@ const Shift = () => {
         );
     };
 
+    const [open, setOpen] = useState(false);
+
     const data = undefined;
 
     const commitChanges = (changes: ChangeSet) => {
         // eslint-disable-next-line no-console
         console.log(changes);
     };
+
     return (
         <Paper sx={{ mt: 1 }}>
+            <ShiftForm opened={open} />
             <SchedulerOk data={data} locale={"vi-VN"}>
                 <EditingState onCommitChanges={commitChanges} />
                 <ViewState defaultCurrentDate={new Date()} />
                 <WeekView cellDuration={120} />
                 <DayView />
-                <MonthView />
                 <Appointments appointmentComponent={Appointment} />
                 <Toolbar
                     flexibleSpaceComponent={() => {
@@ -66,8 +70,13 @@ const Shift = () => {
                                     justifyContent: "flex-end",
                                 }}
                             >
-                                <Button variant="contained" color="warning" sx={{ mr: 1 }}>
-                                    Tạo phiên làm việc
+                                <Button
+                                    variant="contained"
+                                    color="warning"
+                                    sx={{ mr: 1 }}
+                                    onClick={() => setOpen(true)}
+                                >
+                                    Tạo ca làm việc
                                 </Button>
                             </Box>
                         );
@@ -89,8 +98,6 @@ const Shift = () => {
                                         <MenuItem key={x.name} value={x.name}>
                                             {x.displayName.toUpperCase() === "WEEK"
                                                 ? "Hiện thị theo tuần"
-                                                : x.displayName.toUpperCase() === "MONTH"
-                                                ? "Hiện thị theo tháng"
                                                 : x.displayName.toUpperCase() === "DAY"
                                                 ? "Hiện thị theo ngày"
                                                 : ""}
