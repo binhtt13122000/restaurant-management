@@ -434,7 +434,7 @@ const WorkSession = () => {
                                     inputFormat="dd/MM/yyyy hh:mm:ss"
                                     readOnly
                                 />
-                                <DatePicker
+                                <DateTimePicker
                                     renderInput={(params) => <TextField fullWidth {...params} />}
                                     label={
                                         !dataById?.worksession_by_pk?.isopen &&

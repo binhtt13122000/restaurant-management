@@ -2,61 +2,59 @@ import React, { useEffect } from "react";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import {
-    Button,
-    Grid,
-    Modal,
-    Box,
-    Typography,
-    Autocomplete,
-    MenuItem,
-    TextField,
-} from "@mui/material";
+import { Button, Grid, Modal, Box, Typography, Autocomplete, TextField } from "@mui/material";
 import CardContainer from "components/Card/Container";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import TextfieldBase from "components/BaseTextField";
-import { format } from "date-fns";
-import ReactHookFormSelect from "components/SelectBase";
-import { TimePicker } from "@mui/x-date-pickers";
-import useCreateShift from "hooks/shift/useCreateShift";
+import { add } from "date-fns";
+import { DatePicker } from "@mui/x-date-pickers";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useGetOneShift from "hooks/shift/useGetOneShift";
+import useCheckWS from "hooks/shift/useCheckWS";
+import useCreateShift from "hooks/shift/useCreateShift";
+import { Shift_Insert_Input } from "generated/graphql";
 
-export interface CreateShiftDTO {
+export interface CloneForm {
     worksessionId: number;
     startTime: Date;
     endTime: Date;
-    name?: string;
 }
-const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
+const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
     const { opened, action } = props;
-
-    const { mutate } = useCreateShift("ShiftQuery");
 
     const { mutate: mutateByWS } = useGetOneShift();
 
+    const { mutate } = useCheckWS();
+
     const showSnackbar = useSnackbar();
 
-    const { handleSubmit, setValue, control, clearErrors, unregister, watch } =
-        useForm<CreateShiftDTO>({});
+    const { mutate: createMutate } = useCreateShift("ShiftQuery");
+
+    const { handleSubmit, setValue, control, clearErrors, unregister, watch } = useForm<CloneForm>(
+        {}
+    );
 
     useEffect(() => {
         if (opened) {
             const newDate = new Date();
-            setValue("name", "Ca 1");
-            setValue("startTime", newDate);
-            setValue("endTime", newDate);
+            setValue(
+                "startTime",
+                add(newDate, {
+                    days: 1,
+                })
+            );
+            setValue(
+                "endTime",
+                add(newDate, {
+                    days: 1,
+                })
+            );
         }
     }, [setValue, opened]);
 
     const { data } = useGetAllWorkSession();
 
-    const convert = (time: string) => {
-        const times = time.split(":");
-        return Number(times[0]) * 60 + Number(times[1]);
-    };
-
-    const submitHandler: SubmitHandler<CreateShiftDTO> = async (data: CreateShiftDTO) => {
+    const submitHandler: SubmitHandler<CloneForm> = async (data: CloneForm) => {
         try {
             if (data) {
                 mutateByWS(
@@ -65,51 +63,57 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                     },
                     {
                         onSuccess: (xs) => {
-                            const startTimeString = `${data.startTime.getHours()}:${data.startTime.getMinutes()}:00`;
-                            const endTimeString = `${data.endTime.getHours()}:${data.endTime.getMinutes()}:00}`;
-                            const index = xs.shift
-                                .filter((x) => x.status === "ACTIVE")
-                                .findIndex(
-                                    (k) =>
-                                        (convert(startTimeString) <= convert(k.endtime) &&
-                                            convert(endTimeString) >= convert(k.starttime)) ||
-                                        k.name === data.name
-                                );
-                            if (index !== -1) {
+                            if (xs.shift?.filter((x) => x.status === "ACTIVE").length === 0) {
                                 showSnackbar({
-                                    children: "Đã tồn tại",
+                                    children: "Phiên làm việc này không có ca làm việc để sao chép",
                                     severity: "error",
                                 });
                                 return;
                             }
                             mutate(
                                 {
-                                    objects: [
-                                        {
-                                            isopen: false,
-                                            name: data.name || "",
-                                            status: "ACTIVE",
-                                            starttime: startTimeString,
-                                            endtime: endTimeString,
-                                            worksessionid: data.worksessionId,
-                                        },
-                                    ],
+                                    _gte: data.startTime,
+                                    _lte: data.endTime,
                                 },
                                 {
-                                    onSuccess() {
-                                        showSnackbar({
-                                            children: "Tạo thành công",
-                                            severity: "success",
-                                        });
-                                        action();
-                                        clearErrors();
-                                        unregister();
-                                    },
-                                    onError() {
-                                        showSnackbar({
-                                            children: "Tạo thất bại",
-                                            severity: "error",
-                                        });
+                                    onSuccess: (vl) => {
+                                        const arr: Array<Array<Shift_Insert_Input>> =
+                                            vl.worksession.map((ws) => {
+                                                return xs.shift
+                                                    .filter((wss) => wss.status === "ACTIVE")
+                                                    .map((wss) => {
+                                                        return {
+                                                            isopen: false,
+                                                            name: wss.name || "",
+                                                            status: "ACTIVE",
+                                                            starttime: wss.starttime,
+                                                            endtime: wss.endtime,
+                                                            worksessionid: ws.id,
+                                                        };
+                                                    });
+                                            });
+                                        createMutate(
+                                            {
+                                                objects: arr.flat(),
+                                            },
+                                            {
+                                                onSuccess() {
+                                                    showSnackbar({
+                                                        children: "Tạo thành công",
+                                                        severity: "success",
+                                                    });
+                                                    action();
+                                                    clearErrors();
+                                                    unregister();
+                                                },
+                                                onError() {
+                                                    showSnackbar({
+                                                        children: "Tạo thất bại",
+                                                        severity: "error",
+                                                    });
+                                                },
+                                            }
+                                        );
                                     },
                                 }
                             );
@@ -128,7 +132,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
             <CardContainer width="90%" maxWidth={820}>
                 <Box sx={{ display: "flex", justifyContent: "center", m: 3 }}>
                     <Typography variant="h6" component="h2">
-                        Tạo mới ca làm việc
+                        Sao chép phiên làm việc
                     </Typography>
                 </Box>
                 <Grid
@@ -172,19 +176,6 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                         options={
                                             data
                                                 ? data.worksession
-                                                      ?.filter(
-                                                          (x) =>
-                                                              format(
-                                                                  x?.workdate
-                                                                      ? new Date(x?.workdate)
-                                                                      : new Date(),
-                                                                  "dd/MM/yyyy"
-                                                              ) >
-                                                                  format(
-                                                                      new Date(),
-                                                                      "dd/MM/yyyy"
-                                                                  ) && !x.isopen
-                                                      )
                                                       .sort((a, b) => a.workdate - b.workdate)
                                                       .map((x) => {
                                                           return {
@@ -230,28 +221,6 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                             flexWrap: { xs: "wrap", md: "nowrap" },
                         }}
                     >
-                        <ReactHookFormSelect
-                            fullWidth
-                            control={control}
-                            label="Tên ca làm việc"
-                            name="name"
-                        >
-                            <MenuItem value={"Ca 1"}>Ca 1</MenuItem>
-                            <MenuItem value={"Ca 2"}>Ca 2</MenuItem>
-                            <MenuItem value={"Ca 3"}>Ca 3</MenuItem>
-                            <MenuItem value={"Ca 4"}>Ca 4</MenuItem>
-                            <MenuItem value={"Ca 5"}>Ca 5</MenuItem>
-                        </ReactHookFormSelect>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        gap={3}
-                        display="flex"
-                        sx={{
-                            flexWrap: { xs: "wrap", md: "nowrap" },
-                        }}
-                    >
                         <Controller
                             control={control}
                             rules={{
@@ -259,7 +228,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                             }}
                             name="startTime"
                             render={({ field: { value: currentValue, ref, onChange } }) => (
-                                <TimePicker
+                                <DatePicker
                                     ref={ref}
                                     renderInput={(params) => <TextField fullWidth {...params} />}
                                     label={"Thời gian bắt đầu"}
@@ -267,7 +236,10 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                     onChange={(value) => {
                                         onChange(value || new Date());
                                     }}
-                                    inputFormat="HH:mm"
+                                    inputFormat="dd/MM/yyyy"
+                                    minDate={add(new Date(), {
+                                        days: 1,
+                                    })}
                                 />
                             )}
                         />
@@ -278,7 +250,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                 required: "Thời gian kết thúc là bắt buộc",
                             }}
                             render={({ field: { value: currentValue, ref, onChange } }) => (
-                                <TimePicker
+                                <DatePicker
                                     ref={ref}
                                     renderInput={(params) => (
                                         <TextField
@@ -296,7 +268,10 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                     onChange={(value) => {
                                         onChange(value || new Date());
                                     }}
-                                    inputFormat="HH:mm"
+                                    inputFormat="dd/MM/yyyy"
+                                    minDate={add(new Date(), {
+                                        days: 1,
+                                    })}
                                 />
                             )}
                         />
@@ -328,7 +303,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                             color="primary"
                             type="submit"
                         >
-                            {"Tạo mới"}
+                            {"Sao chép"}
                         </Button>
                     </Box>
                 </Grid>
@@ -337,4 +312,4 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
     );
 };
 
-export default React.memo(ShiftForm);
+export default React.memo(ShiftCloneForm);

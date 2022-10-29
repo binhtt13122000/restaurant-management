@@ -9989,6 +9989,124 @@ export type GetRoleQueryQuery = {
     }>;
 };
 
+export type CheckWsQueryVariables = Exact<{
+    _gte?: InputMaybe<Scalars["date"]>;
+    _lte?: InputMaybe<Scalars["date"]>;
+}>;
+
+export type CheckWsQuery = {
+    __typename?: "query_root";
+    worksession: Array<{ __typename?: "worksession"; id: number }>;
+};
+
+export type InsertShiftMutationVariables = Exact<{
+    objects?: InputMaybe<Array<Shift_Insert_Input> | Shift_Insert_Input>;
+}>;
+
+export type InsertShiftMutation = {
+    __typename?: "mutation_root";
+    insert_shift?: {
+        __typename?: "shift_mutation_response";
+        returning: Array<{ __typename?: "shift"; id: number }>;
+    } | null;
+};
+
+export type DeleteShiftMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type DeleteShiftMutation = {
+    __typename?: "mutation_root";
+    update_shift_by_pk?: { __typename?: "shift"; id: number; name: string; status: any } | null;
+};
+
+export type ShiftQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ShiftQueryQuery = {
+    __typename?: "query_root";
+    shift: Array<{
+        __typename?: "shift";
+        closerid?: number | null;
+        endtime: any;
+        id: number;
+        isopen: boolean;
+        name: string;
+        openerid?: number | null;
+        starttime: any;
+        status: any;
+        worksession: { __typename?: "worksession"; id: number; isopen: boolean; workdate: any };
+    }>;
+};
+
+export type ShiftByWsQueryQueryVariables = Exact<{
+    _eq?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type ShiftByWsQueryQuery = {
+    __typename?: "query_root";
+    shift: Array<{
+        __typename?: "shift";
+        endtime: any;
+        starttime: any;
+        name: string;
+        status: any;
+        closerid?: number | null;
+        id: number;
+        isopen: boolean;
+        openerid?: number | null;
+        worksessionid: number;
+    }>;
+};
+
+export type GetShiftByIdQueryVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type GetShiftByIdQuery = {
+    __typename?: "query_root";
+    shift_by_pk?: {
+        __typename?: "shift";
+        closerid?: number | null;
+        endtime: any;
+        id: number;
+        isopen: boolean;
+        name: string;
+        openerid?: number | null;
+        starttime: any;
+        status: any;
+        worksessionid: number;
+        worksession: {
+            __typename?: "worksession";
+            creationtime: any;
+            creatorid: number;
+            id: number;
+            isopen: boolean;
+            updaterid?: number | null;
+            updatetime?: any | null;
+            workdate: any;
+        };
+    } | null;
+};
+
+export type UpdateShiftMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+    closerid?: InputMaybe<Scalars["Int"]>;
+    endtime?: InputMaybe<Scalars["time"]>;
+    isopen?: InputMaybe<Scalars["Boolean"]>;
+    openerid?: InputMaybe<Scalars["Int"]>;
+    starttime?: InputMaybe<Scalars["time"]>;
+    worksessionid?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type UpdateShiftMutation = {
+    __typename?: "mutation_root";
+    update_shift_by_pk?: { __typename?: "shift"; id: number; name: string; status: any } | null;
+};
+
 export type CreateSettingMutationMutationVariables = Exact<{
     address?: InputMaybe<Scalars["String"]>;
     restaurantimage?: InputMaybe<Scalars["String"]>;

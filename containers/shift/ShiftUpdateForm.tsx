@@ -18,36 +18,53 @@ import TextfieldBase from "components/BaseTextField";
 import { format } from "date-fns";
 import ReactHookFormSelect from "components/SelectBase";
 import { TimePicker } from "@mui/x-date-pickers";
-import useCreateShift from "hooks/shift/useCreateShift";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useGetOneShift from "hooks/shift/useGetOneShift";
+import useGetShiftById from "hooks/shift/useGetShiftById";
+import useDeleteShift from "hooks/shift/useDeleteShift";
+import useUpdateShift from "hooks/shift/useUpdateShift";
 
-export interface CreateShiftDTO {
+export interface UpdateShiftDTO {
     worksessionId: number;
     startTime: Date;
     endTime: Date;
     name?: string;
+    id?: number;
 }
-const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
-    const { opened, action } = props;
+const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number }> = (props) => {
+    const { opened, action, id } = props;
 
-    const { mutate } = useCreateShift("ShiftQuery");
+    const { data: dataById, isLoading } = useGetShiftById(id);
+
+    const { mutate } = useUpdateShift("ShiftQuery");
+    const { mutate: mutateDelete } = useDeleteShift("ShiftQuery");
 
     const { mutate: mutateByWS } = useGetOneShift();
 
     const showSnackbar = useSnackbar();
 
     const { handleSubmit, setValue, control, clearErrors, unregister, watch } =
-        useForm<CreateShiftDTO>({});
+        useForm<UpdateShiftDTO>({});
 
     useEffect(() => {
         if (opened) {
-            const newDate = new Date();
-            setValue("name", "Ca 1");
-            setValue("startTime", newDate);
-            setValue("endTime", newDate);
+            setValue("name", dataById?.shift_by_pk?.name);
+            const start = dataById?.shift_by_pk?.starttime || "12:00";
+            const end = dataById?.shift_by_pk?.endtime || "12:00";
+            const startTime = new Date();
+            startTime.setHours(Number(start.split(":")[0]));
+            startTime.setMinutes(Number(start.split(":")[1]));
+            startTime.setSeconds(0);
+            const endTime = new Date();
+            endTime.setHours(Number(end.split(":")[0]));
+            endTime.setMinutes(Number(end.split(":")[1]));
+            endTime.setSeconds(0);
+            setValue("startTime", startTime);
+            setValue("endTime", endTime);
+            setValue("worksessionId", dataById?.shift_by_pk?.worksessionid || 0);
+            setValue("id", dataById?.shift_by_pk?.id || 0);
         }
-    }, [setValue, opened]);
+    }, [setValue, opened, dataById]);
 
     const { data } = useGetAllWorkSession();
 
@@ -56,7 +73,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
         return Number(times[0]) * 60 + Number(times[1]);
     };
 
-    const submitHandler: SubmitHandler<CreateShiftDTO> = async (data: CreateShiftDTO) => {
+    const submitHandler: SubmitHandler<UpdateShiftDTO> = async (data: UpdateShiftDTO) => {
         try {
             if (data) {
                 mutateByWS(
@@ -67,14 +84,12 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                         onSuccess: (xs) => {
                             const startTimeString = `${data.startTime.getHours()}:${data.startTime.getMinutes()}:00`;
                             const endTimeString = `${data.endTime.getHours()}:${data.endTime.getMinutes()}:00}`;
-                            const index = xs.shift
-                                .filter((x) => x.status === "ACTIVE")
-                                .findIndex(
-                                    (k) =>
-                                        (convert(startTimeString) <= convert(k.endtime) &&
-                                            convert(endTimeString) >= convert(k.starttime)) ||
-                                        k.name === data.name
-                                );
+                            const index = xs.shift.findIndex(
+                                (k) =>
+                                    (convert(startTimeString) <= convert(k.endtime) &&
+                                        convert(endTimeString) >= convert(k.starttime)) ||
+                                    k.name === data.name
+                            );
                             if (index !== -1) {
                                 showSnackbar({
                                     children: "Đã tồn tại",
@@ -84,16 +99,12 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                             }
                             mutate(
                                 {
-                                    objects: [
-                                        {
-                                            isopen: false,
-                                            name: data.name || "",
-                                            status: "ACTIVE",
-                                            starttime: startTimeString,
-                                            endtime: endTimeString,
-                                            worksessionid: data.worksessionId,
-                                        },
-                                    ],
+                                    isopen: false,
+                                    name: data.name || "",
+                                    status: "ACTIVE",
+                                    starttime: startTimeString,
+                                    endtime: endTimeString,
+                                    worksessionid: data.worksessionId,
                                 },
                                 {
                                     onSuccess() {
@@ -123,12 +134,16 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
         }
     };
 
+    if (isLoading) {
+        return;
+    }
+
     return (
         <Modal open={opened} disableEnforceFocus>
             <CardContainer width="90%" maxWidth={820}>
                 <Box sx={{ display: "flex", justifyContent: "center", m: 3 }}>
                     <Typography variant="h6" component="h2">
-                        Tạo mới ca làm việc
+                        Chỉnh sửa ca làm việc
                     </Typography>
                 </Box>
                 <Grid
@@ -159,7 +174,6 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                 required: "Phiên làm việc là bắt buộc",
                             }}
                             render={({
-                                // eslint-disable-next-line unused-imports/no-unused-vars
                                 field: { value: currentValue, ref, onChange },
                                 fieldState: { error },
                             }) => {
@@ -199,6 +213,13 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                         isOptionEqualToValue={(option, value) =>
                                             !option.key || !value.key || option.key === value.key
                                         }
+                                        value={{
+                                            key: currentValue,
+                                            value:
+                                                data?.worksession?.find(
+                                                    (x) => x.id === currentValue
+                                                )?.workdate || "",
+                                        }}
                                         onChange={(e, newValue) => {
                                             if (newValue) {
                                                 onChange(newValue.key);
@@ -322,14 +343,67 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                         >
                             {"Trở về"}
                         </Button>
-                        <Button
-                            disabled={watch("startTime") >= watch("endTime")}
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                        >
-                            {"Tạo mới"}
-                        </Button>
+                        {format(
+                            data?.worksession.find((x) => x.id === watch("worksessionId"))?.workdate
+                                ? new Date(
+                                      data?.worksession.find(
+                                          (x) => x.id === watch("worksessionId")
+                                      )?.workdate
+                                  )
+                                : new Date(),
+                            "dd/MM/yyyy"
+                        ) > format(new Date(), "dd/MM/yyyy") && (
+                            <Button
+                                variant="contained"
+                                color="warning"
+                                onClick={() => {
+                                    mutateDelete(
+                                        {
+                                            id: id,
+                                            status: "INACTIVE",
+                                        },
+                                        {
+                                            onSuccess: () => {
+                                                showSnackbar({
+                                                    children: "Xóa thành công",
+                                                    severity: "success",
+                                                });
+                                                action();
+                                                unregister();
+                                                clearErrors();
+                                            },
+                                            onError: () => {
+                                                showSnackbar({
+                                                    children: "Xóa thất bại",
+                                                    severity: "error",
+                                                });
+                                            },
+                                        }
+                                    );
+                                }}
+                            >
+                                {"Xóa ca làm việc"}
+                            </Button>
+                        )}
+                        {format(
+                            data?.worksession.find((x) => x.id === watch("worksessionId"))?.workdate
+                                ? new Date(
+                                      data?.worksession.find(
+                                          (x) => x.id === watch("worksessionId")
+                                      )?.workdate
+                                  )
+                                : new Date(),
+                            "dd/MM/yyyy"
+                        ) > format(new Date(), "dd/MM/yyyy") && (
+                            <Button
+                                disabled={watch("startTime") >= watch("endTime")}
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                            >
+                                {"Chỉnh sửa"}
+                            </Button>
+                        )}
                     </Box>
                 </Grid>
             </CardContainer>
@@ -337,4 +411,4 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
     );
 };
 
-export default React.memo(ShiftForm);
+export default React.memo(ShiftUpdateForm);

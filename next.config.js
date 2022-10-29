@@ -17,6 +17,15 @@ const nextConfig = {
     images: {
         domains: ["st3.depositphotos.com", "firebasestorage.googleapis.com"],
     },
+    async redirects() {
+        return [
+            {
+                source: "/",
+                destination: "/account",
+                permanent: true,
+            },
+        ];
+    },
     publicRuntimeConfig: {
         ...publicRuntimeConfig,
     },
