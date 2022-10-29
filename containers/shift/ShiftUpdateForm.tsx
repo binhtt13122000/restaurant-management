@@ -135,7 +135,7 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
     };
 
     if (isLoading) {
-        return;
+        return null;
     }
 
     return (
