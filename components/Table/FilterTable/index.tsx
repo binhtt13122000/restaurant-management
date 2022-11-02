@@ -9,10 +9,11 @@ import {
     Popper,
     PopperProps,
 } from "@mui/material";
-import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import { MobileDatePicker, TimePicker } from "@mui/x-date-pickers";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import useSnackbar from "components/Snackbar/useSnackbar";
+import { popperSx } from "containers/shift/ShiftCloneForm";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -174,12 +175,15 @@ export const FilterTable: React.FC<IFilterTable> = (props: IFilterTable) => {
                     const key = column.field;
                     return (
                         <TableCell key={index} width={column.width || 205}>
-                            <DatePicker
+                            <MobileDatePicker
                                 value={
                                     props.filters[key].value === ""
                                         ? null
                                         : new Date(props.filters[key].value as string)
                                 }
+                                DialogProps={{
+                                    sx: popperSx,
+                                }}
                                 onChange={(date) => props.onTimeHandleChange(date, key)}
                                 renderInput={(params) => (
                                     <TextField size="small" variant="standard" {...params} />

@@ -16,11 +16,13 @@ import {
     DayView,
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { Button, Grid, MenuItem, Paper, Select } from "@mui/material";
-import { Box } from "@mui/system";
+import { alpha, Box, styled } from "@mui/system";
 import ShiftCloneForm from "containers/shift/ShiftCloneForm";
 import ShiftForm from "containers/shift/ShiftForm";
 import ShiftUpdateForm from "containers/shift/ShiftUpdateForm";
+import { format } from "date-fns";
 import useGetAllShift from "hooks/shift/useGetAllShift";
+import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import { useState } from "react";
 
 export const SchedulerOk: React.FC<SchedulerProps & { children: React.ReactNode }> = ({
@@ -30,8 +32,75 @@ export const SchedulerOk: React.FC<SchedulerProps & { children: React.ReactNode 
     return <Scheduler {...rest}>{children}</Scheduler>;
 };
 
+const PREFIX = "Demo";
+
+const classes = {
+    todayCell: `${PREFIX}-todayCell`,
+    weekendCell: `${PREFIX}-weekendCell`,
+    today: `${PREFIX}-today`,
+    weekend: `${PREFIX}-weekend`,
+};
+
+const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme }) => ({
+    [`&.${classes.todayCell}`]: {
+        backgroundColor: alpha(theme.palette.primary.main, 0.5),
+        "&:hover": {
+            backgroundColor: alpha(theme.palette.primary.main, 0.54),
+        },
+        "&:focus": {
+            backgroundColor: alpha(theme.palette.primary.main, 0.56),
+        },
+    },
+    [`&.${classes.weekendCell}`]: {
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+        "&:hover": {
+            backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+        },
+        "&:focus": {
+            backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
+        },
+    },
+}));
+
+const StyledWeekViewDayScaleCell = styled(WeekView.DayScaleCell)(({ theme }) => ({
+    [`&.${classes.today}`]: {
+        backgroundColor: alpha(theme.palette.primary.main, 0.56),
+    },
+    [`&.${classes.weekend}`]: {
+        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.06),
+    },
+}));
+
 const Shift = () => {
+    const { data: dataWS } = useGetAllWorkSession();
+
     const [selected, setSelected] = useState<number>(0);
+
+    const DayScaleCell = (props: WeekView.DayScaleCellProps) => {
+        const { startDate } = props;
+        const index = dataWS?.worksession?.findIndex(
+            (x) =>
+                format(x?.workdate ? new Date(x?.workdate) : new Date(), "yyyy/MM/dd") ===
+                format(startDate, "yyyy/MM/dd")
+        );
+        if (index !== -1) {
+            return <StyledWeekViewDayScaleCell {...props} className={classes.today} />;
+        }
+        return <StyledWeekViewDayScaleCell {...props} className={classes.weekend} />;
+    };
+
+    const TimeTableCell = (props: WeekView.TimeTableCellProps) => {
+        const { startDate } = props;
+        const index = dataWS?.worksession?.findIndex(
+            (x) =>
+                format(x?.workdate ? new Date(x?.workdate) : new Date(), "yyyy/MM/dd") ===
+                format(startDate || new Date(), "yyyy/MM/dd")
+        );
+        if (index !== -1) {
+            return <StyledWeekViewTimeTableCell {...props} className={classes.todayCell} />;
+        }
+        return <StyledWeekViewTimeTableCell {...props} className={classes.weekendCell} />;
+    };
 
     const Appointment: React.FC = (props: any) => {
         const { children, style, data, ...restProps } = props;
@@ -114,7 +183,8 @@ const Shift = () => {
                 //     ),
                 id: x.id,
                 title: x.name,
-                // backgroundColor: !x.isopen && !x.updaterid ? "grey" : x.isopen ? "#1e88e5" : "#fb8c00",
+                backgroundColor:
+                    !x.isopen && !x.openerid ? "grey" : x.isopen ? "#1e88e5" : "#fb8c00",
             };
         });
 
@@ -138,7 +208,11 @@ const Shift = () => {
             <SchedulerOk data={appointments} locale={"vi-VN"}>
                 <EditingState onCommitChanges={commitChanges} />
                 <ViewState defaultCurrentDate={new Date()} />
-                <WeekView cellDuration={120} />
+                <WeekView
+                    cellDuration={120}
+                    timeTableCellComponent={TimeTableCell}
+                    dayScaleCellComponent={DayScaleCell}
+                />
                 <DayView />
                 <Appointments appointmentComponent={Appointment} />
                 <Toolbar

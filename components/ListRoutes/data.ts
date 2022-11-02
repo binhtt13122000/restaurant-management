@@ -24,6 +24,18 @@ export const routes = [
                 path: ROUTES.WORKSESSION,
                 icon: "/images/combo.png",
             },
+            {
+                id: 2.3,
+                name: "Quản lý các khu vực",
+                path: ROUTES.LOCATION,
+                icon: "/images/combo.png",
+            },
+            {
+                id: 2.4,
+                name: "Quản lý bàn ăn",
+                path: ROUTES.TABLE,
+                icon: "/images/combo.png",
+            },
         ],
     },
     {

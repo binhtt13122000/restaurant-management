@@ -8,3 +8,9 @@ export enum USER_ENUM {
     OFFLINE = "OFFLINE",
     INACTIVE = "INACTIVE",
 }
+
+export enum TABLE_ENUM {
+    IN_USE = "IN_USE",
+    NOT_USE = "NOT_USE",
+    INACTIVE = "INACTIVE",
+}

@@ -9927,6 +9927,62 @@ export type UpdateAccountMutationMutation = {
     update_account_by_pk?: { __typename?: "account"; id: number } | null;
 };
 
+export type CreateLocationMutationVariables = Exact<{
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type CreateLocationMutation = {
+    __typename?: "mutation_root";
+    insert_location_one?: {
+        __typename?: "location";
+        id: number;
+        name: string;
+        status?: any | null;
+    } | null;
+};
+
+export type DeleteLocationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type DeleteLocationMutation = {
+    __typename?: "mutation_root";
+    update_location_by_pk?: {
+        __typename?: "location";
+        id: number;
+        name: string;
+        status?: any | null;
+    } | null;
+};
+
+export type GetLocationQueryVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+}>;
+
+export type GetLocationQuery = {
+    __typename?: "query_root";
+    location_by_pk?: { __typename?: "location"; status?: any | null } | null;
+};
+
+export type UpdateLocationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["basic_status"]>;
+}>;
+
+export type UpdateLocationMutation = {
+    __typename?: "mutation_root";
+    update_location_by_pk?: {
+        __typename?: "location";
+        id: number;
+        name: string;
+        status?: any | null;
+    } | null;
+};
+
 export type CreatePaymentmethodMutationVariables = Exact<{
     name?: InputMaybe<Scalars["String"]>;
     status?: InputMaybe<Scalars["basic_status"]>;
@@ -10160,6 +10216,36 @@ export type UpdateSettingMutationMutation = {
         taxvalue: number;
         address: string;
     } | null;
+};
+
+export type CreateTableMutationVariables = Exact<{
+    object?: InputMaybe<Table_Insert_Input>;
+}>;
+
+export type CreateTableMutation = {
+    __typename?: "mutation_root";
+    insert_table_one?: { __typename?: "table"; id: number } | null;
+};
+
+export type DeleteTableMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    name?: InputMaybe<Scalars["String"]>;
+    status?: InputMaybe<Scalars["table_status"]>;
+}>;
+
+export type DeleteTableMutation = {
+    __typename?: "mutation_root";
+    update_table_by_pk?: { __typename?: "table"; id: number; name: string; status: any } | null;
+};
+
+export type UpdateTableMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    _set?: InputMaybe<Table_Set_Input>;
+}>;
+
+export type UpdateTableMutation = {
+    __typename?: "mutation_root";
+    update_table_by_pk?: { __typename?: "table"; id: number } | null;
 };
 
 export type MyQueryQueryVariables = Exact<{ [key: string]: never }>;

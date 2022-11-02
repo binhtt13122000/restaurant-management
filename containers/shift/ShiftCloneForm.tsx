@@ -2,12 +2,21 @@ import React, { useEffect } from "react";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, Grid, Modal, Box, Typography, Autocomplete, TextField } from "@mui/material";
+import {
+    Button,
+    Grid,
+    Modal,
+    Box,
+    Typography,
+    Autocomplete,
+    TextField,
+    SxProps,
+} from "@mui/material";
 import CardContainer from "components/Card/Container";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import TextfieldBase from "components/BaseTextField";
 import { add } from "date-fns";
-import { DatePicker } from "@mui/x-date-pickers";
+import { MobileDatePicker } from "@mui/x-date-pickers";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useGetOneShift from "hooks/shift/useGetOneShift";
 import useCheckWS from "hooks/shift/useCheckWS";
@@ -19,6 +28,17 @@ export interface CloneForm {
     startTime: Date;
     endTime: Date;
 }
+
+export const popperSx: SxProps = {
+    "& .MuiPickersCalendarHeader-labelContainer": {
+        minHeight: 50,
+        fontSize: 14,
+    },
+    // "& .MuiDayPicker-header span": {
+    //     minHeight: 50,
+    //     fontSize: 60,
+    // },
+};
 const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
     const { opened, action } = props;
 
@@ -228,7 +248,10 @@ const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) 
                             }}
                             name="startTime"
                             render={({ field: { value: currentValue, ref, onChange } }) => (
-                                <DatePicker
+                                <MobileDatePicker
+                                    DialogProps={{
+                                        sx: popperSx,
+                                    }}
                                     ref={ref}
                                     renderInput={(params) => <TextField fullWidth {...params} />}
                                     label={"Thời gian bắt đầu"}
@@ -250,7 +273,7 @@ const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) 
                                 required: "Thời gian kết thúc là bắt buộc",
                             }}
                             render={({ field: { value: currentValue, ref, onChange } }) => (
-                                <DatePicker
+                                <MobileDatePicker
                                     ref={ref}
                                     renderInput={(params) => (
                                         <TextField

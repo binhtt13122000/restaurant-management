@@ -8,4 +8,6 @@ export enum ROUTES {
     WORKSESSION = "/worksession",
     SHIFT = "/shift",
     VOID_REASON = "/void-reason",
+    LOCATION = "/location",
+    TABLE = "/table",
 }

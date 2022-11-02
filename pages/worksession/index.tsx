@@ -25,10 +25,11 @@ import {
     Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import { DateTimePicker, MobileDatePicker } from "@mui/x-date-pickers";
 import TextfieldBase from "components/BaseTextField";
 import CardContainer from "components/Card/Container";
 import useSnackbar from "components/Snackbar/useSnackbar";
+import { popperSx } from "containers/shift/ShiftCloneForm";
 import { add, format } from "date-fns";
 import useDeleteWorksession from "hooks/worksession/useDeleteWorksession";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
@@ -107,7 +108,7 @@ const WorkSession = () => {
                                 Thời gian tạo:{" "}
                                 {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
                             </Typography>
-                            <Typography variant="inherit">Trạng thái: Mới tạo</Typography>
+                            {/* <Typography variant="inherit">Trạng thái: Mới tạo</Typography> */}
                         </Box>
                     </Box>
                 ) : x.isopen ? (
@@ -119,7 +120,7 @@ const WorkSession = () => {
                                     ? format(new Date(x.updatetime), "dd/MM/yyyy hh:mm:ss")
                                     : "Chưa xử lí"}
                             </Typography>
-                            <Typography variant="inherit">Trạng thái: Đang mở</Typography>
+                            {/* <Typography variant="inherit">Trạng thái: Đang mở</Typography> */}
                         </Box>
                     </Box>
                 ) : (
@@ -129,7 +130,7 @@ const WorkSession = () => {
                                 Thời gian đóng:{" "}
                                 {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
                             </Typography>
-                            <Typography variant="inherit">Trạng thái: Đã đóng</Typography>
+                            {/* <Typography variant="inherit">Trạng thái: Đã đóng</Typography> */}
                         </Box>
                     </Box>
                 ),
@@ -314,18 +315,24 @@ const WorkSession = () => {
                                 flexWrap: { xs: "wrap", md: "nowrap" },
                             }}
                         >
-                            <DatePicker
+                            <MobileDatePicker
                                 renderInput={(params) => <TextField fullWidth {...params} />}
                                 label={"Ngày bắt đầu"}
                                 value={startTime}
                                 onChange={(newValue) => {
                                     setStartTime(newValue || null);
                                 }}
+                                DialogProps={{
+                                    sx: popperSx,
+                                }}
                                 inputFormat="dd/MM/yyyy"
                                 disabled={check}
                                 minDate={tomorrowFns}
                             />
-                            <DatePicker
+                            <MobileDatePicker
+                                DialogProps={{
+                                    sx: popperSx,
+                                }}
                                 renderInput={(params) => (
                                     <TextField
                                         fullWidth
@@ -433,6 +440,9 @@ const WorkSession = () => {
                                     onChange={() => {}}
                                     inputFormat="dd/MM/yyyy hh:mm:ss"
                                     readOnly
+                                    DialogProps={{
+                                        sx: popperSx,
+                                    }}
                                 />
                                 <DateTimePicker
                                     renderInput={(params) => <TextField fullWidth {...params} />}
@@ -448,6 +458,9 @@ const WorkSession = () => {
                                     onChange={() => {}}
                                     inputFormat="dd/MM/yyyy hh:mm:ss"
                                     readOnly
+                                    DialogProps={{
+                                        sx: popperSx,
+                                    }}
                                 />
                             </Grid>
                             <Grid

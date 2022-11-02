@@ -84,12 +84,14 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                         onSuccess: (xs) => {
                             const startTimeString = `${data.startTime.getHours()}:${data.startTime.getMinutes()}:00`;
                             const endTimeString = `${data.endTime.getHours()}:${data.endTime.getMinutes()}:00}`;
-                            const index = xs.shift.findIndex(
-                                (k) =>
-                                    (convert(startTimeString) <= convert(k.endtime) &&
-                                        convert(endTimeString) >= convert(k.starttime)) ||
-                                    k.name === data.name
-                            );
+                            const index = xs.shift
+                                .filter((x) => x.id !== id)
+                                .findIndex(
+                                    (k) =>
+                                        (convert(startTimeString) <= convert(k.endtime) &&
+                                            convert(endTimeString) >= convert(k.starttime)) ||
+                                        k.name === data.name
+                                );
                             if (index !== -1) {
                                 showSnackbar({
                                     children: "Đã tồn tại",
@@ -99,6 +101,7 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                             }
                             mutate(
                                 {
+                                    id: id,
                                     isopen: false,
                                     name: data.name || "",
                                     status: "ACTIVE",
@@ -109,7 +112,7 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                 {
                                     onSuccess() {
                                         showSnackbar({
-                                            children: "Tạo thành công",
+                                            children: "Chỉnh sửa thành công",
                                             severity: "success",
                                         });
                                         action();
@@ -192,11 +195,11 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                                                   x?.workdate
                                                                       ? new Date(x?.workdate)
                                                                       : new Date(),
-                                                                  "dd/MM/yyyy"
+                                                                  "yyyy/MM/dd"
                                                               ) >
                                                                   format(
                                                                       new Date(),
-                                                                      "dd/MM/yyyy"
+                                                                      "yyyy/MM/dd"
                                                                   ) && !x.isopen
                                                       )
                                                       .sort((a, b) => a.workdate - b.workdate)
@@ -351,8 +354,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                       )?.workdate
                                   )
                                 : new Date(),
-                            "dd/MM/yyyy"
-                        ) > format(new Date(), "dd/MM/yyyy") && (
+                            "yyyy/MM/dd"
+                        ) > format(new Date(), "yyyy/MM/dd") && (
                             <Button
                                 variant="contained"
                                 color="warning"
@@ -393,8 +396,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                       )?.workdate
                                   )
                                 : new Date(),
-                            "dd/MM/yyyy"
-                        ) > format(new Date(), "dd/MM/yyyy") && (
+                            "yyyy/MM/dd"
+                        ) > format(new Date(), "yyyy/MM/dd") && (
                             <Button
                                 disabled={watch("startTime") >= watch("endTime")}
                                 variant="contained"
