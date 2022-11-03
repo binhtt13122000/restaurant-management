@@ -16,9 +16,11 @@ export type Scalars = {
     checkdetail_status: any;
     date: any;
     float8: any;
+    json: any;
     table_status: any;
     time: any;
-    timestamp: any;
+    timestamptz: any;
+    timetz: any;
     user_status: any;
 };
 
@@ -203,6 +205,10 @@ export type Account_Bool_Exp = {
 
 /** unique or primary key constraints on table "account" */
 export enum Account_Constraint {
+    /** unique or primary key constraint */
+    AccountEmailKey = "account_email_key",
+    /** unique or primary key constraint */
+    AccountPhoneKey = "account_phone_key",
     /** unique or primary key constraint */
     AccountPkey = "account_pkey",
     /** unique or primary key constraint */
@@ -499,16 +505,17 @@ export type Bill = {
     /** An object relationship */
     check: Check;
     checkid: Scalars["Int"];
-    creationtime: Scalars["timestamp"];
+    creationtime: Scalars["timestamptz"];
     creatorid: Scalars["Int"];
-    guestname: Scalars["String"];
+    guestname?: Maybe<Scalars["String"]>;
     id: Scalars["Int"];
     note?: Maybe<Scalars["String"]>;
     status: Scalars["bill_status"];
+    subtotal: Scalars["Int"];
     totalamount: Scalars["Int"];
     totaltax: Scalars["Int"];
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
 };
 
 /** columns and relationships of "bill" */
@@ -604,6 +611,7 @@ export type Bill_Avg_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -614,6 +622,7 @@ export type Bill_Avg_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -629,16 +638,17 @@ export type Bill_Bool_Exp = {
     billpayments?: InputMaybe<Billpayment_Bool_Exp>;
     check?: InputMaybe<Check_Bool_Exp>;
     checkid?: InputMaybe<Int_Comparison_Exp>;
-    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamptz_Comparison_Exp>;
     creatorid?: InputMaybe<Int_Comparison_Exp>;
     guestname?: InputMaybe<String_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
     status?: InputMaybe<Bill_Status_Comparison_Exp>;
+    subtotal?: InputMaybe<Int_Comparison_Exp>;
     totalamount?: InputMaybe<Int_Comparison_Exp>;
     totaltax?: InputMaybe<Int_Comparison_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
-    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "bill" */
@@ -654,6 +664,7 @@ export type Bill_Inc_Input = {
     checkid?: InputMaybe<Scalars["Int"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
@@ -666,16 +677,17 @@ export type Bill_Insert_Input = {
     billpayments?: InputMaybe<Billpayment_Arr_Rel_Insert_Input>;
     check?: InputMaybe<Check_Obj_Rel_Insert_Input>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    creationtime?: InputMaybe<Scalars["timestamptz"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
     status?: InputMaybe<Scalars["bill_status"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
 };
 
 /** aggregate max on columns */
@@ -683,15 +695,16 @@ export type Bill_Max_Fields = {
     __typename?: "bill_max_fields";
     billno?: Maybe<Scalars["String"]>;
     checkid?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamp"]>;
+    creationtime?: Maybe<Scalars["timestamptz"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
 };
 
 /** order by max() on columns of table "bill" */
@@ -703,6 +716,7 @@ export type Bill_Max_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -714,15 +728,16 @@ export type Bill_Min_Fields = {
     __typename?: "bill_min_fields";
     billno?: Maybe<Scalars["String"]>;
     checkid?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamp"]>;
+    creationtime?: Maybe<Scalars["timestamptz"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
 };
 
 /** order by min() on columns of table "bill" */
@@ -734,6 +749,7 @@ export type Bill_Min_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -776,6 +792,7 @@ export type Bill_Order_By = {
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     status?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -806,6 +823,8 @@ export enum Bill_Select_Column {
     /** column name */
     Status = "status",
     /** column name */
+    Subtotal = "subtotal",
+    /** column name */
     Totalamount = "totalamount",
     /** column name */
     Totaltax = "totaltax",
@@ -819,16 +838,17 @@ export enum Bill_Select_Column {
 export type Bill_Set_Input = {
     billno?: InputMaybe<Scalars["String"]>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    creationtime?: InputMaybe<Scalars["timestamptz"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
     status?: InputMaybe<Scalars["bill_status"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
 };
 
 /** Boolean expression to compare columns of type "bill_status". All fields are combined with logical 'AND'. */
@@ -850,6 +870,7 @@ export type Bill_Stddev_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -860,6 +881,7 @@ export type Bill_Stddev_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -871,6 +893,7 @@ export type Bill_Stddev_Pop_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -881,6 +904,7 @@ export type Bill_Stddev_Pop_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -892,6 +916,7 @@ export type Bill_Stddev_Samp_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -902,6 +927,7 @@ export type Bill_Stddev_Samp_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -913,6 +939,7 @@ export type Bill_Sum_Fields = {
     checkid?: Maybe<Scalars["Int"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
@@ -923,6 +950,7 @@ export type Bill_Sum_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -947,6 +975,8 @@ export enum Bill_Update_Column {
     /** column name */
     Status = "status",
     /** column name */
+    Subtotal = "subtotal",
+    /** column name */
     Totalamount = "totalamount",
     /** column name */
     Totaltax = "totaltax",
@@ -962,6 +992,7 @@ export type Bill_Var_Pop_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -972,6 +1003,7 @@ export type Bill_Var_Pop_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -983,6 +1015,7 @@ export type Bill_Var_Samp_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -993,6 +1026,7 @@ export type Bill_Var_Samp_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -1004,6 +1038,7 @@ export type Bill_Variance_Fields = {
     checkid?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
@@ -1014,6 +1049,7 @@ export type Bill_Variance_Order_By = {
     checkid?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
@@ -1033,6 +1069,7 @@ export type Billdetail = {
     itemname: Scalars["String"];
     itemprice: Scalars["Int"];
     quantity: Scalars["float8"];
+    subtotal: Scalars["Int"];
     taxamount: Scalars["Int"];
 };
 
@@ -1096,6 +1133,7 @@ export type Billdetail_Avg_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1107,6 +1145,7 @@ export type Billdetail_Avg_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1124,6 +1163,7 @@ export type Billdetail_Bool_Exp = {
     itemname?: InputMaybe<String_Comparison_Exp>;
     itemprice?: InputMaybe<Int_Comparison_Exp>;
     quantity?: InputMaybe<Float8_Comparison_Exp>;
+    subtotal?: InputMaybe<Int_Comparison_Exp>;
     taxamount?: InputMaybe<Int_Comparison_Exp>;
 };
 
@@ -1141,6 +1181,7 @@ export type Billdetail_Inc_Input = {
     itemid?: InputMaybe<Scalars["Int"]>;
     itemprice?: InputMaybe<Scalars["Int"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -1155,6 +1196,7 @@ export type Billdetail_Insert_Input = {
     itemname?: InputMaybe<Scalars["String"]>;
     itemprice?: InputMaybe<Scalars["Int"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -1168,6 +1210,7 @@ export type Billdetail_Max_Fields = {
     itemname?: Maybe<Scalars["String"]>;
     itemprice?: Maybe<Scalars["Int"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
 };
 
@@ -1180,6 +1223,7 @@ export type Billdetail_Max_Order_By = {
     itemname?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1193,6 +1237,7 @@ export type Billdetail_Min_Fields = {
     itemname?: Maybe<Scalars["String"]>;
     itemprice?: Maybe<Scalars["Int"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
 };
 
@@ -1205,6 +1250,7 @@ export type Billdetail_Min_Order_By = {
     itemname?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1235,6 +1281,7 @@ export type Billdetail_Order_By = {
     itemname?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1260,6 +1307,8 @@ export enum Billdetail_Select_Column {
     /** column name */
     Quantity = "quantity",
     /** column name */
+    Subtotal = "subtotal",
+    /** column name */
     Taxamount = "taxamount",
 }
 
@@ -1272,6 +1321,7 @@ export type Billdetail_Set_Input = {
     itemname?: InputMaybe<Scalars["String"]>;
     itemprice?: InputMaybe<Scalars["Int"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -1284,6 +1334,7 @@ export type Billdetail_Stddev_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1295,6 +1346,7 @@ export type Billdetail_Stddev_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1307,6 +1359,7 @@ export type Billdetail_Stddev_Pop_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1318,6 +1371,7 @@ export type Billdetail_Stddev_Pop_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1330,6 +1384,7 @@ export type Billdetail_Stddev_Samp_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1341,6 +1396,7 @@ export type Billdetail_Stddev_Samp_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1353,6 +1409,7 @@ export type Billdetail_Sum_Fields = {
     itemid?: Maybe<Scalars["Int"]>;
     itemprice?: Maybe<Scalars["Int"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
 };
 
@@ -1364,6 +1421,7 @@ export type Billdetail_Sum_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1384,6 +1442,8 @@ export enum Billdetail_Update_Column {
     /** column name */
     Quantity = "quantity",
     /** column name */
+    Subtotal = "subtotal",
+    /** column name */
     Taxamount = "taxamount",
 }
 
@@ -1396,6 +1456,7 @@ export type Billdetail_Var_Pop_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1407,6 +1468,7 @@ export type Billdetail_Var_Pop_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1419,6 +1481,7 @@ export type Billdetail_Var_Samp_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1430,6 +1493,7 @@ export type Billdetail_Var_Samp_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1442,6 +1506,7 @@ export type Billdetail_Variance_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
 };
 
@@ -1453,6 +1518,7 @@ export type Billdetail_Variance_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
 };
 
@@ -1808,6 +1874,7 @@ export type Check = {
     __typename?: "check";
     /** An object relationship */
     account: Account;
+    accountid: Scalars["Int"];
     /** An array relationship */
     bills: Array<Bill>;
     /** An aggregate relationship */
@@ -1817,27 +1884,28 @@ export type Check = {
     /** An aggregate relationship */
     checkdetails_aggregate: Checkdetail_Aggregate;
     checkno: Scalars["String"];
-    cover: Scalars["Int"];
-    creationtime: Scalars["timestamp"];
+    cover?: Maybe<Scalars["Int"]>;
+    creationtime: Scalars["timestamptz"];
     creatorid: Scalars["Int"];
-    guestname: Scalars["String"];
+    guestname?: Maybe<Scalars["String"]>;
     id: Scalars["Int"];
     note?: Maybe<Scalars["String"]>;
+    runningsince: Scalars["timestamptz"];
     /** An object relationship */
     shift: Shift;
     shiftid: Scalars["Int"];
     status: Scalars["check_status"];
+    subtotal: Scalars["Int"];
     /** An object relationship */
-    table?: Maybe<Table>;
-    tableid?: Maybe<Scalars["Int"]>;
+    table: Table;
+    tableid: Scalars["Int"];
     totalamount: Scalars["Int"];
     totaltax: Scalars["Int"];
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
     /** An object relationship */
     voidreason?: Maybe<Voidreason>;
     voidreasonid?: Maybe<Scalars["Int"]>;
-    waiterid: Scalars["Int"];
 };
 
 /** columns and relationships of "check" */
@@ -1930,30 +1998,32 @@ export type Check_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Check_Avg_Fields = {
     __typename?: "check_avg_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by avg() on columns of table "check" */
 export type Check_Avg_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "check". All fields are combined with a logical 'AND'. */
@@ -1962,27 +2032,29 @@ export type Check_Bool_Exp = {
     _not?: InputMaybe<Check_Bool_Exp>;
     _or?: InputMaybe<Array<Check_Bool_Exp>>;
     account?: InputMaybe<Account_Bool_Exp>;
+    accountid?: InputMaybe<Int_Comparison_Exp>;
     bills?: InputMaybe<Bill_Bool_Exp>;
     checkdetails?: InputMaybe<Checkdetail_Bool_Exp>;
     checkno?: InputMaybe<String_Comparison_Exp>;
     cover?: InputMaybe<Int_Comparison_Exp>;
-    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamptz_Comparison_Exp>;
     creatorid?: InputMaybe<Int_Comparison_Exp>;
     guestname?: InputMaybe<String_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
+    runningsince?: InputMaybe<Timestamptz_Comparison_Exp>;
     shift?: InputMaybe<Shift_Bool_Exp>;
     shiftid?: InputMaybe<Int_Comparison_Exp>;
     status?: InputMaybe<Check_Status_Comparison_Exp>;
+    subtotal?: InputMaybe<Int_Comparison_Exp>;
     table?: InputMaybe<Table_Bool_Exp>;
     tableid?: InputMaybe<Int_Comparison_Exp>;
     totalamount?: InputMaybe<Int_Comparison_Exp>;
     totaltax?: InputMaybe<Int_Comparison_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
-    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamptz_Comparison_Exp>;
     voidreason?: InputMaybe<Voidreason_Bool_Exp>;
     voidreasonid?: InputMaybe<Int_Comparison_Exp>;
-    waiterid?: InputMaybe<Int_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "check" */
@@ -1995,66 +2067,72 @@ export enum Check_Constraint {
 
 /** input type for incrementing numeric columns in table "check" */
 export type Check_Inc_Input = {
+    accountid?: InputMaybe<Scalars["Int"]>;
     cover?: InputMaybe<Scalars["Int"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     shiftid?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     tableid?: InputMaybe<Scalars["Int"]>;
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
-    waiterid?: InputMaybe<Scalars["Int"]>;
 };
 
 /** input type for inserting data into table "check" */
 export type Check_Insert_Input = {
     account?: InputMaybe<Account_Obj_Rel_Insert_Input>;
+    accountid?: InputMaybe<Scalars["Int"]>;
     bills?: InputMaybe<Bill_Arr_Rel_Insert_Input>;
     checkdetails?: InputMaybe<Checkdetail_Arr_Rel_Insert_Input>;
     checkno?: InputMaybe<Scalars["String"]>;
     cover?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    creationtime?: InputMaybe<Scalars["timestamptz"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
+    runningsince?: InputMaybe<Scalars["timestamptz"]>;
     shift?: InputMaybe<Shift_Obj_Rel_Insert_Input>;
     shiftid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["check_status"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     table?: InputMaybe<Table_Obj_Rel_Insert_Input>;
     tableid?: InputMaybe<Scalars["Int"]>;
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
     voidreason?: InputMaybe<Voidreason_Obj_Rel_Insert_Input>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
-    waiterid?: InputMaybe<Scalars["Int"]>;
 };
 
 /** aggregate max on columns */
 export type Check_Max_Fields = {
     __typename?: "check_max_fields";
+    accountid?: Maybe<Scalars["Int"]>;
     checkno?: Maybe<Scalars["String"]>;
     cover?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamp"]>;
+    creationtime?: Maybe<Scalars["timestamptz"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
+    runningsince?: Maybe<Scalars["timestamptz"]>;
     shiftid?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     tableid?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
-    waiterid?: Maybe<Scalars["Int"]>;
 };
 
 /** order by max() on columns of table "check" */
 export type Check_Max_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     checkno?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creationtime?: InputMaybe<Order_By>;
@@ -2062,38 +2140,42 @@ export type Check_Max_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    runningsince?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     updatetime?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Check_Min_Fields = {
     __typename?: "check_min_fields";
+    accountid?: Maybe<Scalars["Int"]>;
     checkno?: Maybe<Scalars["String"]>;
     cover?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamp"]>;
+    creationtime?: Maybe<Scalars["timestamptz"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
+    runningsince?: Maybe<Scalars["timestamptz"]>;
     shiftid?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     tableid?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
-    waiterid?: Maybe<Scalars["Int"]>;
 };
 
 /** order by min() on columns of table "check" */
 export type Check_Min_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     checkno?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creationtime?: InputMaybe<Order_By>;
@@ -2101,14 +2183,15 @@ export type Check_Min_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    runningsince?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     updatetime?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "check" */
@@ -2137,6 +2220,7 @@ export type Check_On_Conflict = {
 /** Ordering options when selecting data from "check". */
 export type Check_Order_By = {
     account?: InputMaybe<Account_Order_By>;
+    accountid?: InputMaybe<Order_By>;
     bills_aggregate?: InputMaybe<Bill_Aggregate_Order_By>;
     checkdetails_aggregate?: InputMaybe<Checkdetail_Aggregate_Order_By>;
     checkno?: InputMaybe<Order_By>;
@@ -2146,9 +2230,11 @@ export type Check_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    runningsince?: InputMaybe<Order_By>;
     shift?: InputMaybe<Shift_Order_By>;
     shiftid?: InputMaybe<Order_By>;
     status?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     table?: InputMaybe<Table_Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
@@ -2157,7 +2243,6 @@ export type Check_Order_By = {
     updatetime?: InputMaybe<Order_By>;
     voidreason?: InputMaybe<Voidreason_Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: check */
@@ -2167,6 +2252,8 @@ export type Check_Pk_Columns_Input = {
 
 /** select columns of table "check" */
 export enum Check_Select_Column {
+    /** column name */
+    Accountid = "accountid",
     /** column name */
     Checkno = "checkno",
     /** column name */
@@ -2182,9 +2269,13 @@ export enum Check_Select_Column {
     /** column name */
     Note = "note",
     /** column name */
+    Runningsince = "runningsince",
+    /** column name */
     Shiftid = "shiftid",
     /** column name */
     Status = "status",
+    /** column name */
+    Subtotal = "subtotal",
     /** column name */
     Tableid = "tableid",
     /** column name */
@@ -2197,28 +2288,28 @@ export enum Check_Select_Column {
     Updatetime = "updatetime",
     /** column name */
     Voidreasonid = "voidreasonid",
-    /** column name */
-    Waiterid = "waiterid",
 }
 
 /** input type for updating data in table "check" */
 export type Check_Set_Input = {
+    accountid?: InputMaybe<Scalars["Int"]>;
     checkno?: InputMaybe<Scalars["String"]>;
     cover?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    creationtime?: InputMaybe<Scalars["timestamptz"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
+    runningsince?: InputMaybe<Scalars["timestamptz"]>;
     shiftid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["check_status"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     tableid?: InputMaybe<Scalars["Int"]>;
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
-    waiterid?: InputMaybe<Scalars["Int"]>;
 };
 
 /** Boolean expression to compare columns of type "check_status". All fields are combined with logical 'AND'. */
@@ -2237,121 +2328,131 @@ export type Check_Status_Comparison_Exp = {
 /** aggregate stddev on columns */
 export type Check_Stddev_Fields = {
     __typename?: "check_stddev_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by stddev() on columns of table "check" */
 export type Check_Stddev_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Check_Stddev_Pop_Fields = {
     __typename?: "check_stddev_pop_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by stddev_pop() on columns of table "check" */
 export type Check_Stddev_Pop_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Check_Stddev_Samp_Fields = {
     __typename?: "check_stddev_samp_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by stddev_samp() on columns of table "check" */
 export type Check_Stddev_Samp_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
 export type Check_Sum_Fields = {
     __typename?: "check_sum_fields";
+    accountid?: Maybe<Scalars["Int"]>;
     cover?: Maybe<Scalars["Int"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     shiftid?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     tableid?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
-    waiterid?: Maybe<Scalars["Int"]>;
 };
 
 /** order by sum() on columns of table "check" */
 export type Check_Sum_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "check" */
 export enum Check_Update_Column {
+    /** column name */
+    Accountid = "accountid",
     /** column name */
     Checkno = "checkno",
     /** column name */
@@ -2367,9 +2468,13 @@ export enum Check_Update_Column {
     /** column name */
     Note = "note",
     /** column name */
+    Runningsince = "runningsince",
+    /** column name */
     Shiftid = "shiftid",
     /** column name */
     Status = "status",
+    /** column name */
+    Subtotal = "subtotal",
     /** column name */
     Tableid = "tableid",
     /** column name */
@@ -2382,95 +2487,99 @@ export enum Check_Update_Column {
     Updatetime = "updatetime",
     /** column name */
     Voidreasonid = "voidreasonid",
-    /** column name */
-    Waiterid = "waiterid",
 }
 
 /** aggregate var_pop on columns */
 export type Check_Var_Pop_Fields = {
     __typename?: "check_var_pop_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by var_pop() on columns of table "check" */
 export type Check_Var_Pop_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Check_Var_Samp_Fields = {
     __typename?: "check_var_samp_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by var_samp() on columns of table "check" */
 export type Check_Var_Samp_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Check_Variance_Fields = {
     __typename?: "check_variance_fields";
+    accountid?: Maybe<Scalars["Float"]>;
     cover?: Maybe<Scalars["Float"]>;
     creatorid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     shiftid?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     tableid?: Maybe<Scalars["Float"]>;
     totalamount?: Maybe<Scalars["Float"]>;
     totaltax?: Maybe<Scalars["Float"]>;
     updaterid?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
-    waiterid?: Maybe<Scalars["Float"]>;
 };
 
 /** order by variance() on columns of table "check" */
 export type Check_Variance_Order_By = {
+    accountid?: InputMaybe<Order_By>;
     cover?: InputMaybe<Order_By>;
     creatorid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
-    waiterid?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "checkdetail" */
@@ -2479,11 +2588,12 @@ export type Checkdetail = {
     amount: Scalars["Int"];
     /** An object relationship */
     check: Check;
-    checkid: Scalars["Int"];
     /** An array relationship */
-    checkitemspecialrequests: Array<Checkitemspecialrequest>;
+    checkdetailspecialrequests: Array<Checkdetailspecialrequest>;
     /** An aggregate relationship */
-    checkitemspecialrequests_aggregate: Checkitemspecialrequest_Aggregate;
+    checkdetailspecialrequests_aggregate: Checkdetailspecialrequest_Aggregate;
+    checkid: Scalars["Int"];
+    completiontime?: Maybe<Scalars["timetz"]>;
     id: Scalars["Int"];
     isreminded: Scalars["Boolean"];
     /** An object relationship */
@@ -2493,6 +2603,7 @@ export type Checkdetail = {
     note?: Maybe<Scalars["String"]>;
     quantity: Scalars["float8"];
     status: Scalars["checkdetail_status"];
+    subtotal: Scalars["Int"];
     taxamount: Scalars["Int"];
     /** An object relationship */
     voidreason?: Maybe<Voidreason>;
@@ -2500,21 +2611,21 @@ export type Checkdetail = {
 };
 
 /** columns and relationships of "checkdetail" */
-export type CheckdetailCheckitemspecialrequestsArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type CheckdetailCheckdetailspecialrequestsArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
 /** columns and relationships of "checkdetail" */
-export type CheckdetailCheckitemspecialrequests_AggregateArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type CheckdetailCheckdetailspecialrequests_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
 /** aggregated selection of "checkdetail" */
@@ -2577,6 +2688,7 @@ export type Checkdetail_Avg_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -2589,6 +2701,7 @@ export type Checkdetail_Avg_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2600,8 +2713,9 @@ export type Checkdetail_Bool_Exp = {
     _or?: InputMaybe<Array<Checkdetail_Bool_Exp>>;
     amount?: InputMaybe<Int_Comparison_Exp>;
     check?: InputMaybe<Check_Bool_Exp>;
+    checkdetailspecialrequests?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
     checkid?: InputMaybe<Int_Comparison_Exp>;
-    checkitemspecialrequests?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    completiontime?: InputMaybe<Timetz_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     isreminded?: InputMaybe<Boolean_Comparison_Exp>;
     item?: InputMaybe<Item_Bool_Exp>;
@@ -2610,6 +2724,7 @@ export type Checkdetail_Bool_Exp = {
     note?: InputMaybe<String_Comparison_Exp>;
     quantity?: InputMaybe<Float8_Comparison_Exp>;
     status?: InputMaybe<Checkdetail_Status_Comparison_Exp>;
+    subtotal?: InputMaybe<Int_Comparison_Exp>;
     taxamount?: InputMaybe<Int_Comparison_Exp>;
     voidreason?: InputMaybe<Voidreason_Bool_Exp>;
     voidreasonid?: InputMaybe<Int_Comparison_Exp>;
@@ -2629,6 +2744,7 @@ export type Checkdetail_Inc_Input = {
     itemid?: InputMaybe<Scalars["Int"]>;
     itemprice?: InputMaybe<Scalars["Int"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
@@ -2637,8 +2753,9 @@ export type Checkdetail_Inc_Input = {
 export type Checkdetail_Insert_Input = {
     amount?: InputMaybe<Scalars["Int"]>;
     check?: InputMaybe<Check_Obj_Rel_Insert_Input>;
+    checkdetailspecialrequests?: InputMaybe<Checkdetailspecialrequest_Arr_Rel_Insert_Input>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    checkitemspecialrequests?: InputMaybe<Checkitemspecialrequest_Arr_Rel_Insert_Input>;
+    completiontime?: InputMaybe<Scalars["timetz"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isreminded?: InputMaybe<Scalars["Boolean"]>;
     item?: InputMaybe<Item_Obj_Rel_Insert_Input>;
@@ -2647,6 +2764,7 @@ export type Checkdetail_Insert_Input = {
     note?: InputMaybe<Scalars["String"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
     status?: InputMaybe<Scalars["checkdetail_status"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
     voidreason?: InputMaybe<Voidreason_Obj_Rel_Insert_Input>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
@@ -2657,11 +2775,13 @@ export type Checkdetail_Max_Fields = {
     __typename?: "checkdetail_max_fields";
     amount?: Maybe<Scalars["Int"]>;
     checkid?: Maybe<Scalars["Int"]>;
+    completiontime?: Maybe<Scalars["timetz"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     itemprice?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
@@ -2670,11 +2790,13 @@ export type Checkdetail_Max_Fields = {
 export type Checkdetail_Max_Order_By = {
     amount?: InputMaybe<Order_By>;
     checkid?: InputMaybe<Order_By>;
+    completiontime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2684,11 +2806,13 @@ export type Checkdetail_Min_Fields = {
     __typename?: "checkdetail_min_fields";
     amount?: Maybe<Scalars["Int"]>;
     checkid?: Maybe<Scalars["Int"]>;
+    completiontime?: Maybe<Scalars["timetz"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     itemprice?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
@@ -2697,11 +2821,13 @@ export type Checkdetail_Min_Fields = {
 export type Checkdetail_Min_Order_By = {
     amount?: InputMaybe<Order_By>;
     checkid?: InputMaybe<Order_By>;
+    completiontime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2733,8 +2859,9 @@ export type Checkdetail_On_Conflict = {
 export type Checkdetail_Order_By = {
     amount?: InputMaybe<Order_By>;
     check?: InputMaybe<Check_Order_By>;
+    checkdetailspecialrequests_aggregate?: InputMaybe<Checkdetailspecialrequest_Aggregate_Order_By>;
     checkid?: InputMaybe<Order_By>;
-    checkitemspecialrequests_aggregate?: InputMaybe<Checkitemspecialrequest_Aggregate_Order_By>;
+    completiontime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     isreminded?: InputMaybe<Order_By>;
     item?: InputMaybe<Item_Order_By>;
@@ -2743,6 +2870,7 @@ export type Checkdetail_Order_By = {
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
     status?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreason?: InputMaybe<Voidreason_Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
@@ -2760,6 +2888,8 @@ export enum Checkdetail_Select_Column {
     /** column name */
     Checkid = "checkid",
     /** column name */
+    Completiontime = "completiontime",
+    /** column name */
     Id = "id",
     /** column name */
     Isreminded = "isreminded",
@@ -2774,6 +2904,8 @@ export enum Checkdetail_Select_Column {
     /** column name */
     Status = "status",
     /** column name */
+    Subtotal = "subtotal",
+    /** column name */
     Taxamount = "taxamount",
     /** column name */
     Voidreasonid = "voidreasonid",
@@ -2783,6 +2915,7 @@ export enum Checkdetail_Select_Column {
 export type Checkdetail_Set_Input = {
     amount?: InputMaybe<Scalars["Int"]>;
     checkid?: InputMaybe<Scalars["Int"]>;
+    completiontime?: InputMaybe<Scalars["timetz"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isreminded?: InputMaybe<Scalars["Boolean"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
@@ -2790,6 +2923,7 @@ export type Checkdetail_Set_Input = {
     note?: InputMaybe<Scalars["String"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
     status?: InputMaybe<Scalars["checkdetail_status"]>;
+    subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
@@ -2816,6 +2950,7 @@ export type Checkdetail_Stddev_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -2828,6 +2963,7 @@ export type Checkdetail_Stddev_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2841,6 +2977,7 @@ export type Checkdetail_Stddev_Pop_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -2853,6 +2990,7 @@ export type Checkdetail_Stddev_Pop_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2866,6 +3004,7 @@ export type Checkdetail_Stddev_Samp_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -2878,6 +3017,7 @@ export type Checkdetail_Stddev_Samp_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2891,6 +3031,7 @@ export type Checkdetail_Sum_Fields = {
     itemid?: Maybe<Scalars["Int"]>;
     itemprice?: Maybe<Scalars["Int"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
@@ -2903,6 +3044,7 @@ export type Checkdetail_Sum_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2913,6 +3055,8 @@ export enum Checkdetail_Update_Column {
     Amount = "amount",
     /** column name */
     Checkid = "checkid",
+    /** column name */
+    Completiontime = "completiontime",
     /** column name */
     Id = "id",
     /** column name */
@@ -2928,6 +3072,8 @@ export enum Checkdetail_Update_Column {
     /** column name */
     Status = "status",
     /** column name */
+    Subtotal = "subtotal",
+    /** column name */
     Taxamount = "taxamount",
     /** column name */
     Voidreasonid = "voidreasonid",
@@ -2942,6 +3088,7 @@ export type Checkdetail_Var_Pop_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -2954,6 +3101,7 @@ export type Checkdetail_Var_Pop_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2967,6 +3115,7 @@ export type Checkdetail_Var_Samp_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -2979,6 +3128,7 @@ export type Checkdetail_Var_Samp_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
@@ -2992,6 +3142,7 @@ export type Checkdetail_Variance_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
     itemprice?: Maybe<Scalars["Float"]>;
     quantity?: Maybe<Scalars["Float"]>;
+    subtotal?: Maybe<Scalars["Float"]>;
     taxamount?: Maybe<Scalars["Float"]>;
     voidreasonid?: Maybe<Scalars["Float"]>;
 };
@@ -3004,13 +3155,14 @@ export type Checkdetail_Variance_Order_By = {
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
 };
 
-/** columns and relationships of "checkitemspecialrequest" */
-export type Checkitemspecialrequest = {
-    __typename?: "checkitemspecialrequest";
+/** columns and relationships of "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest = {
+    __typename?: "checkdetailspecialrequest";
     /** An object relationship */
     checkdetail: Checkdetail;
     checkdetailid: Scalars["Int"];
@@ -3020,77 +3172,77 @@ export type Checkitemspecialrequest = {
     specialrequestid: Scalars["Int"];
 };
 
-/** aggregated selection of "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Aggregate = {
-    __typename?: "checkitemspecialrequest_aggregate";
-    aggregate?: Maybe<Checkitemspecialrequest_Aggregate_Fields>;
-    nodes: Array<Checkitemspecialrequest>;
+/** aggregated selection of "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Aggregate = {
+    __typename?: "checkdetailspecialrequest_aggregate";
+    aggregate?: Maybe<Checkdetailspecialrequest_Aggregate_Fields>;
+    nodes: Array<Checkdetailspecialrequest>;
 };
 
-/** aggregate fields of "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Aggregate_Fields = {
-    __typename?: "checkitemspecialrequest_aggregate_fields";
-    avg?: Maybe<Checkitemspecialrequest_Avg_Fields>;
+/** aggregate fields of "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Aggregate_Fields = {
+    __typename?: "checkdetailspecialrequest_aggregate_fields";
+    avg?: Maybe<Checkdetailspecialrequest_Avg_Fields>;
     count: Scalars["Int"];
-    max?: Maybe<Checkitemspecialrequest_Max_Fields>;
-    min?: Maybe<Checkitemspecialrequest_Min_Fields>;
-    stddev?: Maybe<Checkitemspecialrequest_Stddev_Fields>;
-    stddev_pop?: Maybe<Checkitemspecialrequest_Stddev_Pop_Fields>;
-    stddev_samp?: Maybe<Checkitemspecialrequest_Stddev_Samp_Fields>;
-    sum?: Maybe<Checkitemspecialrequest_Sum_Fields>;
-    var_pop?: Maybe<Checkitemspecialrequest_Var_Pop_Fields>;
-    var_samp?: Maybe<Checkitemspecialrequest_Var_Samp_Fields>;
-    variance?: Maybe<Checkitemspecialrequest_Variance_Fields>;
+    max?: Maybe<Checkdetailspecialrequest_Max_Fields>;
+    min?: Maybe<Checkdetailspecialrequest_Min_Fields>;
+    stddev?: Maybe<Checkdetailspecialrequest_Stddev_Fields>;
+    stddev_pop?: Maybe<Checkdetailspecialrequest_Stddev_Pop_Fields>;
+    stddev_samp?: Maybe<Checkdetailspecialrequest_Stddev_Samp_Fields>;
+    sum?: Maybe<Checkdetailspecialrequest_Sum_Fields>;
+    var_pop?: Maybe<Checkdetailspecialrequest_Var_Pop_Fields>;
+    var_samp?: Maybe<Checkdetailspecialrequest_Var_Samp_Fields>;
+    variance?: Maybe<Checkdetailspecialrequest_Variance_Fields>;
 };
 
-/** aggregate fields of "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Aggregate_FieldsCountArgs = {
-    columns?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+/** aggregate fields of "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Aggregate_FieldsCountArgs = {
+    columns?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     distinct?: InputMaybe<Scalars["Boolean"]>;
 };
 
-/** order by aggregate values of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Aggregate_Order_By = {
-    avg?: InputMaybe<Checkitemspecialrequest_Avg_Order_By>;
+/** order by aggregate values of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Aggregate_Order_By = {
+    avg?: InputMaybe<Checkdetailspecialrequest_Avg_Order_By>;
     count?: InputMaybe<Order_By>;
-    max?: InputMaybe<Checkitemspecialrequest_Max_Order_By>;
-    min?: InputMaybe<Checkitemspecialrequest_Min_Order_By>;
-    stddev?: InputMaybe<Checkitemspecialrequest_Stddev_Order_By>;
-    stddev_pop?: InputMaybe<Checkitemspecialrequest_Stddev_Pop_Order_By>;
-    stddev_samp?: InputMaybe<Checkitemspecialrequest_Stddev_Samp_Order_By>;
-    sum?: InputMaybe<Checkitemspecialrequest_Sum_Order_By>;
-    var_pop?: InputMaybe<Checkitemspecialrequest_Var_Pop_Order_By>;
-    var_samp?: InputMaybe<Checkitemspecialrequest_Var_Samp_Order_By>;
-    variance?: InputMaybe<Checkitemspecialrequest_Variance_Order_By>;
+    max?: InputMaybe<Checkdetailspecialrequest_Max_Order_By>;
+    min?: InputMaybe<Checkdetailspecialrequest_Min_Order_By>;
+    stddev?: InputMaybe<Checkdetailspecialrequest_Stddev_Order_By>;
+    stddev_pop?: InputMaybe<Checkdetailspecialrequest_Stddev_Pop_Order_By>;
+    stddev_samp?: InputMaybe<Checkdetailspecialrequest_Stddev_Samp_Order_By>;
+    sum?: InputMaybe<Checkdetailspecialrequest_Sum_Order_By>;
+    var_pop?: InputMaybe<Checkdetailspecialrequest_Var_Pop_Order_By>;
+    var_samp?: InputMaybe<Checkdetailspecialrequest_Var_Samp_Order_By>;
+    variance?: InputMaybe<Checkdetailspecialrequest_Variance_Order_By>;
 };
 
-/** input type for inserting array relation for remote table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Arr_Rel_Insert_Input = {
-    data: Array<Checkitemspecialrequest_Insert_Input>;
+/** input type for inserting array relation for remote table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Arr_Rel_Insert_Input = {
+    data: Array<Checkdetailspecialrequest_Insert_Input>;
     /** upsert condition */
-    on_conflict?: InputMaybe<Checkitemspecialrequest_On_Conflict>;
+    on_conflict?: InputMaybe<Checkdetailspecialrequest_On_Conflict>;
 };
 
 /** aggregate avg on columns */
-export type Checkitemspecialrequest_Avg_Fields = {
-    __typename?: "checkitemspecialrequest_avg_fields";
+export type Checkdetailspecialrequest_Avg_Fields = {
+    __typename?: "checkdetailspecialrequest_avg_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by avg() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Avg_Order_By = {
+/** order by avg() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Avg_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
-/** Boolean expression to filter rows from the table "checkitemspecialrequest". All fields are combined with a logical 'AND'. */
-export type Checkitemspecialrequest_Bool_Exp = {
-    _and?: InputMaybe<Array<Checkitemspecialrequest_Bool_Exp>>;
-    _not?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
-    _or?: InputMaybe<Array<Checkitemspecialrequest_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "checkdetailspecialrequest". All fields are combined with a logical 'AND'. */
+export type Checkdetailspecialrequest_Bool_Exp = {
+    _and?: InputMaybe<Array<Checkdetailspecialrequest_Bool_Exp>>;
+    _not?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
+    _or?: InputMaybe<Array<Checkdetailspecialrequest_Bool_Exp>>;
     checkdetail?: InputMaybe<Checkdetail_Bool_Exp>;
     checkdetailid?: InputMaybe<Int_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
@@ -3098,21 +3250,21 @@ export type Checkitemspecialrequest_Bool_Exp = {
     specialrequestid?: InputMaybe<Int_Comparison_Exp>;
 };
 
-/** unique or primary key constraints on table "checkitemspecialrequest" */
-export enum Checkitemspecialrequest_Constraint {
+/** unique or primary key constraints on table "checkdetailspecialrequest" */
+export enum Checkdetailspecialrequest_Constraint {
     /** unique or primary key constraint */
-    CheckitemspecialrequestPkey = "checkitemspecialrequest_pkey",
+    CheckdetailspecialrequestPkey = "checkdetailspecialrequest_pkey",
 }
 
-/** input type for incrementing numeric columns in table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Inc_Input = {
+/** input type for incrementing numeric columns in table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Inc_Input = {
     checkdetailid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     specialrequestid?: InputMaybe<Scalars["Int"]>;
 };
 
-/** input type for inserting data into table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Insert_Input = {
+/** input type for inserting data into table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Insert_Input = {
     checkdetail?: InputMaybe<Checkdetail_Obj_Rel_Insert_Input>;
     checkdetailid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
@@ -3121,53 +3273,53 @@ export type Checkitemspecialrequest_Insert_Input = {
 };
 
 /** aggregate max on columns */
-export type Checkitemspecialrequest_Max_Fields = {
-    __typename?: "checkitemspecialrequest_max_fields";
+export type Checkdetailspecialrequest_Max_Fields = {
+    __typename?: "checkdetailspecialrequest_max_fields";
     checkdetailid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     specialrequestid?: Maybe<Scalars["Int"]>;
 };
 
-/** order by max() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Max_Order_By = {
+/** order by max() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Max_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
-export type Checkitemspecialrequest_Min_Fields = {
-    __typename?: "checkitemspecialrequest_min_fields";
+export type Checkdetailspecialrequest_Min_Fields = {
+    __typename?: "checkdetailspecialrequest_min_fields";
     checkdetailid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     specialrequestid?: Maybe<Scalars["Int"]>;
 };
 
-/** order by min() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Min_Order_By = {
+/** order by min() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Min_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
-/** response of any mutation on the table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Mutation_Response = {
-    __typename?: "checkitemspecialrequest_mutation_response";
+/** response of any mutation on the table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Mutation_Response = {
+    __typename?: "checkdetailspecialrequest_mutation_response";
     /** number of rows affected by the mutation */
     affected_rows: Scalars["Int"];
     /** data from the rows affected by the mutation */
-    returning: Array<Checkitemspecialrequest>;
+    returning: Array<Checkdetailspecialrequest>;
 };
 
-/** on_conflict condition type for table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_On_Conflict = {
-    constraint: Checkitemspecialrequest_Constraint;
-    update_columns?: Array<Checkitemspecialrequest_Update_Column>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+/** on_conflict condition type for table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_On_Conflict = {
+    constraint: Checkdetailspecialrequest_Constraint;
+    update_columns?: Array<Checkdetailspecialrequest_Update_Column>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
-/** Ordering options when selecting data from "checkitemspecialrequest". */
-export type Checkitemspecialrequest_Order_By = {
+/** Ordering options when selecting data from "checkdetailspecialrequest". */
+export type Checkdetailspecialrequest_Order_By = {
     checkdetail?: InputMaybe<Checkdetail_Order_By>;
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
@@ -3175,13 +3327,13 @@ export type Checkitemspecialrequest_Order_By = {
     specialrequestid?: InputMaybe<Order_By>;
 };
 
-/** primary key columns input for table: checkitemspecialrequest */
-export type Checkitemspecialrequest_Pk_Columns_Input = {
+/** primary key columns input for table: checkdetailspecialrequest */
+export type Checkdetailspecialrequest_Pk_Columns_Input = {
     id: Scalars["Int"];
 };
 
-/** select columns of table "checkitemspecialrequest" */
-export enum Checkitemspecialrequest_Select_Column {
+/** select columns of table "checkdetailspecialrequest" */
+export enum Checkdetailspecialrequest_Select_Column {
     /** column name */
     Checkdetailid = "checkdetailid",
     /** column name */
@@ -3190,75 +3342,75 @@ export enum Checkitemspecialrequest_Select_Column {
     Specialrequestid = "specialrequestid",
 }
 
-/** input type for updating data in table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Set_Input = {
+/** input type for updating data in table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Set_Input = {
     checkdetailid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     specialrequestid?: InputMaybe<Scalars["Int"]>;
 };
 
 /** aggregate stddev on columns */
-export type Checkitemspecialrequest_Stddev_Fields = {
-    __typename?: "checkitemspecialrequest_stddev_fields";
+export type Checkdetailspecialrequest_Stddev_Fields = {
+    __typename?: "checkdetailspecialrequest_stddev_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by stddev() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Stddev_Order_By = {
+/** order by stddev() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Stddev_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
-export type Checkitemspecialrequest_Stddev_Pop_Fields = {
-    __typename?: "checkitemspecialrequest_stddev_pop_fields";
+export type Checkdetailspecialrequest_Stddev_Pop_Fields = {
+    __typename?: "checkdetailspecialrequest_stddev_pop_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by stddev_pop() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Stddev_Pop_Order_By = {
+/** order by stddev_pop() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Stddev_Pop_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
-export type Checkitemspecialrequest_Stddev_Samp_Fields = {
-    __typename?: "checkitemspecialrequest_stddev_samp_fields";
+export type Checkdetailspecialrequest_Stddev_Samp_Fields = {
+    __typename?: "checkdetailspecialrequest_stddev_samp_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by stddev_samp() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Stddev_Samp_Order_By = {
+/** order by stddev_samp() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Stddev_Samp_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
-export type Checkitemspecialrequest_Sum_Fields = {
-    __typename?: "checkitemspecialrequest_sum_fields";
+export type Checkdetailspecialrequest_Sum_Fields = {
+    __typename?: "checkdetailspecialrequest_sum_fields";
     checkdetailid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     specialrequestid?: Maybe<Scalars["Int"]>;
 };
 
-/** order by sum() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Sum_Order_By = {
+/** order by sum() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Sum_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
-/** update columns of table "checkitemspecialrequest" */
-export enum Checkitemspecialrequest_Update_Column {
+/** update columns of table "checkdetailspecialrequest" */
+export enum Checkdetailspecialrequest_Update_Column {
     /** column name */
     Checkdetailid = "checkdetailid",
     /** column name */
@@ -3268,45 +3420,45 @@ export enum Checkitemspecialrequest_Update_Column {
 }
 
 /** aggregate var_pop on columns */
-export type Checkitemspecialrequest_Var_Pop_Fields = {
-    __typename?: "checkitemspecialrequest_var_pop_fields";
+export type Checkdetailspecialrequest_Var_Pop_Fields = {
+    __typename?: "checkdetailspecialrequest_var_pop_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by var_pop() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Var_Pop_Order_By = {
+/** order by var_pop() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Var_Pop_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
-export type Checkitemspecialrequest_Var_Samp_Fields = {
-    __typename?: "checkitemspecialrequest_var_samp_fields";
+export type Checkdetailspecialrequest_Var_Samp_Fields = {
+    __typename?: "checkdetailspecialrequest_var_samp_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by var_samp() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Var_Samp_Order_By = {
+/** order by var_samp() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Var_Samp_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
-export type Checkitemspecialrequest_Variance_Fields = {
-    __typename?: "checkitemspecialrequest_variance_fields";
+export type Checkdetailspecialrequest_Variance_Fields = {
+    __typename?: "checkdetailspecialrequest_variance_fields";
     checkdetailid?: Maybe<Scalars["Float"]>;
     id?: Maybe<Scalars["Float"]>;
     specialrequestid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by variance() on columns of table "checkitemspecialrequest" */
-export type Checkitemspecialrequest_Variance_Order_By = {
+/** order by variance() on columns of table "checkdetailspecialrequest" */
+export type Checkdetailspecialrequest_Variance_Order_By = {
     checkdetailid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     specialrequestid?: InputMaybe<Order_By>;
@@ -3351,10 +3503,8 @@ export type Item = {
     checkdetails_aggregate: Checkdetail_Aggregate;
     id: Scalars["Int"];
     image?: Maybe<Scalars["String"]>;
-    /** An array relationship */
-    itemoutofstocks: Array<Itemoutofstock>;
-    /** An aggregate relationship */
-    itemoutofstocks_aggregate: Itemoutofstock_Aggregate;
+    /** An object relationship */
+    itemoutofstock?: Maybe<Itemoutofstock>;
     /** An object relationship */
     majorgroup: Majorgroup;
     majorgroupid: Scalars["Int"];
@@ -3363,7 +3513,7 @@ export type Item = {
     /** An aggregate relationship */
     menuitems_aggregate: Menuitem_Aggregate;
     name: Scalars["String"];
-    status?: Maybe<Scalars["basic_status"]>;
+    status: Scalars["basic_status"];
 };
 
 /** columns and relationships of "item" */
@@ -3400,24 +3550,6 @@ export type ItemCheckdetails_AggregateArgs = {
     offset?: InputMaybe<Scalars["Int"]>;
     order_by?: InputMaybe<Array<Checkdetail_Order_By>>;
     where?: InputMaybe<Checkdetail_Bool_Exp>;
-};
-
-/** columns and relationships of "item" */
-export type ItemItemoutofstocksArgs = {
-    distinct_on?: InputMaybe<Array<Itemoutofstock_Select_Column>>;
-    limit?: InputMaybe<Scalars["Int"]>;
-    offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Itemoutofstock_Order_By>>;
-    where?: InputMaybe<Itemoutofstock_Bool_Exp>;
-};
-
-/** columns and relationships of "item" */
-export type ItemItemoutofstocks_AggregateArgs = {
-    distinct_on?: InputMaybe<Array<Itemoutofstock_Select_Column>>;
-    limit?: InputMaybe<Scalars["Int"]>;
-    offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Itemoutofstock_Order_By>>;
-    where?: InputMaybe<Itemoutofstock_Bool_Exp>;
 };
 
 /** columns and relationships of "item" */
@@ -3511,7 +3643,7 @@ export type Item_Bool_Exp = {
     checkdetails?: InputMaybe<Checkdetail_Bool_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     image?: InputMaybe<String_Comparison_Exp>;
-    itemoutofstocks?: InputMaybe<Itemoutofstock_Bool_Exp>;
+    itemoutofstock?: InputMaybe<Itemoutofstock_Bool_Exp>;
     majorgroup?: InputMaybe<Majorgroup_Bool_Exp>;
     majorgroupid?: InputMaybe<Int_Comparison_Exp>;
     menuitems?: InputMaybe<Menuitem_Bool_Exp>;
@@ -3537,7 +3669,7 @@ export type Item_Insert_Input = {
     checkdetails?: InputMaybe<Checkdetail_Arr_Rel_Insert_Input>;
     id?: InputMaybe<Scalars["Int"]>;
     image?: InputMaybe<Scalars["String"]>;
-    itemoutofstocks?: InputMaybe<Itemoutofstock_Arr_Rel_Insert_Input>;
+    itemoutofstock?: InputMaybe<Itemoutofstock_Obj_Rel_Insert_Input>;
     majorgroup?: InputMaybe<Majorgroup_Obj_Rel_Insert_Input>;
     majorgroupid?: InputMaybe<Scalars["Int"]>;
     menuitems?: InputMaybe<Menuitem_Arr_Rel_Insert_Input>;
@@ -3608,7 +3740,7 @@ export type Item_Order_By = {
     checkdetails_aggregate?: InputMaybe<Checkdetail_Aggregate_Order_By>;
     id?: InputMaybe<Order_By>;
     image?: InputMaybe<Order_By>;
-    itemoutofstocks_aggregate?: InputMaybe<Itemoutofstock_Aggregate_Order_By>;
+    itemoutofstock?: InputMaybe<Itemoutofstock_Order_By>;
     majorgroup?: InputMaybe<Majorgroup_Order_By>;
     majorgroupid?: InputMaybe<Order_By>;
     menuitems_aggregate?: InputMaybe<Menuitem_Aggregate_Order_By>;
@@ -3787,39 +3919,11 @@ export type Itemoutofstock_Aggregate_FieldsCountArgs = {
     distinct?: InputMaybe<Scalars["Boolean"]>;
 };
 
-/** order by aggregate values of table "itemoutofstock" */
-export type Itemoutofstock_Aggregate_Order_By = {
-    avg?: InputMaybe<Itemoutofstock_Avg_Order_By>;
-    count?: InputMaybe<Order_By>;
-    max?: InputMaybe<Itemoutofstock_Max_Order_By>;
-    min?: InputMaybe<Itemoutofstock_Min_Order_By>;
-    stddev?: InputMaybe<Itemoutofstock_Stddev_Order_By>;
-    stddev_pop?: InputMaybe<Itemoutofstock_Stddev_Pop_Order_By>;
-    stddev_samp?: InputMaybe<Itemoutofstock_Stddev_Samp_Order_By>;
-    sum?: InputMaybe<Itemoutofstock_Sum_Order_By>;
-    var_pop?: InputMaybe<Itemoutofstock_Var_Pop_Order_By>;
-    var_samp?: InputMaybe<Itemoutofstock_Var_Samp_Order_By>;
-    variance?: InputMaybe<Itemoutofstock_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "itemoutofstock" */
-export type Itemoutofstock_Arr_Rel_Insert_Input = {
-    data: Array<Itemoutofstock_Insert_Input>;
-    /** upsert condition */
-    on_conflict?: InputMaybe<Itemoutofstock_On_Conflict>;
-};
-
 /** aggregate avg on columns */
 export type Itemoutofstock_Avg_Fields = {
     __typename?: "itemoutofstock_avg_fields";
     id?: Maybe<Scalars["Float"]>;
     itemid?: Maybe<Scalars["Float"]>;
-};
-
-/** order by avg() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Avg_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "itemoutofstock". All fields are combined with a logical 'AND'. */
@@ -3834,6 +3938,8 @@ export type Itemoutofstock_Bool_Exp = {
 
 /** unique or primary key constraints on table "itemoutofstock" */
 export enum Itemoutofstock_Constraint {
+    /** unique or primary key constraint */
+    ItemoutofstockItemidKey = "itemoutofstock_itemid_key",
     /** unique or primary key constraint */
     ItemoutofstockPkey = "itemoutofstock_pkey",
 }
@@ -3858,23 +3964,11 @@ export type Itemoutofstock_Max_Fields = {
     itemid?: Maybe<Scalars["Int"]>;
 };
 
-/** order by max() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Max_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
-};
-
 /** aggregate min on columns */
 export type Itemoutofstock_Min_Fields = {
     __typename?: "itemoutofstock_min_fields";
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
-};
-
-/** order by min() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Min_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "itemoutofstock" */
@@ -3884,6 +3978,13 @@ export type Itemoutofstock_Mutation_Response = {
     affected_rows: Scalars["Int"];
     /** data from the rows affected by the mutation */
     returning: Array<Itemoutofstock>;
+};
+
+/** input type for inserting object relation for remote table "itemoutofstock" */
+export type Itemoutofstock_Obj_Rel_Insert_Input = {
+    data: Itemoutofstock_Insert_Input;
+    /** upsert condition */
+    on_conflict?: InputMaybe<Itemoutofstock_On_Conflict>;
 };
 
 /** on_conflict condition type for table "itemoutofstock" */
@@ -3926,23 +4027,11 @@ export type Itemoutofstock_Stddev_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by stddev() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Stddev_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
-};
-
 /** aggregate stddev_pop on columns */
 export type Itemoutofstock_Stddev_Pop_Fields = {
     __typename?: "itemoutofstock_stddev_pop_fields";
     id?: Maybe<Scalars["Float"]>;
     itemid?: Maybe<Scalars["Float"]>;
-};
-
-/** order by stddev_pop() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Stddev_Pop_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -3952,23 +4041,11 @@ export type Itemoutofstock_Stddev_Samp_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by stddev_samp() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Stddev_Samp_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
-};
-
 /** aggregate sum on columns */
 export type Itemoutofstock_Sum_Fields = {
     __typename?: "itemoutofstock_sum_fields";
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
-};
-
-/** order by sum() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Sum_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "itemoutofstock" */
@@ -3986,23 +4063,11 @@ export type Itemoutofstock_Var_Pop_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by var_pop() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Var_Pop_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
-};
-
 /** aggregate var_samp on columns */
 export type Itemoutofstock_Var_Samp_Fields = {
     __typename?: "itemoutofstock_var_samp_fields";
     id?: Maybe<Scalars["Float"]>;
     itemid?: Maybe<Scalars["Float"]>;
-};
-
-/** order by var_samp() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Var_Samp_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -4012,10 +4077,17 @@ export type Itemoutofstock_Variance_Fields = {
     itemid?: Maybe<Scalars["Float"]>;
 };
 
-/** order by variance() on columns of table "itemoutofstock" */
-export type Itemoutofstock_Variance_Order_By = {
-    id?: InputMaybe<Order_By>;
-    itemid?: InputMaybe<Order_By>;
+/** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
+export type Json_Comparison_Exp = {
+    _eq?: InputMaybe<Scalars["json"]>;
+    _gt?: InputMaybe<Scalars["json"]>;
+    _gte?: InputMaybe<Scalars["json"]>;
+    _in?: InputMaybe<Array<Scalars["json"]>>;
+    _is_null?: InputMaybe<Scalars["Boolean"]>;
+    _lt?: InputMaybe<Scalars["json"]>;
+    _lte?: InputMaybe<Scalars["json"]>;
+    _neq?: InputMaybe<Scalars["json"]>;
+    _nin?: InputMaybe<Array<Scalars["json"]>>;
 };
 
 /** columns and relationships of "location" */
@@ -5378,10 +5450,10 @@ export type Mutation_Root = {
     delete_checkdetail?: Maybe<Checkdetail_Mutation_Response>;
     /** delete single row from the table: "checkdetail" */
     delete_checkdetail_by_pk?: Maybe<Checkdetail>;
-    /** delete data from the table: "checkitemspecialrequest" */
-    delete_checkitemspecialrequest?: Maybe<Checkitemspecialrequest_Mutation_Response>;
-    /** delete single row from the table: "checkitemspecialrequest" */
-    delete_checkitemspecialrequest_by_pk?: Maybe<Checkitemspecialrequest>;
+    /** delete data from the table: "checkdetailspecialrequest" */
+    delete_checkdetailspecialrequest?: Maybe<Checkdetailspecialrequest_Mutation_Response>;
+    /** delete single row from the table: "checkdetailspecialrequest" */
+    delete_checkdetailspecialrequest_by_pk?: Maybe<Checkdetailspecialrequest>;
     /** delete data from the table: "item" */
     delete_item?: Maybe<Item_Mutation_Response>;
     /** delete single row from the table: "item" */
@@ -5418,6 +5490,10 @@ export type Mutation_Root = {
     delete_role?: Maybe<Role_Mutation_Response>;
     /** delete single row from the table: "role" */
     delete_role_by_pk?: Maybe<Role>;
+    /** delete data from the table: "sessions" */
+    delete_sessions?: Maybe<Sessions_Mutation_Response>;
+    /** delete single row from the table: "sessions" */
+    delete_sessions_by_pk?: Maybe<Sessions>;
     /** delete data from the table: "shift" */
     delete_shift?: Maybe<Shift_Mutation_Response>;
     /** delete single row from the table: "shift" */
@@ -5466,10 +5542,10 @@ export type Mutation_Root = {
     insert_checkdetail?: Maybe<Checkdetail_Mutation_Response>;
     /** insert a single row into the table: "checkdetail" */
     insert_checkdetail_one?: Maybe<Checkdetail>;
-    /** insert data into the table: "checkitemspecialrequest" */
-    insert_checkitemspecialrequest?: Maybe<Checkitemspecialrequest_Mutation_Response>;
-    /** insert a single row into the table: "checkitemspecialrequest" */
-    insert_checkitemspecialrequest_one?: Maybe<Checkitemspecialrequest>;
+    /** insert data into the table: "checkdetailspecialrequest" */
+    insert_checkdetailspecialrequest?: Maybe<Checkdetailspecialrequest_Mutation_Response>;
+    /** insert a single row into the table: "checkdetailspecialrequest" */
+    insert_checkdetailspecialrequest_one?: Maybe<Checkdetailspecialrequest>;
     /** insert data into the table: "item" */
     insert_item?: Maybe<Item_Mutation_Response>;
     /** insert a single row into the table: "item" */
@@ -5506,6 +5582,10 @@ export type Mutation_Root = {
     insert_role?: Maybe<Role_Mutation_Response>;
     /** insert a single row into the table: "role" */
     insert_role_one?: Maybe<Role>;
+    /** insert data into the table: "sessions" */
+    insert_sessions?: Maybe<Sessions_Mutation_Response>;
+    /** insert a single row into the table: "sessions" */
+    insert_sessions_one?: Maybe<Sessions>;
     /** insert data into the table: "shift" */
     insert_shift?: Maybe<Shift_Mutation_Response>;
     /** insert a single row into the table: "shift" */
@@ -5554,10 +5634,10 @@ export type Mutation_Root = {
     update_checkdetail?: Maybe<Checkdetail_Mutation_Response>;
     /** update single row of the table: "checkdetail" */
     update_checkdetail_by_pk?: Maybe<Checkdetail>;
-    /** update data of the table: "checkitemspecialrequest" */
-    update_checkitemspecialrequest?: Maybe<Checkitemspecialrequest_Mutation_Response>;
-    /** update single row of the table: "checkitemspecialrequest" */
-    update_checkitemspecialrequest_by_pk?: Maybe<Checkitemspecialrequest>;
+    /** update data of the table: "checkdetailspecialrequest" */
+    update_checkdetailspecialrequest?: Maybe<Checkdetailspecialrequest_Mutation_Response>;
+    /** update single row of the table: "checkdetailspecialrequest" */
+    update_checkdetailspecialrequest_by_pk?: Maybe<Checkdetailspecialrequest>;
     /** update data of the table: "item" */
     update_item?: Maybe<Item_Mutation_Response>;
     /** update single row of the table: "item" */
@@ -5594,6 +5674,10 @@ export type Mutation_Root = {
     update_role?: Maybe<Role_Mutation_Response>;
     /** update single row of the table: "role" */
     update_role_by_pk?: Maybe<Role>;
+    /** update data of the table: "sessions" */
+    update_sessions?: Maybe<Sessions_Mutation_Response>;
+    /** update single row of the table: "sessions" */
+    update_sessions_by_pk?: Maybe<Sessions>;
     /** update data of the table: "shift" */
     update_shift?: Maybe<Shift_Mutation_Response>;
     /** update single row of the table: "shift" */
@@ -5681,12 +5765,12 @@ export type Mutation_RootDelete_Checkdetail_By_PkArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootDelete_CheckitemspecialrequestArgs = {
-    where: Checkitemspecialrequest_Bool_Exp;
+export type Mutation_RootDelete_CheckdetailspecialrequestArgs = {
+    where: Checkdetailspecialrequest_Bool_Exp;
 };
 
 /** mutation root */
-export type Mutation_RootDelete_Checkitemspecialrequest_By_PkArgs = {
+export type Mutation_RootDelete_Checkdetailspecialrequest_By_PkArgs = {
     id: Scalars["Int"];
 };
 
@@ -5778,6 +5862,16 @@ export type Mutation_RootDelete_RoleArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Role_By_PkArgs = {
     id: Scalars["Int"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_SessionsArgs = {
+    where: Sessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Sessions_By_PkArgs = {
+    sid: Scalars["String"];
 };
 
 /** mutation root */
@@ -5913,15 +6007,15 @@ export type Mutation_RootInsert_Checkdetail_OneArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootInsert_CheckitemspecialrequestArgs = {
-    objects: Array<Checkitemspecialrequest_Insert_Input>;
-    on_conflict?: InputMaybe<Checkitemspecialrequest_On_Conflict>;
+export type Mutation_RootInsert_CheckdetailspecialrequestArgs = {
+    objects: Array<Checkdetailspecialrequest_Insert_Input>;
+    on_conflict?: InputMaybe<Checkdetailspecialrequest_On_Conflict>;
 };
 
 /** mutation root */
-export type Mutation_RootInsert_Checkitemspecialrequest_OneArgs = {
-    object: Checkitemspecialrequest_Insert_Input;
-    on_conflict?: InputMaybe<Checkitemspecialrequest_On_Conflict>;
+export type Mutation_RootInsert_Checkdetailspecialrequest_OneArgs = {
+    object: Checkdetailspecialrequest_Insert_Input;
+    on_conflict?: InputMaybe<Checkdetailspecialrequest_On_Conflict>;
 };
 
 /** mutation root */
@@ -6030,6 +6124,18 @@ export type Mutation_RootInsert_RoleArgs = {
 export type Mutation_RootInsert_Role_OneArgs = {
     object: Role_Insert_Input;
     on_conflict?: InputMaybe<Role_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_SessionsArgs = {
+    objects: Array<Sessions_Insert_Input>;
+    on_conflict?: InputMaybe<Sessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Sessions_OneArgs = {
+    object: Sessions_Insert_Input;
+    on_conflict?: InputMaybe<Sessions_On_Conflict>;
 };
 
 /** mutation root */
@@ -6189,17 +6295,17 @@ export type Mutation_RootUpdate_Checkdetail_By_PkArgs = {
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_CheckitemspecialrequestArgs = {
-    _inc?: InputMaybe<Checkitemspecialrequest_Inc_Input>;
-    _set?: InputMaybe<Checkitemspecialrequest_Set_Input>;
-    where: Checkitemspecialrequest_Bool_Exp;
+export type Mutation_RootUpdate_CheckdetailspecialrequestArgs = {
+    _inc?: InputMaybe<Checkdetailspecialrequest_Inc_Input>;
+    _set?: InputMaybe<Checkdetailspecialrequest_Set_Input>;
+    where: Checkdetailspecialrequest_Bool_Exp;
 };
 
 /** mutation root */
-export type Mutation_RootUpdate_Checkitemspecialrequest_By_PkArgs = {
-    _inc?: InputMaybe<Checkitemspecialrequest_Inc_Input>;
-    _set?: InputMaybe<Checkitemspecialrequest_Set_Input>;
-    pk_columns: Checkitemspecialrequest_Pk_Columns_Input;
+export type Mutation_RootUpdate_Checkdetailspecialrequest_By_PkArgs = {
+    _inc?: InputMaybe<Checkdetailspecialrequest_Inc_Input>;
+    _set?: InputMaybe<Checkdetailspecialrequest_Set_Input>;
+    pk_columns: Checkdetailspecialrequest_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -6326,6 +6432,18 @@ export type Mutation_RootUpdate_Role_By_PkArgs = {
     _inc?: InputMaybe<Role_Inc_Input>;
     _set?: InputMaybe<Role_Set_Input>;
     pk_columns: Role_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_SessionsArgs = {
+    _set?: InputMaybe<Sessions_Set_Input>;
+    where: Sessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Sessions_By_PkArgs = {
+    _set?: InputMaybe<Sessions_Set_Input>;
+    pk_columns: Sessions_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -6680,12 +6798,12 @@ export type Query_Root = {
     checkdetail_aggregate: Checkdetail_Aggregate;
     /** fetch data from the table: "checkdetail" using primary key columns */
     checkdetail_by_pk?: Maybe<Checkdetail>;
-    /** fetch data from the table: "checkitemspecialrequest" */
-    checkitemspecialrequest: Array<Checkitemspecialrequest>;
-    /** fetch aggregated fields from the table: "checkitemspecialrequest" */
-    checkitemspecialrequest_aggregate: Checkitemspecialrequest_Aggregate;
-    /** fetch data from the table: "checkitemspecialrequest" using primary key columns */
-    checkitemspecialrequest_by_pk?: Maybe<Checkitemspecialrequest>;
+    /** fetch data from the table: "checkdetailspecialrequest" */
+    checkdetailspecialrequest: Array<Checkdetailspecialrequest>;
+    /** fetch aggregated fields from the table: "checkdetailspecialrequest" */
+    checkdetailspecialrequest_aggregate: Checkdetailspecialrequest_Aggregate;
+    /** fetch data from the table: "checkdetailspecialrequest" using primary key columns */
+    checkdetailspecialrequest_by_pk?: Maybe<Checkdetailspecialrequest>;
     /** fetch data from the table: "item" */
     item: Array<Item>;
     /** fetch aggregated fields from the table: "item" */
@@ -6740,6 +6858,12 @@ export type Query_Root = {
     role_aggregate: Role_Aggregate;
     /** fetch data from the table: "role" using primary key columns */
     role_by_pk?: Maybe<Role>;
+    /** fetch data from the table: "sessions" */
+    sessions: Array<Sessions>;
+    /** fetch aggregated fields from the table: "sessions" */
+    sessions_aggregate: Sessions_Aggregate;
+    /** fetch data from the table: "sessions" using primary key columns */
+    sessions_by_pk?: Maybe<Sessions>;
     /** fetch data from the table: "shift" */
     shift: Array<Shift>;
     /** fetch aggregated fields from the table: "shift" */
@@ -6898,23 +7022,23 @@ export type Query_RootCheckdetail_By_PkArgs = {
     id: Scalars["Int"];
 };
 
-export type Query_RootCheckitemspecialrequestArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type Query_RootCheckdetailspecialrequestArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
-export type Query_RootCheckitemspecialrequest_AggregateArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type Query_RootCheckdetailspecialrequest_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
-export type Query_RootCheckitemspecialrequest_By_PkArgs = {
+export type Query_RootCheckdetailspecialrequest_By_PkArgs = {
     id: Scalars["Int"];
 };
 
@@ -7096,6 +7220,26 @@ export type Query_RootRole_AggregateArgs = {
 
 export type Query_RootRole_By_PkArgs = {
     id: Scalars["Int"];
+};
+
+export type Query_RootSessionsArgs = {
+    distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Sessions_Order_By>>;
+    where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+export type Query_RootSessions_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Sessions_Order_By>>;
+    where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+export type Query_RootSessions_By_PkArgs = {
+    sid: Scalars["String"];
 };
 
 export type Query_RootShiftArgs = {
@@ -7295,6 +7439,8 @@ export type Role_Bool_Exp = {
 /** unique or primary key constraints on table "role" */
 export enum Role_Constraint {
     /** unique or primary key constraint */
+    RoleNameKey = "role_name_key",
+    /** unique or primary key constraint */
     RolePkey = "role_pkey",
 }
 
@@ -7422,6 +7568,132 @@ export type Role_Variance_Fields = {
     __typename?: "role_variance_fields";
     id?: Maybe<Scalars["Float"]>;
 };
+
+/** columns and relationships of "sessions" */
+export type Sessions = {
+    __typename?: "sessions";
+    expired: Scalars["timestamptz"];
+    sess: Scalars["json"];
+    sid: Scalars["String"];
+};
+
+/** columns and relationships of "sessions" */
+export type SessionsSessArgs = {
+    path?: InputMaybe<Scalars["String"]>;
+};
+
+/** aggregated selection of "sessions" */
+export type Sessions_Aggregate = {
+    __typename?: "sessions_aggregate";
+    aggregate?: Maybe<Sessions_Aggregate_Fields>;
+    nodes: Array<Sessions>;
+};
+
+/** aggregate fields of "sessions" */
+export type Sessions_Aggregate_Fields = {
+    __typename?: "sessions_aggregate_fields";
+    count: Scalars["Int"];
+    max?: Maybe<Sessions_Max_Fields>;
+    min?: Maybe<Sessions_Min_Fields>;
+};
+
+/** aggregate fields of "sessions" */
+export type Sessions_Aggregate_FieldsCountArgs = {
+    columns?: InputMaybe<Array<Sessions_Select_Column>>;
+    distinct?: InputMaybe<Scalars["Boolean"]>;
+};
+
+/** Boolean expression to filter rows from the table "sessions". All fields are combined with a logical 'AND'. */
+export type Sessions_Bool_Exp = {
+    _and?: InputMaybe<Array<Sessions_Bool_Exp>>;
+    _not?: InputMaybe<Sessions_Bool_Exp>;
+    _or?: InputMaybe<Array<Sessions_Bool_Exp>>;
+    expired?: InputMaybe<Timestamptz_Comparison_Exp>;
+    sess?: InputMaybe<Json_Comparison_Exp>;
+    sid?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "sessions" */
+export enum Sessions_Constraint {
+    /** unique or primary key constraint */
+    SessionsPkey = "sessions_pkey",
+}
+
+/** input type for inserting data into table "sessions" */
+export type Sessions_Insert_Input = {
+    expired?: InputMaybe<Scalars["timestamptz"]>;
+    sess?: InputMaybe<Scalars["json"]>;
+    sid?: InputMaybe<Scalars["String"]>;
+};
+
+/** aggregate max on columns */
+export type Sessions_Max_Fields = {
+    __typename?: "sessions_max_fields";
+    expired?: Maybe<Scalars["timestamptz"]>;
+    sid?: Maybe<Scalars["String"]>;
+};
+
+/** aggregate min on columns */
+export type Sessions_Min_Fields = {
+    __typename?: "sessions_min_fields";
+    expired?: Maybe<Scalars["timestamptz"]>;
+    sid?: Maybe<Scalars["String"]>;
+};
+
+/** response of any mutation on the table "sessions" */
+export type Sessions_Mutation_Response = {
+    __typename?: "sessions_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars["Int"];
+    /** data from the rows affected by the mutation */
+    returning: Array<Sessions>;
+};
+
+/** on_conflict condition type for table "sessions" */
+export type Sessions_On_Conflict = {
+    constraint: Sessions_Constraint;
+    update_columns?: Array<Sessions_Update_Column>;
+    where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "sessions". */
+export type Sessions_Order_By = {
+    expired?: InputMaybe<Order_By>;
+    sess?: InputMaybe<Order_By>;
+    sid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: sessions */
+export type Sessions_Pk_Columns_Input = {
+    sid: Scalars["String"];
+};
+
+/** select columns of table "sessions" */
+export enum Sessions_Select_Column {
+    /** column name */
+    Expired = "expired",
+    /** column name */
+    Sess = "sess",
+    /** column name */
+    Sid = "sid",
+}
+
+/** input type for updating data in table "sessions" */
+export type Sessions_Set_Input = {
+    expired?: InputMaybe<Scalars["timestamptz"]>;
+    sess?: InputMaybe<Scalars["json"]>;
+    sid?: InputMaybe<Scalars["String"]>;
+};
+
+/** update columns of table "sessions" */
+export enum Sessions_Update_Column {
+    /** column name */
+    Expired = "expired",
+    /** column name */
+    Sess = "sess",
+    /** column name */
+    Sid = "sid",
+}
 
 /** columns and relationships of "shift" */
 export type Shift = {
@@ -7837,9 +8109,9 @@ export type Shift_Variance_Order_By = {
 export type Specialrequest = {
     __typename?: "specialrequest";
     /** An array relationship */
-    checkitemspecialrequests: Array<Checkitemspecialrequest>;
+    checkdetailspecialrequests: Array<Checkdetailspecialrequest>;
     /** An aggregate relationship */
-    checkitemspecialrequests_aggregate: Checkitemspecialrequest_Aggregate;
+    checkdetailspecialrequests_aggregate: Checkdetailspecialrequest_Aggregate;
     id: Scalars["Int"];
     /** An object relationship */
     majorgroup: Majorgroup;
@@ -7849,21 +8121,21 @@ export type Specialrequest = {
 };
 
 /** columns and relationships of "specialrequest" */
-export type SpecialrequestCheckitemspecialrequestsArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type SpecialrequestCheckdetailspecialrequestsArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
 /** columns and relationships of "specialrequest" */
-export type SpecialrequestCheckitemspecialrequests_AggregateArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type SpecialrequestCheckdetailspecialrequests_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
 /** aggregated selection of "specialrequest" */
@@ -7935,7 +8207,7 @@ export type Specialrequest_Bool_Exp = {
     _and?: InputMaybe<Array<Specialrequest_Bool_Exp>>;
     _not?: InputMaybe<Specialrequest_Bool_Exp>;
     _or?: InputMaybe<Array<Specialrequest_Bool_Exp>>;
-    checkitemspecialrequests?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    checkdetailspecialrequests?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     majorgroup?: InputMaybe<Majorgroup_Bool_Exp>;
     majorgroupid?: InputMaybe<Int_Comparison_Exp>;
@@ -7957,7 +8229,7 @@ export type Specialrequest_Inc_Input = {
 
 /** input type for inserting data into table "specialrequest" */
 export type Specialrequest_Insert_Input = {
-    checkitemspecialrequests?: InputMaybe<Checkitemspecialrequest_Arr_Rel_Insert_Input>;
+    checkdetailspecialrequests?: InputMaybe<Checkdetailspecialrequest_Arr_Rel_Insert_Input>;
     id?: InputMaybe<Scalars["Int"]>;
     majorgroup?: InputMaybe<Majorgroup_Obj_Rel_Insert_Input>;
     majorgroupid?: InputMaybe<Scalars["Int"]>;
@@ -8020,7 +8292,7 @@ export type Specialrequest_On_Conflict = {
 
 /** Ordering options when selecting data from "specialrequest". */
 export type Specialrequest_Order_By = {
-    checkitemspecialrequests_aggregate?: InputMaybe<Checkitemspecialrequest_Aggregate_Order_By>;
+    checkdetailspecialrequests_aggregate?: InputMaybe<Checkdetailspecialrequest_Aggregate_Order_By>;
     id?: InputMaybe<Order_By>;
     majorgroup?: InputMaybe<Majorgroup_Order_By>;
     majorgroupid?: InputMaybe<Order_By>;
@@ -8194,12 +8466,12 @@ export type Subscription_Root = {
     checkdetail_aggregate: Checkdetail_Aggregate;
     /** fetch data from the table: "checkdetail" using primary key columns */
     checkdetail_by_pk?: Maybe<Checkdetail>;
-    /** fetch data from the table: "checkitemspecialrequest" */
-    checkitemspecialrequest: Array<Checkitemspecialrequest>;
-    /** fetch aggregated fields from the table: "checkitemspecialrequest" */
-    checkitemspecialrequest_aggregate: Checkitemspecialrequest_Aggregate;
-    /** fetch data from the table: "checkitemspecialrequest" using primary key columns */
-    checkitemspecialrequest_by_pk?: Maybe<Checkitemspecialrequest>;
+    /** fetch data from the table: "checkdetailspecialrequest" */
+    checkdetailspecialrequest: Array<Checkdetailspecialrequest>;
+    /** fetch aggregated fields from the table: "checkdetailspecialrequest" */
+    checkdetailspecialrequest_aggregate: Checkdetailspecialrequest_Aggregate;
+    /** fetch data from the table: "checkdetailspecialrequest" using primary key columns */
+    checkdetailspecialrequest_by_pk?: Maybe<Checkdetailspecialrequest>;
     /** fetch data from the table: "item" */
     item: Array<Item>;
     /** fetch aggregated fields from the table: "item" */
@@ -8254,6 +8526,12 @@ export type Subscription_Root = {
     role_aggregate: Role_Aggregate;
     /** fetch data from the table: "role" using primary key columns */
     role_by_pk?: Maybe<Role>;
+    /** fetch data from the table: "sessions" */
+    sessions: Array<Sessions>;
+    /** fetch aggregated fields from the table: "sessions" */
+    sessions_aggregate: Sessions_Aggregate;
+    /** fetch data from the table: "sessions" using primary key columns */
+    sessions_by_pk?: Maybe<Sessions>;
     /** fetch data from the table: "shift" */
     shift: Array<Shift>;
     /** fetch aggregated fields from the table: "shift" */
@@ -8412,23 +8690,23 @@ export type Subscription_RootCheckdetail_By_PkArgs = {
     id: Scalars["Int"];
 };
 
-export type Subscription_RootCheckitemspecialrequestArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type Subscription_RootCheckdetailspecialrequestArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
-export type Subscription_RootCheckitemspecialrequest_AggregateArgs = {
-    distinct_on?: InputMaybe<Array<Checkitemspecialrequest_Select_Column>>;
+export type Subscription_RootCheckdetailspecialrequest_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Checkdetailspecialrequest_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
     offset?: InputMaybe<Scalars["Int"]>;
-    order_by?: InputMaybe<Array<Checkitemspecialrequest_Order_By>>;
-    where?: InputMaybe<Checkitemspecialrequest_Bool_Exp>;
+    order_by?: InputMaybe<Array<Checkdetailspecialrequest_Order_By>>;
+    where?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
 };
 
-export type Subscription_RootCheckitemspecialrequest_By_PkArgs = {
+export type Subscription_RootCheckdetailspecialrequest_By_PkArgs = {
     id: Scalars["Int"];
 };
 
@@ -8612,6 +8890,26 @@ export type Subscription_RootRole_By_PkArgs = {
     id: Scalars["Int"];
 };
 
+export type Subscription_RootSessionsArgs = {
+    distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Sessions_Order_By>>;
+    where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+export type Subscription_RootSessions_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Sessions_Order_By>>;
+    where?: InputMaybe<Sessions_Bool_Exp>;
+};
+
+export type Subscription_RootSessions_By_PkArgs = {
+    sid: Scalars["String"];
+};
+
 export type Subscription_RootShiftArgs = {
     distinct_on?: InputMaybe<Array<Shift_Select_Column>>;
     limit?: InputMaybe<Scalars["Int"]>;
@@ -8737,7 +9035,7 @@ export type Systemsetting = {
     __typename?: "systemsetting";
     address: Scalars["String"];
     id: Scalars["Int"];
-    restaurantimage: Scalars["String"];
+    restaurantimage?: Maybe<Scalars["String"]>;
     restaurantname: Scalars["String"];
     taxvalue: Scalars["Int"];
 };
@@ -9326,17 +9624,30 @@ export type Time_Comparison_Exp = {
     _nin?: InputMaybe<Array<Scalars["time"]>>;
 };
 
-/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
-export type Timestamp_Comparison_Exp = {
-    _eq?: InputMaybe<Scalars["timestamp"]>;
-    _gt?: InputMaybe<Scalars["timestamp"]>;
-    _gte?: InputMaybe<Scalars["timestamp"]>;
-    _in?: InputMaybe<Array<Scalars["timestamp"]>>;
+/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+export type Timestamptz_Comparison_Exp = {
+    _eq?: InputMaybe<Scalars["timestamptz"]>;
+    _gt?: InputMaybe<Scalars["timestamptz"]>;
+    _gte?: InputMaybe<Scalars["timestamptz"]>;
+    _in?: InputMaybe<Array<Scalars["timestamptz"]>>;
     _is_null?: InputMaybe<Scalars["Boolean"]>;
-    _lt?: InputMaybe<Scalars["timestamp"]>;
-    _lte?: InputMaybe<Scalars["timestamp"]>;
-    _neq?: InputMaybe<Scalars["timestamp"]>;
-    _nin?: InputMaybe<Array<Scalars["timestamp"]>>;
+    _lt?: InputMaybe<Scalars["timestamptz"]>;
+    _lte?: InputMaybe<Scalars["timestamptz"]>;
+    _neq?: InputMaybe<Scalars["timestamptz"]>;
+    _nin?: InputMaybe<Array<Scalars["timestamptz"]>>;
+};
+
+/** Boolean expression to compare columns of type "timetz". All fields are combined with logical 'AND'. */
+export type Timetz_Comparison_Exp = {
+    _eq?: InputMaybe<Scalars["timetz"]>;
+    _gt?: InputMaybe<Scalars["timetz"]>;
+    _gte?: InputMaybe<Scalars["timetz"]>;
+    _in?: InputMaybe<Array<Scalars["timetz"]>>;
+    _is_null?: InputMaybe<Scalars["Boolean"]>;
+    _lt?: InputMaybe<Scalars["timetz"]>;
+    _lte?: InputMaybe<Scalars["timetz"]>;
+    _neq?: InputMaybe<Scalars["timetz"]>;
+    _nin?: InputMaybe<Array<Scalars["timetz"]>>;
 };
 
 /** Boolean expression to compare columns of type "user_status". All fields are combined with logical 'AND'. */
@@ -9594,7 +9905,7 @@ export type Voidreason_Variance_Fields = {
 /** columns and relationships of "worksession" */
 export type Worksession = {
     __typename?: "worksession";
-    creationtime: Scalars["timestamp"];
+    creationtime: Scalars["timestamptz"];
     creatorid: Scalars["Int"];
     id: Scalars["Int"];
     isopen: Scalars["Boolean"];
@@ -9603,7 +9914,7 @@ export type Worksession = {
     /** An aggregate relationship */
     shifts_aggregate: Shift_Aggregate;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
     workdate: Scalars["date"];
 };
 
@@ -9667,13 +9978,13 @@ export type Worksession_Bool_Exp = {
     _and?: InputMaybe<Array<Worksession_Bool_Exp>>;
     _not?: InputMaybe<Worksession_Bool_Exp>;
     _or?: InputMaybe<Array<Worksession_Bool_Exp>>;
-    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamptz_Comparison_Exp>;
     creatorid?: InputMaybe<Int_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     isopen?: InputMaybe<Boolean_Comparison_Exp>;
     shifts?: InputMaybe<Shift_Bool_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
-    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamptz_Comparison_Exp>;
     workdate?: InputMaybe<Date_Comparison_Exp>;
 };
 
@@ -9692,35 +10003,35 @@ export type Worksession_Inc_Input = {
 
 /** input type for inserting data into table "worksession" */
 export type Worksession_Insert_Input = {
-    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    creationtime?: InputMaybe<Scalars["timestamptz"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isopen?: InputMaybe<Scalars["Boolean"]>;
     shifts?: InputMaybe<Shift_Arr_Rel_Insert_Input>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
     workdate?: InputMaybe<Scalars["date"]>;
 };
 
 /** aggregate max on columns */
 export type Worksession_Max_Fields = {
     __typename?: "worksession_max_fields";
-    creationtime?: Maybe<Scalars["timestamp"]>;
+    creationtime?: Maybe<Scalars["timestamptz"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
     workdate?: Maybe<Scalars["date"]>;
 };
 
 /** aggregate min on columns */
 export type Worksession_Min_Fields = {
     __typename?: "worksession_min_fields";
-    creationtime?: Maybe<Scalars["timestamp"]>;
+    creationtime?: Maybe<Scalars["timestamptz"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamp"]>;
+    updatetime?: Maybe<Scalars["timestamptz"]>;
     workdate?: Maybe<Scalars["date"]>;
 };
 
@@ -9784,12 +10095,12 @@ export enum Worksession_Select_Column {
 
 /** input type for updating data in table "worksession" */
 export type Worksession_Set_Input = {
-    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    creationtime?: InputMaybe<Scalars["timestamptz"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isopen?: InputMaybe<Scalars["Boolean"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
     workdate?: InputMaybe<Scalars["date"]>;
 };
 
@@ -9981,6 +10292,27 @@ export type UpdateLocationMutation = {
         name: string;
         status?: any | null;
     } | null;
+};
+
+export type LoginQueryQueryVariables = Exact<{
+    _eq?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type LoginQueryQuery = {
+    __typename?: "query_root";
+    account: Array<{
+        __typename?: "account";
+        avatar?: string | null;
+        email: string;
+        fullname: string;
+        id: number;
+        password: string;
+        phone: string;
+        roleid: number;
+        status?: any | null;
+        username: string;
+        role: { __typename?: "role"; id: number; name: string };
+    }>;
 };
 
 export type CreatePaymentmethodMutationVariables = Exact<{
@@ -10192,7 +10524,7 @@ export type GetSystemSettingQuery = {
         __typename?: "systemsetting";
         address: string;
         id: number;
-        restaurantimage: string;
+        restaurantimage?: string | null;
         restaurantname: string;
         taxvalue: number;
     }>;
@@ -10211,7 +10543,7 @@ export type UpdateSettingMutationMutation = {
     update_systemsetting_by_pk?: {
         __typename?: "systemsetting";
         id: number;
-        restaurantimage: string;
+        restaurantimage?: string | null;
         restaurantname: string;
         taxvalue: number;
         address: string;
@@ -10327,6 +10659,16 @@ export type GetAllWorkSessionQueryQuery = {
     }>;
 };
 
+export type CheckWsFromToQueryVariables = Exact<{
+    _gte?: InputMaybe<Scalars["date"]>;
+    _lte?: InputMaybe<Scalars["date"]>;
+}>;
+
+export type CheckWsFromToQuery = {
+    __typename?: "query_root";
+    worksession: Array<{ __typename?: "worksession"; id: number }>;
+};
+
 export type GetWorksessionByIdQueryVariables = Exact<{
     id?: InputMaybe<Scalars["Int"]>;
 }>;
@@ -10362,7 +10704,7 @@ export type UpdateWorkSessionMutationMutationVariables = Exact<{
     id?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     isopen?: InputMaybe<Scalars["Boolean"]>;
-    updatetime?: InputMaybe<Scalars["timestamp"]>;
+    updatetime?: InputMaybe<Scalars["timestamptz"]>;
 }>;
 
 export type UpdateWorkSessionMutationMutation = {

@@ -34,6 +34,7 @@ import { add, format } from "date-fns";
 import useDeleteWorksession from "hooks/worksession/useDeleteWorksession";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import useGetWorksessionById from "hooks/worksession/useGetWorksessionById";
+import useGetWSFromTo from "hooks/worksession/useGetWSFromTo";
 import useInsertMulti from "hooks/worksession/useInsertMulti";
 import useUpdateWorkSession from "hooks/worksession/useUpdateWorkSession";
 import { useEffect, useState } from "react";
@@ -78,6 +79,7 @@ const WorkSession = () => {
     const { mutate } = useInsertMulti("GetAllWorkSessionQuery");
     const { mutate: updateMutate } = useUpdateWorkSession("GetAllWorkSessionQuery");
     const { mutate: deleteMutation } = useDeleteWorksession("GetAllWorkSessionQuery");
+    const { mutate: getWSFromTo } = useGetWSFromTo();
 
     const { data: dataAll, isLoading } = useGetAllWorkSession();
     const { data: dataById, isLoading: isLoadingById } = useGetWorksessionById(selected);
@@ -164,6 +166,24 @@ const WorkSession = () => {
     const submitHandler: SubmitHandler<ShiftCreate> = async (data: ShiftCreate) => {
         try {
             if (data && data.startTime && data.endTime) {
+                getWSFromTo(
+                    {
+                        _gte: format(data.startTime, "yyyy/MM/dd"),
+                        _lte: format(data.endTime, "yyyy/MM/dd"),
+                    },
+                    {
+                        onSuccess(dataWS) {
+                            if (dataWS.worksession.length > 0) {
+                                showSnackbar({
+                                    children: "Đã tồn tại phiên làm việc",
+                                    variant: "filled",
+                                    severity: "error",
+                                });
+                                return;
+                            }
+                        },
+                    }
+                );
                 const listOfDates: Date[] = [];
                 while (data.startTime <= data.endTime) {
                     listOfDates.push(data.startTime);

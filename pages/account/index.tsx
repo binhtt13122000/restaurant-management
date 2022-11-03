@@ -14,6 +14,7 @@ import AccountDTO from "models/account.model";
 import useUpdateAccount from "hooks/account/useUpdateAccount";
 import useDeleteAccount from "hooks/account/useDeleteAccount";
 import useCreateAccount from "hooks/account/useCreateAccount";
+import bcrypt from "bcryptjs";
 
 const Account: NextPage = () => {
     useEffect(() => {
@@ -211,6 +212,11 @@ const Account: NextPage = () => {
                         data.id = undefined;
                         data.status = USER_ENUM.OFFLINE;
                         data.password = "123456";
+                        bcrypt.genSalt(10, function (err, salt) {
+                            bcrypt.hash("123456", salt, function (err, hash) {
+                                data.password = hash;
+                            });
+                        });
                         mutateCreate(data, {
                             onSuccess: () => {
                                 showSnackbar({

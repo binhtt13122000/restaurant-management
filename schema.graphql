@@ -158,6 +158,12 @@ unique or primary key constraints on table "account"
 """
 enum account_constraint {
   """unique or primary key constraint"""
+  account_email_key
+
+  """unique or primary key constraint"""
+  account_phone_key
+
+  """unique or primary key constraint"""
   account_pkey
 
   """unique or primary key constraint"""
@@ -565,16 +571,17 @@ type bill {
   """An object relationship"""
   check: check!
   checkid: Int!
-  creationtime: timestamp!
+  creationtime: timestamptz!
   creatorid: Int!
-  guestname: String!
+  guestname: String
   id: Int!
   note: String
   status: bill_status!
+  subtotal: Int!
   totalamount: Int!
   totaltax: Int!
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
 }
 
 """
@@ -634,6 +641,7 @@ type bill_avg_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -646,6 +654,7 @@ input bill_avg_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -663,16 +672,17 @@ input bill_bool_exp {
   billpayments: billpayment_bool_exp
   check: check_bool_exp
   checkid: Int_comparison_exp
-  creationtime: timestamp_comparison_exp
+  creationtime: timestamptz_comparison_exp
   creatorid: Int_comparison_exp
   guestname: String_comparison_exp
   id: Int_comparison_exp
   note: String_comparison_exp
   status: bill_status_comparison_exp
+  subtotal: Int_comparison_exp
   totalamount: Int_comparison_exp
   totaltax: Int_comparison_exp
   updaterid: Int_comparison_exp
-  updatetime: timestamp_comparison_exp
+  updatetime: timestamptz_comparison_exp
 }
 
 """
@@ -693,6 +703,7 @@ input bill_inc_input {
   checkid: Int
   creatorid: Int
   id: Int
+  subtotal: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
@@ -707,31 +718,33 @@ input bill_insert_input {
   billpayments: billpayment_arr_rel_insert_input
   check: check_obj_rel_insert_input
   checkid: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
   status: bill_status
+  subtotal: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
 }
 
 """aggregate max on columns"""
 type bill_max_fields {
   billno: String
   checkid: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
+  subtotal: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
 }
 
 """
@@ -745,6 +758,7 @@ input bill_max_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -755,15 +769,16 @@ input bill_max_order_by {
 type bill_min_fields {
   billno: String
   checkid: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
+  subtotal: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
 }
 
 """
@@ -777,6 +792,7 @@ input bill_min_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -826,6 +842,7 @@ input bill_order_by {
   id: order_by
   note: order_by
   status: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -866,6 +883,9 @@ enum bill_select_column {
   status
 
   """column name"""
+  subtotal
+
+  """column name"""
   totalamount
 
   """column name"""
@@ -884,16 +904,17 @@ input type for updating data in table "bill"
 input bill_set_input {
   billno: String
   checkid: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
   status: bill_status
+  subtotal: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
 }
 
 scalar bill_status
@@ -918,6 +939,7 @@ type bill_stddev_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -930,6 +952,7 @@ input bill_stddev_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -940,6 +963,7 @@ type bill_stddev_pop_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -952,6 +976,7 @@ input bill_stddev_pop_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -962,6 +987,7 @@ type bill_stddev_samp_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -974,6 +1000,7 @@ input bill_stddev_samp_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -984,6 +1011,7 @@ type bill_sum_fields {
   checkid: Int
   creatorid: Int
   id: Int
+  subtotal: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
@@ -996,6 +1024,7 @@ input bill_sum_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -1030,6 +1059,9 @@ enum bill_update_column {
   status
 
   """column name"""
+  subtotal
+
+  """column name"""
   totalamount
 
   """column name"""
@@ -1047,6 +1079,7 @@ type bill_var_pop_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -1059,6 +1092,7 @@ input bill_var_pop_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -1069,6 +1103,7 @@ type bill_var_samp_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -1081,6 +1116,7 @@ input bill_var_samp_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -1091,6 +1127,7 @@ type bill_variance_fields {
   checkid: Float
   creatorid: Float
   id: Float
+  subtotal: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
@@ -1103,6 +1140,7 @@ input bill_variance_order_by {
   checkid: order_by
   creatorid: order_by
   id: order_by
+  subtotal: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
@@ -1125,6 +1163,7 @@ type billdetail {
   itemname: String!
   itemprice: Int!
   quantity: float8!
+  subtotal: Int!
   taxamount: Int!
 }
 
@@ -1188,6 +1227,7 @@ type billdetail_avg_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1201,6 +1241,7 @@ input billdetail_avg_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1220,6 +1261,7 @@ input billdetail_bool_exp {
   itemname: String_comparison_exp
   itemprice: Int_comparison_exp
   quantity: float8_comparison_exp
+  subtotal: Int_comparison_exp
   taxamount: Int_comparison_exp
 }
 
@@ -1241,6 +1283,7 @@ input billdetail_inc_input {
   itemid: Int
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
 }
 
@@ -1257,6 +1300,7 @@ input billdetail_insert_input {
   itemname: String
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
 }
 
@@ -1269,6 +1313,7 @@ type billdetail_max_fields {
   itemname: String
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
 }
 
@@ -1283,6 +1328,7 @@ input billdetail_max_order_by {
   itemname: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1295,6 +1341,7 @@ type billdetail_min_fields {
   itemname: String
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
 }
 
@@ -1309,6 +1356,7 @@ input billdetail_min_order_by {
   itemname: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1343,6 +1391,7 @@ input billdetail_order_by {
   itemname: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1377,6 +1426,9 @@ enum billdetail_select_column {
   quantity
 
   """column name"""
+  subtotal
+
+  """column name"""
   taxamount
 }
 
@@ -1391,6 +1443,7 @@ input billdetail_set_input {
   itemname: String
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
 }
 
@@ -1402,6 +1455,7 @@ type billdetail_stddev_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1415,6 +1469,7 @@ input billdetail_stddev_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1426,6 +1481,7 @@ type billdetail_stddev_pop_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1439,6 +1495,7 @@ input billdetail_stddev_pop_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1450,6 +1507,7 @@ type billdetail_stddev_samp_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1463,6 +1521,7 @@ input billdetail_stddev_samp_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1474,6 +1533,7 @@ type billdetail_sum_fields {
   itemid: Int
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
 }
 
@@ -1487,6 +1547,7 @@ input billdetail_sum_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1516,6 +1577,9 @@ enum billdetail_update_column {
   quantity
 
   """column name"""
+  subtotal
+
+  """column name"""
   taxamount
 }
 
@@ -1527,6 +1591,7 @@ type billdetail_var_pop_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1540,6 +1605,7 @@ input billdetail_var_pop_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1551,6 +1617,7 @@ type billdetail_var_samp_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1564,6 +1631,7 @@ input billdetail_var_samp_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1575,6 +1643,7 @@ type billdetail_variance_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
 }
 
@@ -1588,6 +1657,7 @@ input billdetail_variance_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
 }
 
@@ -1999,6 +2069,7 @@ columns and relationships of "check"
 type check {
   """An object relationship"""
   account: account!
+  accountid: Int!
 
   """An array relationship"""
   bills(
@@ -2072,30 +2143,31 @@ type check {
     where: checkdetail_bool_exp
   ): checkdetail_aggregate!
   checkno: String!
-  cover: Int!
-  creationtime: timestamp!
+  cover: Int
+  creationtime: timestamptz!
   creatorid: Int!
-  guestname: String!
+  guestname: String
   id: Int!
   note: String
+  runningsince: timestamptz!
 
   """An object relationship"""
   shift: shift!
   shiftid: Int!
   status: check_status!
+  subtotal: Int!
 
   """An object relationship"""
-  table: table
-  tableid: Int
+  table: table!
+  tableid: Int!
   totalamount: Int!
   totaltax: Int!
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
 
   """An object relationship"""
   voidreason: voidreason
   voidreasonid: Int
-  waiterid: Int!
 }
 
 """
@@ -2152,32 +2224,34 @@ input check_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type check_avg_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by avg() on columns of table "check"
 """
 input check_avg_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """
@@ -2188,27 +2262,29 @@ input check_bool_exp {
   _not: check_bool_exp
   _or: [check_bool_exp!]
   account: account_bool_exp
+  accountid: Int_comparison_exp
   bills: bill_bool_exp
   checkdetails: checkdetail_bool_exp
   checkno: String_comparison_exp
   cover: Int_comparison_exp
-  creationtime: timestamp_comparison_exp
+  creationtime: timestamptz_comparison_exp
   creatorid: Int_comparison_exp
   guestname: String_comparison_exp
   id: Int_comparison_exp
   note: String_comparison_exp
+  runningsince: timestamptz_comparison_exp
   shift: shift_bool_exp
   shiftid: Int_comparison_exp
   status: check_status_comparison_exp
+  subtotal: Int_comparison_exp
   table: table_bool_exp
   tableid: Int_comparison_exp
   totalamount: Int_comparison_exp
   totaltax: Int_comparison_exp
   updaterid: Int_comparison_exp
-  updatetime: timestamp_comparison_exp
+  updatetime: timestamptz_comparison_exp
   voidreason: voidreason_bool_exp
   voidreasonid: Int_comparison_exp
-  waiterid: Int_comparison_exp
 }
 
 """
@@ -2226,16 +2302,17 @@ enum check_constraint {
 input type for incrementing numeric columns in table "check"
 """
 input check_inc_input {
+  accountid: Int
   cover: Int
   creatorid: Int
   id: Int
   shiftid: Int
+  subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
   voidreasonid: Int
-  waiterid: Int
 }
 
 """
@@ -2243,52 +2320,57 @@ input type for inserting data into table "check"
 """
 input check_insert_input {
   account: account_obj_rel_insert_input
+  accountid: Int
   bills: bill_arr_rel_insert_input
   checkdetails: checkdetail_arr_rel_insert_input
   checkno: String
   cover: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
+  runningsince: timestamptz
   shift: shift_obj_rel_insert_input
   shiftid: Int
   status: check_status
+  subtotal: Int
   table: table_obj_rel_insert_input
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   voidreason: voidreason_obj_rel_insert_input
   voidreasonid: Int
-  waiterid: Int
 }
 
 """aggregate max on columns"""
 type check_max_fields {
+  accountid: Int
   checkno: String
   cover: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
+  runningsince: timestamptz
   shiftid: Int
+  subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   voidreasonid: Int
-  waiterid: Int
 }
 
 """
 order by max() on columns of table "check"
 """
 input check_max_order_by {
+  accountid: order_by
   checkno: order_by
   cover: order_by
   creationtime: order_by
@@ -2296,39 +2378,43 @@ input check_max_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  runningsince: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   updatetime: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """aggregate min on columns"""
 type check_min_fields {
+  accountid: Int
   checkno: String
   cover: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
+  runningsince: timestamptz
   shiftid: Int
+  subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   voidreasonid: Int
-  waiterid: Int
 }
 
 """
 order by min() on columns of table "check"
 """
 input check_min_order_by {
+  accountid: order_by
   checkno: order_by
   cover: order_by
   creationtime: order_by
@@ -2336,14 +2422,15 @@ input check_min_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  runningsince: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   updatetime: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """
@@ -2379,6 +2466,7 @@ input check_on_conflict {
 """Ordering options when selecting data from "check"."""
 input check_order_by {
   account: account_order_by
+  accountid: order_by
   bills_aggregate: bill_aggregate_order_by
   checkdetails_aggregate: checkdetail_aggregate_order_by
   checkno: order_by
@@ -2388,9 +2476,11 @@ input check_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  runningsince: order_by
   shift: shift_order_by
   shiftid: order_by
   status: order_by
+  subtotal: order_by
   table: table_order_by
   tableid: order_by
   totalamount: order_by
@@ -2399,7 +2489,6 @@ input check_order_by {
   updatetime: order_by
   voidreason: voidreason_order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """primary key columns input for table: check"""
@@ -2411,6 +2500,9 @@ input check_pk_columns_input {
 select columns of table "check"
 """
 enum check_select_column {
+  """column name"""
+  accountid
+
   """column name"""
   checkno
 
@@ -2433,10 +2525,16 @@ enum check_select_column {
   note
 
   """column name"""
+  runningsince
+
+  """column name"""
   shiftid
 
   """column name"""
   status
+
+  """column name"""
+  subtotal
 
   """column name"""
   tableid
@@ -2455,31 +2553,30 @@ enum check_select_column {
 
   """column name"""
   voidreasonid
-
-  """column name"""
-  waiterid
 }
 
 """
 input type for updating data in table "check"
 """
 input check_set_input {
+  accountid: Int
   checkno: String
   cover: Int
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   guestname: String
   id: Int
   note: String
+  runningsince: timestamptz
   shiftid: Int
   status: check_status
+  subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   voidreasonid: Int
-  waiterid: Int
 }
 
 scalar check_status
@@ -2501,128 +2598,139 @@ input check_status_comparison_exp {
 
 """aggregate stddev on columns"""
 type check_stddev_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by stddev() on columns of table "check"
 """
 input check_stddev_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type check_stddev_pop_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by stddev_pop() on columns of table "check"
 """
 input check_stddev_pop_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type check_stddev_samp_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by stddev_samp() on columns of table "check"
 """
 input check_stddev_samp_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """aggregate sum on columns"""
 type check_sum_fields {
+  accountid: Int
   cover: Int
   creatorid: Int
   id: Int
   shiftid: Int
+  subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
   voidreasonid: Int
-  waiterid: Int
 }
 
 """
 order by sum() on columns of table "check"
 """
 input check_sum_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """
 update columns of table "check"
 """
 enum check_update_column {
+  """column name"""
+  accountid
+
   """column name"""
   checkno
 
@@ -2645,10 +2753,16 @@ enum check_update_column {
   note
 
   """column name"""
+  runningsince
+
+  """column name"""
   shiftid
 
   """column name"""
   status
+
+  """column name"""
+  subtotal
 
   """column name"""
   tableid
@@ -2667,99 +2781,102 @@ enum check_update_column {
 
   """column name"""
   voidreasonid
-
-  """column name"""
-  waiterid
 }
 
 """aggregate var_pop on columns"""
 type check_var_pop_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by var_pop() on columns of table "check"
 """
 input check_var_pop_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """aggregate var_samp on columns"""
 type check_var_samp_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by var_samp() on columns of table "check"
 """
 input check_var_samp_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """aggregate variance on columns"""
 type check_variance_fields {
+  accountid: Float
   cover: Float
   creatorid: Float
   id: Float
   shiftid: Float
+  subtotal: Float
   tableid: Float
   totalamount: Float
   totaltax: Float
   updaterid: Float
   voidreasonid: Float
-  waiterid: Float
 }
 
 """
 order by variance() on columns of table "check"
 """
 input check_variance_order_by {
+  accountid: order_by
   cover: order_by
   creatorid: order_by
   id: order_by
   shiftid: order_by
+  subtotal: order_by
   tableid: order_by
   totalamount: order_by
   totaltax: order_by
   updaterid: order_by
   voidreasonid: order_by
-  waiterid: order_by
 }
 
 """
@@ -2770,12 +2887,11 @@ type checkdetail {
 
   """An object relationship"""
   check: check!
-  checkid: Int!
 
   """An array relationship"""
-  checkitemspecialrequests(
+  checkdetailspecialrequests(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -2784,16 +2900,16 @@ type checkdetail {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): [checkitemspecialrequest!]!
+    where: checkdetailspecialrequest_bool_exp
+  ): [checkdetailspecialrequest!]!
 
   """An aggregate relationship"""
-  checkitemspecialrequests_aggregate(
+  checkdetailspecialrequests_aggregate(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -2802,11 +2918,13 @@ type checkdetail {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): checkitemspecialrequest_aggregate!
+    where: checkdetailspecialrequest_bool_exp
+  ): checkdetailspecialrequest_aggregate!
+  checkid: Int!
+  completiontime: timetz
   id: Int!
   isreminded: Boolean!
 
@@ -2817,6 +2935,7 @@ type checkdetail {
   note: String
   quantity: float8!
   status: checkdetail_status!
+  subtotal: Int!
   taxamount: Int!
 
   """An object relationship"""
@@ -2884,6 +3003,7 @@ type checkdetail_avg_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -2898,6 +3018,7 @@ input checkdetail_avg_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -2911,8 +3032,9 @@ input checkdetail_bool_exp {
   _or: [checkdetail_bool_exp!]
   amount: Int_comparison_exp
   check: check_bool_exp
+  checkdetailspecialrequests: checkdetailspecialrequest_bool_exp
   checkid: Int_comparison_exp
-  checkitemspecialrequests: checkitemspecialrequest_bool_exp
+  completiontime: timetz_comparison_exp
   id: Int_comparison_exp
   isreminded: Boolean_comparison_exp
   item: item_bool_exp
@@ -2921,6 +3043,7 @@ input checkdetail_bool_exp {
   note: String_comparison_exp
   quantity: float8_comparison_exp
   status: checkdetail_status_comparison_exp
+  subtotal: Int_comparison_exp
   taxamount: Int_comparison_exp
   voidreason: voidreason_bool_exp
   voidreasonid: Int_comparison_exp
@@ -2944,6 +3067,7 @@ input checkdetail_inc_input {
   itemid: Int
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
   voidreasonid: Int
 }
@@ -2954,8 +3078,9 @@ input type for inserting data into table "checkdetail"
 input checkdetail_insert_input {
   amount: Int
   check: check_obj_rel_insert_input
+  checkdetailspecialrequests: checkdetailspecialrequest_arr_rel_insert_input
   checkid: Int
-  checkitemspecialrequests: checkitemspecialrequest_arr_rel_insert_input
+  completiontime: timetz
   id: Int
   isreminded: Boolean
   item: item_obj_rel_insert_input
@@ -2964,6 +3089,7 @@ input checkdetail_insert_input {
   note: String
   quantity: float8
   status: checkdetail_status
+  subtotal: Int
   taxamount: Int
   voidreason: voidreason_obj_rel_insert_input
   voidreasonid: Int
@@ -2973,11 +3099,13 @@ input checkdetail_insert_input {
 type checkdetail_max_fields {
   amount: Int
   checkid: Int
+  completiontime: timetz
   id: Int
   itemid: Int
   itemprice: Int
   note: String
   quantity: float8
+  subtotal: Int
   taxamount: Int
   voidreasonid: Int
 }
@@ -2988,11 +3116,13 @@ order by max() on columns of table "checkdetail"
 input checkdetail_max_order_by {
   amount: order_by
   checkid: order_by
+  completiontime: order_by
   id: order_by
   itemid: order_by
   itemprice: order_by
   note: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3001,11 +3131,13 @@ input checkdetail_max_order_by {
 type checkdetail_min_fields {
   amount: Int
   checkid: Int
+  completiontime: timetz
   id: Int
   itemid: Int
   itemprice: Int
   note: String
   quantity: float8
+  subtotal: Int
   taxamount: Int
   voidreasonid: Int
 }
@@ -3016,11 +3148,13 @@ order by min() on columns of table "checkdetail"
 input checkdetail_min_order_by {
   amount: order_by
   checkid: order_by
+  completiontime: order_by
   id: order_by
   itemid: order_by
   itemprice: order_by
   note: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3059,8 +3193,9 @@ input checkdetail_on_conflict {
 input checkdetail_order_by {
   amount: order_by
   check: check_order_by
+  checkdetailspecialrequests_aggregate: checkdetailspecialrequest_aggregate_order_by
   checkid: order_by
-  checkitemspecialrequests_aggregate: checkitemspecialrequest_aggregate_order_by
+  completiontime: order_by
   id: order_by
   isreminded: order_by
   item: item_order_by
@@ -3069,6 +3204,7 @@ input checkdetail_order_by {
   note: order_by
   quantity: order_by
   status: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreason: voidreason_order_by
   voidreasonid: order_by
@@ -3088,6 +3224,9 @@ enum checkdetail_select_column {
 
   """column name"""
   checkid
+
+  """column name"""
+  completiontime
 
   """column name"""
   id
@@ -3111,6 +3250,9 @@ enum checkdetail_select_column {
   status
 
   """column name"""
+  subtotal
+
+  """column name"""
   taxamount
 
   """column name"""
@@ -3123,6 +3265,7 @@ input type for updating data in table "checkdetail"
 input checkdetail_set_input {
   amount: Int
   checkid: Int
+  completiontime: timetz
   id: Int
   isreminded: Boolean
   itemid: Int
@@ -3130,6 +3273,7 @@ input checkdetail_set_input {
   note: String
   quantity: float8
   status: checkdetail_status
+  subtotal: Int
   taxamount: Int
   voidreasonid: Int
 }
@@ -3159,6 +3303,7 @@ type checkdetail_stddev_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -3173,6 +3318,7 @@ input checkdetail_stddev_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3185,6 +3331,7 @@ type checkdetail_stddev_pop_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -3199,6 +3346,7 @@ input checkdetail_stddev_pop_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3211,6 +3359,7 @@ type checkdetail_stddev_samp_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -3225,6 +3374,7 @@ input checkdetail_stddev_samp_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3237,6 +3387,7 @@ type checkdetail_sum_fields {
   itemid: Int
   itemprice: Int
   quantity: float8
+  subtotal: Int
   taxamount: Int
   voidreasonid: Int
 }
@@ -3251,6 +3402,7 @@ input checkdetail_sum_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3264,6 +3416,9 @@ enum checkdetail_update_column {
 
   """column name"""
   checkid
+
+  """column name"""
+  completiontime
 
   """column name"""
   id
@@ -3287,6 +3442,9 @@ enum checkdetail_update_column {
   status
 
   """column name"""
+  subtotal
+
+  """column name"""
   taxamount
 
   """column name"""
@@ -3301,6 +3459,7 @@ type checkdetail_var_pop_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -3315,6 +3474,7 @@ input checkdetail_var_pop_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3327,6 +3487,7 @@ type checkdetail_var_samp_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -3341,6 +3502,7 @@ input checkdetail_var_samp_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
@@ -3353,6 +3515,7 @@ type checkdetail_variance_fields {
   itemid: Float
   itemprice: Float
   quantity: Float
+  subtotal: Float
   taxamount: Float
   voidreasonid: Float
 }
@@ -3367,14 +3530,15 @@ input checkdetail_variance_order_by {
   itemid: order_by
   itemprice: order_by
   quantity: order_by
+  subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
 }
 
 """
-columns and relationships of "checkitemspecialrequest"
+columns and relationships of "checkdetailspecialrequest"
 """
-type checkitemspecialrequest {
+type checkdetailspecialrequest {
   """An object relationship"""
   checkdetail: checkdetail!
   checkdetailid: Int!
@@ -3386,80 +3550,80 @@ type checkitemspecialrequest {
 }
 
 """
-aggregated selection of "checkitemspecialrequest"
+aggregated selection of "checkdetailspecialrequest"
 """
-type checkitemspecialrequest_aggregate {
-  aggregate: checkitemspecialrequest_aggregate_fields
-  nodes: [checkitemspecialrequest!]!
+type checkdetailspecialrequest_aggregate {
+  aggregate: checkdetailspecialrequest_aggregate_fields
+  nodes: [checkdetailspecialrequest!]!
 }
 
 """
-aggregate fields of "checkitemspecialrequest"
+aggregate fields of "checkdetailspecialrequest"
 """
-type checkitemspecialrequest_aggregate_fields {
-  avg: checkitemspecialrequest_avg_fields
-  count(columns: [checkitemspecialrequest_select_column!], distinct: Boolean): Int!
-  max: checkitemspecialrequest_max_fields
-  min: checkitemspecialrequest_min_fields
-  stddev: checkitemspecialrequest_stddev_fields
-  stddev_pop: checkitemspecialrequest_stddev_pop_fields
-  stddev_samp: checkitemspecialrequest_stddev_samp_fields
-  sum: checkitemspecialrequest_sum_fields
-  var_pop: checkitemspecialrequest_var_pop_fields
-  var_samp: checkitemspecialrequest_var_samp_fields
-  variance: checkitemspecialrequest_variance_fields
+type checkdetailspecialrequest_aggregate_fields {
+  avg: checkdetailspecialrequest_avg_fields
+  count(columns: [checkdetailspecialrequest_select_column!], distinct: Boolean): Int!
+  max: checkdetailspecialrequest_max_fields
+  min: checkdetailspecialrequest_min_fields
+  stddev: checkdetailspecialrequest_stddev_fields
+  stddev_pop: checkdetailspecialrequest_stddev_pop_fields
+  stddev_samp: checkdetailspecialrequest_stddev_samp_fields
+  sum: checkdetailspecialrequest_sum_fields
+  var_pop: checkdetailspecialrequest_var_pop_fields
+  var_samp: checkdetailspecialrequest_var_samp_fields
+  variance: checkdetailspecialrequest_variance_fields
 }
 
 """
-order by aggregate values of table "checkitemspecialrequest"
+order by aggregate values of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_aggregate_order_by {
-  avg: checkitemspecialrequest_avg_order_by
+input checkdetailspecialrequest_aggregate_order_by {
+  avg: checkdetailspecialrequest_avg_order_by
   count: order_by
-  max: checkitemspecialrequest_max_order_by
-  min: checkitemspecialrequest_min_order_by
-  stddev: checkitemspecialrequest_stddev_order_by
-  stddev_pop: checkitemspecialrequest_stddev_pop_order_by
-  stddev_samp: checkitemspecialrequest_stddev_samp_order_by
-  sum: checkitemspecialrequest_sum_order_by
-  var_pop: checkitemspecialrequest_var_pop_order_by
-  var_samp: checkitemspecialrequest_var_samp_order_by
-  variance: checkitemspecialrequest_variance_order_by
+  max: checkdetailspecialrequest_max_order_by
+  min: checkdetailspecialrequest_min_order_by
+  stddev: checkdetailspecialrequest_stddev_order_by
+  stddev_pop: checkdetailspecialrequest_stddev_pop_order_by
+  stddev_samp: checkdetailspecialrequest_stddev_samp_order_by
+  sum: checkdetailspecialrequest_sum_order_by
+  var_pop: checkdetailspecialrequest_var_pop_order_by
+  var_samp: checkdetailspecialrequest_var_samp_order_by
+  variance: checkdetailspecialrequest_variance_order_by
 }
 
 """
-input type for inserting array relation for remote table "checkitemspecialrequest"
+input type for inserting array relation for remote table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_arr_rel_insert_input {
-  data: [checkitemspecialrequest_insert_input!]!
+input checkdetailspecialrequest_arr_rel_insert_input {
+  data: [checkdetailspecialrequest_insert_input!]!
 
   """upsert condition"""
-  on_conflict: checkitemspecialrequest_on_conflict
+  on_conflict: checkdetailspecialrequest_on_conflict
 }
 
 """aggregate avg on columns"""
-type checkitemspecialrequest_avg_fields {
+type checkdetailspecialrequest_avg_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by avg() on columns of table "checkitemspecialrequest"
+order by avg() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_avg_order_by {
+input checkdetailspecialrequest_avg_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """
-Boolean expression to filter rows from the table "checkitemspecialrequest". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "checkdetailspecialrequest". All fields are combined with a logical 'AND'.
 """
-input checkitemspecialrequest_bool_exp {
-  _and: [checkitemspecialrequest_bool_exp!]
-  _not: checkitemspecialrequest_bool_exp
-  _or: [checkitemspecialrequest_bool_exp!]
+input checkdetailspecialrequest_bool_exp {
+  _and: [checkdetailspecialrequest_bool_exp!]
+  _not: checkdetailspecialrequest_bool_exp
+  _or: [checkdetailspecialrequest_bool_exp!]
   checkdetail: checkdetail_bool_exp
   checkdetailid: Int_comparison_exp
   id: Int_comparison_exp
@@ -3468,26 +3632,26 @@ input checkitemspecialrequest_bool_exp {
 }
 
 """
-unique or primary key constraints on table "checkitemspecialrequest"
+unique or primary key constraints on table "checkdetailspecialrequest"
 """
-enum checkitemspecialrequest_constraint {
+enum checkdetailspecialrequest_constraint {
   """unique or primary key constraint"""
-  checkitemspecialrequest_pkey
+  checkdetailspecialrequest_pkey
 }
 
 """
-input type for incrementing numeric columns in table "checkitemspecialrequest"
+input type for incrementing numeric columns in table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_inc_input {
+input checkdetailspecialrequest_inc_input {
   checkdetailid: Int
   id: Int
   specialrequestid: Int
 }
 
 """
-input type for inserting data into table "checkitemspecialrequest"
+input type for inserting data into table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_insert_input {
+input checkdetailspecialrequest_insert_input {
   checkdetail: checkdetail_obj_rel_insert_input
   checkdetailid: Int
   id: Int
@@ -3496,59 +3660,59 @@ input checkitemspecialrequest_insert_input {
 }
 
 """aggregate max on columns"""
-type checkitemspecialrequest_max_fields {
+type checkdetailspecialrequest_max_fields {
   checkdetailid: Int
   id: Int
   specialrequestid: Int
 }
 
 """
-order by max() on columns of table "checkitemspecialrequest"
+order by max() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_max_order_by {
+input checkdetailspecialrequest_max_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """aggregate min on columns"""
-type checkitemspecialrequest_min_fields {
+type checkdetailspecialrequest_min_fields {
   checkdetailid: Int
   id: Int
   specialrequestid: Int
 }
 
 """
-order by min() on columns of table "checkitemspecialrequest"
+order by min() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_min_order_by {
+input checkdetailspecialrequest_min_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """
-response of any mutation on the table "checkitemspecialrequest"
+response of any mutation on the table "checkdetailspecialrequest"
 """
-type checkitemspecialrequest_mutation_response {
+type checkdetailspecialrequest_mutation_response {
   """number of rows affected by the mutation"""
   affected_rows: Int!
 
   """data from the rows affected by the mutation"""
-  returning: [checkitemspecialrequest!]!
+  returning: [checkdetailspecialrequest!]!
 }
 
 """
-on_conflict condition type for table "checkitemspecialrequest"
+on_conflict condition type for table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_on_conflict {
-  constraint: checkitemspecialrequest_constraint!
-  update_columns: [checkitemspecialrequest_update_column!]! = []
-  where: checkitemspecialrequest_bool_exp
+input checkdetailspecialrequest_on_conflict {
+  constraint: checkdetailspecialrequest_constraint!
+  update_columns: [checkdetailspecialrequest_update_column!]! = []
+  where: checkdetailspecialrequest_bool_exp
 }
 
-"""Ordering options when selecting data from "checkitemspecialrequest"."""
-input checkitemspecialrequest_order_by {
+"""Ordering options when selecting data from "checkdetailspecialrequest"."""
+input checkdetailspecialrequest_order_by {
   checkdetail: checkdetail_order_by
   checkdetailid: order_by
   id: order_by
@@ -3556,15 +3720,15 @@ input checkitemspecialrequest_order_by {
   specialrequestid: order_by
 }
 
-"""primary key columns input for table: checkitemspecialrequest"""
-input checkitemspecialrequest_pk_columns_input {
+"""primary key columns input for table: checkdetailspecialrequest"""
+input checkdetailspecialrequest_pk_columns_input {
   id: Int!
 }
 
 """
-select columns of table "checkitemspecialrequest"
+select columns of table "checkdetailspecialrequest"
 """
-enum checkitemspecialrequest_select_column {
+enum checkdetailspecialrequest_select_column {
   """column name"""
   checkdetailid
 
@@ -3576,82 +3740,82 @@ enum checkitemspecialrequest_select_column {
 }
 
 """
-input type for updating data in table "checkitemspecialrequest"
+input type for updating data in table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_set_input {
+input checkdetailspecialrequest_set_input {
   checkdetailid: Int
   id: Int
   specialrequestid: Int
 }
 
 """aggregate stddev on columns"""
-type checkitemspecialrequest_stddev_fields {
+type checkdetailspecialrequest_stddev_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by stddev() on columns of table "checkitemspecialrequest"
+order by stddev() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_stddev_order_by {
+input checkdetailspecialrequest_stddev_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """aggregate stddev_pop on columns"""
-type checkitemspecialrequest_stddev_pop_fields {
+type checkdetailspecialrequest_stddev_pop_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by stddev_pop() on columns of table "checkitemspecialrequest"
+order by stddev_pop() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_stddev_pop_order_by {
+input checkdetailspecialrequest_stddev_pop_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """aggregate stddev_samp on columns"""
-type checkitemspecialrequest_stddev_samp_fields {
+type checkdetailspecialrequest_stddev_samp_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by stddev_samp() on columns of table "checkitemspecialrequest"
+order by stddev_samp() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_stddev_samp_order_by {
+input checkdetailspecialrequest_stddev_samp_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """aggregate sum on columns"""
-type checkitemspecialrequest_sum_fields {
+type checkdetailspecialrequest_sum_fields {
   checkdetailid: Int
   id: Int
   specialrequestid: Int
 }
 
 """
-order by sum() on columns of table "checkitemspecialrequest"
+order by sum() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_sum_order_by {
+input checkdetailspecialrequest_sum_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """
-update columns of table "checkitemspecialrequest"
+update columns of table "checkdetailspecialrequest"
 """
-enum checkitemspecialrequest_update_column {
+enum checkdetailspecialrequest_update_column {
   """column name"""
   checkdetailid
 
@@ -3663,48 +3827,48 @@ enum checkitemspecialrequest_update_column {
 }
 
 """aggregate var_pop on columns"""
-type checkitemspecialrequest_var_pop_fields {
+type checkdetailspecialrequest_var_pop_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by var_pop() on columns of table "checkitemspecialrequest"
+order by var_pop() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_var_pop_order_by {
+input checkdetailspecialrequest_var_pop_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """aggregate var_samp on columns"""
-type checkitemspecialrequest_var_samp_fields {
+type checkdetailspecialrequest_var_samp_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by var_samp() on columns of table "checkitemspecialrequest"
+order by var_samp() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_var_samp_order_by {
+input checkdetailspecialrequest_var_samp_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
 }
 
 """aggregate variance on columns"""
-type checkitemspecialrequest_variance_fields {
+type checkdetailspecialrequest_variance_fields {
   checkdetailid: Float
   id: Float
   specialrequestid: Float
 }
 
 """
-order by variance() on columns of table "checkitemspecialrequest"
+order by variance() on columns of table "checkdetailspecialrequest"
 """
-input checkitemspecialrequest_variance_order_by {
+input checkdetailspecialrequest_variance_order_by {
   checkdetailid: order_by
   id: order_by
   specialrequestid: order_by
@@ -3837,41 +4001,8 @@ type item {
   id: Int!
   image: String
 
-  """An array relationship"""
-  itemoutofstocks(
-    """distinct select on columns"""
-    distinct_on: [itemoutofstock_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [itemoutofstock_order_by!]
-
-    """filter the rows returned"""
-    where: itemoutofstock_bool_exp
-  ): [itemoutofstock!]!
-
-  """An aggregate relationship"""
-  itemoutofstocks_aggregate(
-    """distinct select on columns"""
-    distinct_on: [itemoutofstock_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [itemoutofstock_order_by!]
-
-    """filter the rows returned"""
-    where: itemoutofstock_bool_exp
-  ): itemoutofstock_aggregate!
+  """An object relationship"""
+  itemoutofstock: itemoutofstock
 
   """An object relationship"""
   majorgroup: majorgroup!
@@ -3913,7 +4044,7 @@ type item {
     where: menuitem_bool_exp
   ): menuitem_aggregate!
   name: String!
-  status: basic_status
+  status: basic_status!
 }
 
 """
@@ -3993,7 +4124,7 @@ input item_bool_exp {
   checkdetails: checkdetail_bool_exp
   id: Int_comparison_exp
   image: String_comparison_exp
-  itemoutofstocks: itemoutofstock_bool_exp
+  itemoutofstock: itemoutofstock_bool_exp
   majorgroup: majorgroup_bool_exp
   majorgroupid: Int_comparison_exp
   menuitems: menuitem_bool_exp
@@ -4025,7 +4156,7 @@ input item_insert_input {
   checkdetails: checkdetail_arr_rel_insert_input
   id: Int
   image: String
-  itemoutofstocks: itemoutofstock_arr_rel_insert_input
+  itemoutofstock: itemoutofstock_obj_rel_insert_input
   majorgroup: majorgroup_obj_rel_insert_input
   majorgroupid: Int
   menuitems: menuitem_arr_rel_insert_input
@@ -4105,7 +4236,7 @@ input item_order_by {
   checkdetails_aggregate: checkdetail_aggregate_order_by
   id: order_by
   image: order_by
-  itemoutofstocks_aggregate: itemoutofstock_aggregate_order_by
+  itemoutofstock: itemoutofstock_order_by
   majorgroup: majorgroup_order_by
   majorgroupid: order_by
   menuitems_aggregate: menuitem_aggregate_order_by
@@ -4303,45 +4434,10 @@ type itemoutofstock_aggregate_fields {
   variance: itemoutofstock_variance_fields
 }
 
-"""
-order by aggregate values of table "itemoutofstock"
-"""
-input itemoutofstock_aggregate_order_by {
-  avg: itemoutofstock_avg_order_by
-  count: order_by
-  max: itemoutofstock_max_order_by
-  min: itemoutofstock_min_order_by
-  stddev: itemoutofstock_stddev_order_by
-  stddev_pop: itemoutofstock_stddev_pop_order_by
-  stddev_samp: itemoutofstock_stddev_samp_order_by
-  sum: itemoutofstock_sum_order_by
-  var_pop: itemoutofstock_var_pop_order_by
-  var_samp: itemoutofstock_var_samp_order_by
-  variance: itemoutofstock_variance_order_by
-}
-
-"""
-input type for inserting array relation for remote table "itemoutofstock"
-"""
-input itemoutofstock_arr_rel_insert_input {
-  data: [itemoutofstock_insert_input!]!
-
-  """upsert condition"""
-  on_conflict: itemoutofstock_on_conflict
-}
-
 """aggregate avg on columns"""
 type itemoutofstock_avg_fields {
   id: Float
   itemid: Float
-}
-
-"""
-order by avg() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_avg_order_by {
-  id: order_by
-  itemid: order_by
 }
 
 """
@@ -4360,6 +4456,9 @@ input itemoutofstock_bool_exp {
 unique or primary key constraints on table "itemoutofstock"
 """
 enum itemoutofstock_constraint {
+  """unique or primary key constraint"""
+  itemoutofstock_itemid_key
+
   """unique or primary key constraint"""
   itemoutofstock_pkey
 }
@@ -4387,26 +4486,10 @@ type itemoutofstock_max_fields {
   itemid: Int
 }
 
-"""
-order by max() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_max_order_by {
-  id: order_by
-  itemid: order_by
-}
-
 """aggregate min on columns"""
 type itemoutofstock_min_fields {
   id: Int
   itemid: Int
-}
-
-"""
-order by min() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_min_order_by {
-  id: order_by
-  itemid: order_by
 }
 
 """
@@ -4418,6 +4501,16 @@ type itemoutofstock_mutation_response {
 
   """data from the rows affected by the mutation"""
   returning: [itemoutofstock!]!
+}
+
+"""
+input type for inserting object relation for remote table "itemoutofstock"
+"""
+input itemoutofstock_obj_rel_insert_input {
+  data: itemoutofstock_insert_input!
+
+  """upsert condition"""
+  on_conflict: itemoutofstock_on_conflict
 }
 
 """
@@ -4466,26 +4559,10 @@ type itemoutofstock_stddev_fields {
   itemid: Float
 }
 
-"""
-order by stddev() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_stddev_order_by {
-  id: order_by
-  itemid: order_by
-}
-
 """aggregate stddev_pop on columns"""
 type itemoutofstock_stddev_pop_fields {
   id: Float
   itemid: Float
-}
-
-"""
-order by stddev_pop() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_stddev_pop_order_by {
-  id: order_by
-  itemid: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -4494,26 +4571,10 @@ type itemoutofstock_stddev_samp_fields {
   itemid: Float
 }
 
-"""
-order by stddev_samp() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_stddev_samp_order_by {
-  id: order_by
-  itemid: order_by
-}
-
 """aggregate sum on columns"""
 type itemoutofstock_sum_fields {
   id: Int
   itemid: Int
-}
-
-"""
-order by sum() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_sum_order_by {
-  id: order_by
-  itemid: order_by
 }
 
 """
@@ -4533,26 +4594,10 @@ type itemoutofstock_var_pop_fields {
   itemid: Float
 }
 
-"""
-order by var_pop() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_var_pop_order_by {
-  id: order_by
-  itemid: order_by
-}
-
 """aggregate var_samp on columns"""
 type itemoutofstock_var_samp_fields {
   id: Float
   itemid: Float
-}
-
-"""
-order by var_samp() on columns of table "itemoutofstock"
-"""
-input itemoutofstock_var_samp_order_by {
-  id: order_by
-  itemid: order_by
 }
 
 """aggregate variance on columns"""
@@ -4561,12 +4606,21 @@ type itemoutofstock_variance_fields {
   itemid: Float
 }
 
+scalar json
+
 """
-order by variance() on columns of table "itemoutofstock"
+Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'.
 """
-input itemoutofstock_variance_order_by {
-  id: order_by
-  itemid: order_by
+input json_comparison_exp {
+  _eq: json
+  _gt: json
+  _gte: json
+  _in: [json!]
+  _is_null: Boolean
+  _lt: json
+  _lte: json
+  _neq: json
+  _nin: [json!]
 }
 
 """
@@ -6169,17 +6223,17 @@ type mutation_root {
   delete_checkdetail_by_pk(id: Int!): checkdetail
 
   """
-  delete data from the table: "checkitemspecialrequest"
+  delete data from the table: "checkdetailspecialrequest"
   """
-  delete_checkitemspecialrequest(
+  delete_checkdetailspecialrequest(
     """filter the rows which have to be deleted"""
-    where: checkitemspecialrequest_bool_exp!
-  ): checkitemspecialrequest_mutation_response
+    where: checkdetailspecialrequest_bool_exp!
+  ): checkdetailspecialrequest_mutation_response
 
   """
-  delete single row from the table: "checkitemspecialrequest"
+  delete single row from the table: "checkdetailspecialrequest"
   """
-  delete_checkitemspecialrequest_by_pk(id: Int!): checkitemspecialrequest
+  delete_checkdetailspecialrequest_by_pk(id: Int!): checkdetailspecialrequest
 
   """
   delete data from the table: "item"
@@ -6297,6 +6351,19 @@ type mutation_root {
   delete single row from the table: "role"
   """
   delete_role_by_pk(id: Int!): role
+
+  """
+  delete data from the table: "sessions"
+  """
+  delete_sessions(
+    """filter the rows which have to be deleted"""
+    where: sessions_bool_exp!
+  ): sessions_mutation_response
+
+  """
+  delete single row from the table: "sessions"
+  """
+  delete_sessions_by_pk(sid: String!): sessions
 
   """
   delete data from the table: "shift"
@@ -6509,26 +6576,26 @@ type mutation_root {
   ): checkdetail
 
   """
-  insert data into the table: "checkitemspecialrequest"
+  insert data into the table: "checkdetailspecialrequest"
   """
-  insert_checkitemspecialrequest(
+  insert_checkdetailspecialrequest(
     """the rows to be inserted"""
-    objects: [checkitemspecialrequest_insert_input!]!
+    objects: [checkdetailspecialrequest_insert_input!]!
 
     """upsert condition"""
-    on_conflict: checkitemspecialrequest_on_conflict
-  ): checkitemspecialrequest_mutation_response
+    on_conflict: checkdetailspecialrequest_on_conflict
+  ): checkdetailspecialrequest_mutation_response
 
   """
-  insert a single row into the table: "checkitemspecialrequest"
+  insert a single row into the table: "checkdetailspecialrequest"
   """
-  insert_checkitemspecialrequest_one(
+  insert_checkdetailspecialrequest_one(
     """the row to be inserted"""
-    object: checkitemspecialrequest_insert_input!
+    object: checkdetailspecialrequest_insert_input!
 
     """upsert condition"""
-    on_conflict: checkitemspecialrequest_on_conflict
-  ): checkitemspecialrequest
+    on_conflict: checkdetailspecialrequest_on_conflict
+  ): checkdetailspecialrequest
 
   """
   insert data into the table: "item"
@@ -6727,6 +6794,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: role_on_conflict
   ): role
+
+  """
+  insert data into the table: "sessions"
+  """
+  insert_sessions(
+    """the rows to be inserted"""
+    objects: [sessions_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: sessions_on_conflict
+  ): sessions_mutation_response
+
+  """
+  insert a single row into the table: "sessions"
+  """
+  insert_sessions_one(
+    """the row to be inserted"""
+    object: sessions_insert_input!
+
+    """upsert condition"""
+    on_conflict: sessions_on_conflict
+  ): sessions
 
   """
   insert data into the table: "shift"
@@ -7017,30 +7106,30 @@ type mutation_root {
   ): checkdetail
 
   """
-  update data of the table: "checkitemspecialrequest"
+  update data of the table: "checkdetailspecialrequest"
   """
-  update_checkitemspecialrequest(
+  update_checkdetailspecialrequest(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: checkitemspecialrequest_inc_input
+    _inc: checkdetailspecialrequest_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: checkitemspecialrequest_set_input
+    _set: checkdetailspecialrequest_set_input
 
     """filter the rows which have to be updated"""
-    where: checkitemspecialrequest_bool_exp!
-  ): checkitemspecialrequest_mutation_response
+    where: checkdetailspecialrequest_bool_exp!
+  ): checkdetailspecialrequest_mutation_response
 
   """
-  update single row of the table: "checkitemspecialrequest"
+  update single row of the table: "checkdetailspecialrequest"
   """
-  update_checkitemspecialrequest_by_pk(
+  update_checkdetailspecialrequest_by_pk(
     """increments the numeric columns with given value of the filtered values"""
-    _inc: checkitemspecialrequest_inc_input
+    _inc: checkdetailspecialrequest_inc_input
 
     """sets the columns of the filtered rows to the given values"""
-    _set: checkitemspecialrequest_set_input
-    pk_columns: checkitemspecialrequest_pk_columns_input!
-  ): checkitemspecialrequest
+    _set: checkdetailspecialrequest_set_input
+    pk_columns: checkdetailspecialrequest_pk_columns_input!
+  ): checkdetailspecialrequest
 
   """
   update data of the table: "item"
@@ -7275,6 +7364,26 @@ type mutation_root {
     _set: role_set_input
     pk_columns: role_pk_columns_input!
   ): role
+
+  """
+  update data of the table: "sessions"
+  """
+  update_sessions(
+    """sets the columns of the filtered rows to the given values"""
+    _set: sessions_set_input
+
+    """filter the rows which have to be updated"""
+    where: sessions_bool_exp!
+  ): sessions_mutation_response
+
+  """
+  update single row of the table: "sessions"
+  """
+  update_sessions_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: sessions_set_input
+    pk_columns: sessions_pk_columns_input!
+  ): sessions
 
   """
   update data of the table: "shift"
@@ -7953,11 +8062,11 @@ type query_root {
   checkdetail_by_pk(id: Int!): checkdetail
 
   """
-  fetch data from the table: "checkitemspecialrequest"
+  fetch data from the table: "checkdetailspecialrequest"
   """
-  checkitemspecialrequest(
+  checkdetailspecialrequest(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -7966,18 +8075,18 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): [checkitemspecialrequest!]!
+    where: checkdetailspecialrequest_bool_exp
+  ): [checkdetailspecialrequest!]!
 
   """
-  fetch aggregated fields from the table: "checkitemspecialrequest"
+  fetch aggregated fields from the table: "checkdetailspecialrequest"
   """
-  checkitemspecialrequest_aggregate(
+  checkdetailspecialrequest_aggregate(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -7986,16 +8095,16 @@ type query_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): checkitemspecialrequest_aggregate!
+    where: checkdetailspecialrequest_bool_exp
+  ): checkdetailspecialrequest_aggregate!
 
   """
-  fetch data from the table: "checkitemspecialrequest" using primary key columns
+  fetch data from the table: "checkdetailspecialrequest" using primary key columns
   """
-  checkitemspecialrequest_by_pk(id: Int!): checkitemspecialrequest
+  checkdetailspecialrequest_by_pk(id: Int!): checkdetailspecialrequest
 
   """
   fetch data from the table: "item"
@@ -8385,6 +8494,49 @@ type query_root {
   role_by_pk(id: Int!): role
 
   """
+  fetch data from the table: "sessions"
+  """
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """
+  fetch aggregated fields from the table: "sessions"
+  """
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessions_by_pk(sid: String!): sessions
+
+  """
   fetch data from the table: "shift"
   """
   shift(
@@ -8733,6 +8885,9 @@ unique or primary key constraints on table "role"
 """
 enum role_constraint {
   """unique or primary key constraint"""
+  role_name_key
+
+  """unique or primary key constraint"""
   role_pkey
 }
 
@@ -8869,6 +9024,145 @@ type role_var_samp_fields {
 """aggregate variance on columns"""
 type role_variance_fields {
   id: Float
+}
+
+"""
+columns and relationships of "sessions"
+"""
+type sessions {
+  expired: timestamptz!
+  sess(
+    """JSON select path"""
+    path: String
+  ): json!
+  sid: String!
+}
+
+"""
+aggregated selection of "sessions"
+"""
+type sessions_aggregate {
+  aggregate: sessions_aggregate_fields
+  nodes: [sessions!]!
+}
+
+"""
+aggregate fields of "sessions"
+"""
+type sessions_aggregate_fields {
+  count(columns: [sessions_select_column!], distinct: Boolean): Int!
+  max: sessions_max_fields
+  min: sessions_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "sessions". All fields are combined with a logical 'AND'.
+"""
+input sessions_bool_exp {
+  _and: [sessions_bool_exp!]
+  _not: sessions_bool_exp
+  _or: [sessions_bool_exp!]
+  expired: timestamptz_comparison_exp
+  sess: json_comparison_exp
+  sid: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "sessions"
+"""
+enum sessions_constraint {
+  """unique or primary key constraint"""
+  sessions_pkey
+}
+
+"""
+input type for inserting data into table "sessions"
+"""
+input sessions_insert_input {
+  expired: timestamptz
+  sess: json
+  sid: String
+}
+
+"""aggregate max on columns"""
+type sessions_max_fields {
+  expired: timestamptz
+  sid: String
+}
+
+"""aggregate min on columns"""
+type sessions_min_fields {
+  expired: timestamptz
+  sid: String
+}
+
+"""
+response of any mutation on the table "sessions"
+"""
+type sessions_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [sessions!]!
+}
+
+"""
+on_conflict condition type for table "sessions"
+"""
+input sessions_on_conflict {
+  constraint: sessions_constraint!
+  update_columns: [sessions_update_column!]! = []
+  where: sessions_bool_exp
+}
+
+"""Ordering options when selecting data from "sessions"."""
+input sessions_order_by {
+  expired: order_by
+  sess: order_by
+  sid: order_by
+}
+
+"""primary key columns input for table: sessions"""
+input sessions_pk_columns_input {
+  sid: String!
+}
+
+"""
+select columns of table "sessions"
+"""
+enum sessions_select_column {
+  """column name"""
+  expired
+
+  """column name"""
+  sess
+
+  """column name"""
+  sid
+}
+
+"""
+input type for updating data in table "sessions"
+"""
+input sessions_set_input {
+  expired: timestamptz
+  sess: json
+  sid: String
+}
+
+"""
+update columns of table "sessions"
+"""
+enum sessions_update_column {
+  """column name"""
+  expired
+
+  """column name"""
+  sess
+
+  """column name"""
+  sid
 }
 
 """
@@ -9349,9 +9643,9 @@ columns and relationships of "specialrequest"
 """
 type specialrequest {
   """An array relationship"""
-  checkitemspecialrequests(
+  checkdetailspecialrequests(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -9360,16 +9654,16 @@ type specialrequest {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): [checkitemspecialrequest!]!
+    where: checkdetailspecialrequest_bool_exp
+  ): [checkdetailspecialrequest!]!
 
   """An aggregate relationship"""
-  checkitemspecialrequests_aggregate(
+  checkdetailspecialrequests_aggregate(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -9378,11 +9672,11 @@ type specialrequest {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): checkitemspecialrequest_aggregate!
+    where: checkdetailspecialrequest_bool_exp
+  ): checkdetailspecialrequest_aggregate!
   id: Int!
 
   """An object relationship"""
@@ -9465,7 +9759,7 @@ input specialrequest_bool_exp {
   _and: [specialrequest_bool_exp!]
   _not: specialrequest_bool_exp
   _or: [specialrequest_bool_exp!]
-  checkitemspecialrequests: checkitemspecialrequest_bool_exp
+  checkdetailspecialrequests: checkdetailspecialrequest_bool_exp
   id: Int_comparison_exp
   majorgroup: majorgroup_bool_exp
   majorgroupid: Int_comparison_exp
@@ -9493,7 +9787,7 @@ input specialrequest_inc_input {
 input type for inserting data into table "specialrequest"
 """
 input specialrequest_insert_input {
-  checkitemspecialrequests: checkitemspecialrequest_arr_rel_insert_input
+  checkdetailspecialrequests: checkdetailspecialrequest_arr_rel_insert_input
   id: Int
   majorgroup: majorgroup_obj_rel_insert_input
   majorgroupid: Int
@@ -9565,7 +9859,7 @@ input specialrequest_on_conflict {
 
 """Ordering options when selecting data from "specialrequest"."""
 input specialrequest_order_by {
-  checkitemspecialrequests_aggregate: checkitemspecialrequest_aggregate_order_by
+  checkdetailspecialrequests_aggregate: checkdetailspecialrequest_aggregate_order_by
   id: order_by
   majorgroup: majorgroup_order_by
   majorgroupid: order_by
@@ -10033,11 +10327,11 @@ type subscription_root {
   checkdetail_by_pk(id: Int!): checkdetail
 
   """
-  fetch data from the table: "checkitemspecialrequest"
+  fetch data from the table: "checkdetailspecialrequest"
   """
-  checkitemspecialrequest(
+  checkdetailspecialrequest(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -10046,18 +10340,18 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): [checkitemspecialrequest!]!
+    where: checkdetailspecialrequest_bool_exp
+  ): [checkdetailspecialrequest!]!
 
   """
-  fetch aggregated fields from the table: "checkitemspecialrequest"
+  fetch aggregated fields from the table: "checkdetailspecialrequest"
   """
-  checkitemspecialrequest_aggregate(
+  checkdetailspecialrequest_aggregate(
     """distinct select on columns"""
-    distinct_on: [checkitemspecialrequest_select_column!]
+    distinct_on: [checkdetailspecialrequest_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -10066,16 +10360,16 @@ type subscription_root {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [checkitemspecialrequest_order_by!]
+    order_by: [checkdetailspecialrequest_order_by!]
 
     """filter the rows returned"""
-    where: checkitemspecialrequest_bool_exp
-  ): checkitemspecialrequest_aggregate!
+    where: checkdetailspecialrequest_bool_exp
+  ): checkdetailspecialrequest_aggregate!
 
   """
-  fetch data from the table: "checkitemspecialrequest" using primary key columns
+  fetch data from the table: "checkdetailspecialrequest" using primary key columns
   """
-  checkitemspecialrequest_by_pk(id: Int!): checkitemspecialrequest
+  checkdetailspecialrequest_by_pk(id: Int!): checkdetailspecialrequest
 
   """
   fetch data from the table: "item"
@@ -10465,6 +10759,49 @@ type subscription_root {
   role_by_pk(id: Int!): role
 
   """
+  fetch data from the table: "sessions"
+  """
+  sessions(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): [sessions!]!
+
+  """
+  fetch aggregated fields from the table: "sessions"
+  """
+  sessions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [sessions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [sessions_order_by!]
+
+    """filter the rows returned"""
+    where: sessions_bool_exp
+  ): sessions_aggregate!
+
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessions_by_pk(sid: String!): sessions
+
+  """
   fetch data from the table: "shift"
   """
   shift(
@@ -10729,7 +11066,7 @@ columns and relationships of "systemsetting"
 type systemsetting {
   address: String!
   id: Int!
-  restaurantimage: String!
+  restaurantimage: String
   restaurantname: String!
   taxvalue: Int!
 }
@@ -11393,21 +11730,38 @@ input time_comparison_exp {
   _nin: [time!]
 }
 
-scalar timestamp
+scalar timestamptz
 
 """
-Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
 """
-input timestamp_comparison_exp {
-  _eq: timestamp
-  _gt: timestamp
-  _gte: timestamp
-  _in: [timestamp!]
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
   _is_null: Boolean
-  _lt: timestamp
-  _lte: timestamp
-  _neq: timestamp
-  _nin: [timestamp!]
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+scalar timetz
+
+"""
+Boolean expression to compare columns of type "timetz". All fields are combined with logical 'AND'.
+"""
+input timetz_comparison_exp {
+  _eq: timetz
+  _gt: timetz
+  _gte: timetz
+  _in: [timetz!]
+  _is_null: Boolean
+  _lt: timetz
+  _lte: timetz
+  _neq: timetz
+  _nin: [timetz!]
 }
 
 scalar user_status
@@ -11709,7 +12063,7 @@ type voidreason_variance_fields {
 columns and relationships of "worksession"
 """
 type worksession {
-  creationtime: timestamp!
+  creationtime: timestamptz!
   creatorid: Int!
   id: Int!
   isopen: Boolean!
@@ -11750,7 +12104,7 @@ type worksession {
     where: shift_bool_exp
   ): shift_aggregate!
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   workdate: date!
 }
 
@@ -11793,13 +12147,13 @@ input worksession_bool_exp {
   _and: [worksession_bool_exp!]
   _not: worksession_bool_exp
   _or: [worksession_bool_exp!]
-  creationtime: timestamp_comparison_exp
+  creationtime: timestamptz_comparison_exp
   creatorid: Int_comparison_exp
   id: Int_comparison_exp
   isopen: Boolean_comparison_exp
   shifts: shift_bool_exp
   updaterid: Int_comparison_exp
-  updatetime: timestamp_comparison_exp
+  updatetime: timestamptz_comparison_exp
   workdate: date_comparison_exp
 }
 
@@ -11824,33 +12178,33 @@ input worksession_inc_input {
 input type for inserting data into table "worksession"
 """
 input worksession_insert_input {
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   id: Int
   isopen: Boolean
   shifts: shift_arr_rel_insert_input
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   workdate: date
 }
 
 """aggregate max on columns"""
 type worksession_max_fields {
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   id: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   workdate: date
 }
 
 """aggregate min on columns"""
 type worksession_min_fields {
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   id: Int
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   workdate: date
 }
 
@@ -11931,12 +12285,12 @@ enum worksession_select_column {
 input type for updating data in table "worksession"
 """
 input worksession_set_input {
-  creationtime: timestamp
+  creationtime: timestamptz
   creatorid: Int
   id: Int
   isopen: Boolean
   updaterid: Int
-  updatetime: timestamp
+  updatetime: timestamptz
   workdate: date
 }
 

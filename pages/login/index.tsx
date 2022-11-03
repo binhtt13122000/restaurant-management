@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import WarningIcon from "@mui/icons-material/Warning";
-import { LoginResponseModel, LoginModel } from "models/login.model";
+import { LoginModel } from "models/login.model";
+import bcrypt from "bcryptjs";
 import useLogin from "hooks/login/useLogin";
 import Router from "next/router";
 import FullScreenLayout from "components/Layout/FullScreenLayout";
@@ -31,33 +32,49 @@ const Login: NextPageWithLayout = () => {
 
     const submitHandler = (data: LoginModel) => {
         if (data) {
-            mutate(data, {
-                onError: (error) => {
-                    setError("username", { message: "" });
-                    setError("password", { message: error.response?.data.msg || "" });
+            mutate(
+                {
+                    _eq: data.username,
                 },
-                onSuccess: (user: LoginResponseModel | null) => {
-                    if (!user) {
-                        setError("username", { message: "" });
-                        setError("password", {
-                            message: "Tên đăng nhập hoặc mật khẩu không chính xác!",
-                        });
-                        return;
-                    }
-                    if (user.role.name.toLocaleUpperCase() !== "ADMIN") {
-                        setError("username", { message: "" });
-                        setError("password", { message: "Người dùng không phải là admin!" });
-                        return;
-                    }
-                    if (user.status === USER_ENUM.INACTIVE) {
-                        setError("username", { message: "" });
-                        setError("password", { message: "Người dùng đã bị khóa!" });
-                        return;
-                    }
-                    localStorage.setItem("user", JSON.stringify(user));
-                    Router.push("/");
-                },
-            });
+                {
+                    onSuccess: async (user) => {
+                        if (!user || !user.account) {
+                            setError("username", { message: "" });
+                            setError("password", {
+                                message: "Tên đăng nhập hoặc mật khẩu không chính xác!",
+                            });
+                            return;
+                        }
+                        if (user.account.length != 1) {
+                            setError("username", { message: "" });
+                            setError("password", {
+                                message: "Tên đăng nhập không tồn tại!",
+                            });
+                            return;
+                        }
+                        const match = await bcrypt.compare(data.password, user.account[0].password);
+                        if (!match) {
+                            setError("username", { message: "" });
+                            setError("password", {
+                                message: "Tên đăng nhập hoặc mật khẩu không chính xác!",
+                            });
+                            return;
+                        }
+                        if (user.account[0].role.name.toLocaleUpperCase() !== "ADMIN") {
+                            setError("username", { message: "" });
+                            setError("password", { message: "Người dùng không phải là admin!" });
+                            return;
+                        }
+                        if (user.account[0].status === USER_ENUM.INACTIVE) {
+                            setError("username", { message: "" });
+                            setError("password", { message: "Người dùng đã bị khóa!" });
+                            return;
+                        }
+                        localStorage.setItem("user", JSON.stringify(user));
+                        Router.push("/");
+                    },
+                }
+            );
         }
     };
     return (
