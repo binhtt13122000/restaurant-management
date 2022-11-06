@@ -9,7 +9,7 @@ const useGetListEntity = (entity: string, displayField: string, search: string) 
         return quyeryClient.request(
             gql`
             query GetEntityList($search: String = "%%") {
-                ${entity}(limit: 5, where: {${displayField}: {_ilike: $search}}) {
+                ${entity}(limit: 100, where: {${displayField}: {_ilike: $search}}) {
                     key: id
                     value: ${displayField}
                 }

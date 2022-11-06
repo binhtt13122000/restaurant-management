@@ -1,28 +1,28 @@
 import useCustomQueryClient from "components/Table/hooks/useQueryClient";
 import {
-    UpdateAccountMutationMutation,
-    UpdateAccountMutationMutationVariables,
+    UpdateAccountWithNoPassMutationMutation,
+    UpdateAccountWithNoPassMutationMutationVariables,
 } from "generated/graphql";
 import { gql } from "graphql-request";
 import { useMutation, useQueryClient } from "react-query";
 import { GraphQLErrorType } from "utils/common";
 
-const useUpdateAccount = (queryKey: string) => {
+const useUpdateAccountWithNoPass = (queryKey: string) => {
     const queryClient = useCustomQueryClient();
     const cache = useQueryClient();
     const result = useMutation<
-        UpdateAccountMutationMutation,
+        UpdateAccountWithNoPassMutationMutation,
         GraphQLErrorType,
-        UpdateAccountMutationMutationVariables
+        UpdateAccountWithNoPassMutationMutationVariables
     >(
-        ["UpdateAccount"],
+        ["UpdateAccountWithNoPass"],
         async (variable) => {
             const result = queryClient.request<
-                UpdateAccountMutationMutation,
-                UpdateAccountMutationMutationVariables
+                UpdateAccountWithNoPassMutationMutation,
+                UpdateAccountWithNoPassMutationMutationVariables
             >(
                 gql`
-                    mutation UpdateAccountMutation(
+                    mutation UpdateAccountWithNoPassMutation(
                         $id: Int = 10
                         $avatar: String = ""
                         $email: String = ""
@@ -31,7 +31,6 @@ const useUpdateAccount = (queryKey: string) => {
                         $roleid: Int = 10
                         $status: user_status = ""
                         $username: String = ""
-                        $password: String = ""
                     ) {
                         update_account_by_pk(
                             pk_columns: { id: $id }
@@ -43,7 +42,6 @@ const useUpdateAccount = (queryKey: string) => {
                                 roleid: $roleid
                                 status: $status
                                 username: $username
-                                password: $password
                             }
                         ) {
                             id
@@ -64,4 +62,4 @@ const useUpdateAccount = (queryKey: string) => {
     return result;
 };
 
-export default useUpdateAccount;
+export default useUpdateAccountWithNoPass;

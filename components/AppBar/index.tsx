@@ -1,10 +1,10 @@
-import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ROUTES } from "utils/routes";
+import { LoginQueryQuery } from "generated/graphql";
 
 type IAppBarWithDrawer = {
     appbarHeight: number;
@@ -12,6 +12,13 @@ type IAppBarWithDrawer = {
 };
 
 const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDrawerToggle }) => {
+    const [user, setUser] = React.useState<LoginQueryQuery>();
+
+    React.useEffect(() => {
+        // Perform localStorage action
+        setUser(JSON.parse(localStorage.getItem("user") || "{}"));
+    }, []);
+
     const theme = useTheme();
     const router = useRouter();
     return (
@@ -46,7 +53,7 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                     display="flex"
                     gap={1}
                     alignItems="center"
-                    onClick={() => router.push(ROUTES.DEFAULT)}
+                    onClick={() => router.push(ROUTES.ACCOUNT)}
                 >
                     <Image src="/images/cutlery.png" alt="logo" width={40} height={40} />
                     <Typography variant="h5">Quản lý nhà hàng</Typography>
@@ -71,9 +78,9 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                             display: { xs: "none", sm: "inline-block" },
                         }}
                     >
-                        {` Administrator | Nguyen Duc Huy`}
+                        {` ${user?.account[0].role.name} | ${user?.account[0].fullname}`}
                     </Typography>
-                    <Tooltip title="Thông báo">
+                    {/* <Tooltip title="Thông báo">
                         <IconButton
                             size="large"
                             aria-label="notification"
@@ -83,7 +90,7 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                         >
                             <NotificationsActiveIcon />
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip> */}
                 </Box>
             </Toolbar>
         </AppBar>

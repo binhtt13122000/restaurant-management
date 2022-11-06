@@ -138,7 +138,8 @@ const WorkSession = () => {
                 ),
             allDay: true,
             id: x.id,
-            backgroundColor: !x.isopen && !x.updaterid ? "grey" : x.isopen ? "#1e88e5" : "#fb8c00",
+            backgroundColor:
+                !x.isopen && !x.updaterid ? "#fb8c00" : x.isopen ? "#1e88e5" : "#fb8c00",
         };
     });
 
@@ -181,47 +182,49 @@ const WorkSession = () => {
                                 });
                                 return;
                             }
-                        },
-                    }
-                );
-                const listOfDates: Date[] = [];
-                while (data.startTime <= data.endTime) {
-                    listOfDates.push(data.startTime);
-                    data.startTime = add(data.startTime, {
-                        days: 1,
-                    });
-                }
-                // dataAll?.worksession.map((x) => listOfDates.findIndex((k) => k === x.workdate));
-                mutate(
-                    {
-                        objects: listOfDates.map((workingDate) => {
-                            return {
-                                creationtime: add(new Date(), {
-                                    hours: 7,
-                                }),
-                                creatorid: 1,
-                                isopen: false,
-                                workdate: add(workingDate, {
-                                    hours: 7,
-                                }),
-                            };
-                        }),
-                    },
-                    {
-                        onSuccess: () => {
-                            showSnackbar({
-                                children: "Tạo mới thành công",
-                                variant: "filled",
-                                severity: "success",
-                            });
-                            setOpenModal(false);
-                        },
-                        onError: () => {
-                            showSnackbar({
-                                children: "Tạo mới thất bại",
-                                variant: "filled",
-                                severity: "error",
-                            });
+                            if (data && data.startTime && data.endTime) {
+                                const listOfDates: Date[] = [];
+                                while (data.startTime <= data.endTime) {
+                                    listOfDates.push(data.startTime);
+                                    data.startTime = add(data.startTime, {
+                                        days: 1,
+                                    });
+                                }
+                                // dataAll?.worksession.map((x) => listOfDates.findIndex((k) => k === x.workdate));
+                                mutate(
+                                    {
+                                        objects: listOfDates.map((workingDate) => {
+                                            return {
+                                                creationtime: add(new Date(), {
+                                                    hours: 7,
+                                                }),
+                                                creatorid: 1,
+                                                isopen: false,
+                                                workdate: add(workingDate, {
+                                                    hours: 7,
+                                                }),
+                                            };
+                                        }),
+                                    },
+                                    {
+                                        onSuccess: () => {
+                                            showSnackbar({
+                                                children: "Tạo mới thành công",
+                                                variant: "filled",
+                                                severity: "success",
+                                            });
+                                            setOpenModal(false);
+                                        },
+                                        onError: () => {
+                                            showSnackbar({
+                                                children: "Tạo mới thất bại",
+                                                variant: "filled",
+                                                severity: "error",
+                                            });
+                                        },
+                                    }
+                                );
+                            }
                         },
                     }
                 );
@@ -232,13 +235,18 @@ const WorkSession = () => {
         }
     };
 
-    const tick = () => {
+    const tick = (checked: boolean) => {
+        if (checked) {
+            setStartTime(tomorrowFns);
+            const date = new Date();
+            date.setMonth(11);
+            date.setDate(31);
+            setEndTime(date);
+        } else {
+            setStartTime(null);
+            setEndTime(null);
+        }
         setCheck(!check);
-        setStartTime(tomorrowFns);
-        const date = new Date();
-        date.setMonth(11);
-        date.setDate(31);
-        setEndTime(date);
     };
 
     const deleteWorkSession = () => {
@@ -385,7 +393,12 @@ const WorkSession = () => {
                             }}
                         >
                             <FormControlLabel
-                                control={<Checkbox checked={check} onChange={() => tick()} />}
+                                control={
+                                    <Checkbox
+                                        checked={check}
+                                        onChange={(e) => tick(e.target.checked)}
+                                    />
+                                }
                                 label="Tạo nhanh"
                             />
                         </Grid>
@@ -546,7 +559,7 @@ const WorkSession = () => {
                                             ? "Chưa mở"
                                             : dataById?.worksession_by_pk?.isopen
                                             ? "Đang mở"
-                                            : "Đã đóng"
+                                            : "Đang đóng"
                                     }
                                 />
                             </Grid>
@@ -645,7 +658,7 @@ const WorkSession = () => {
                                             width={20}
                                             bgcolor="#fb8c00"
                                         ></Box>
-                                        {"Đã đóng"}
+                                        {"Đang đóng"}
                                     </Grid>
                                 </Grid>
                                 <Button

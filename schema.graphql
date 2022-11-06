@@ -571,7 +571,7 @@ type bill {
   """An object relationship"""
   check: check!
   checkid: Int!
-  creationtime: timestamptz!
+  creationtime: timestamp!
   creatorid: Int!
   guestname: String
   id: Int!
@@ -581,7 +581,7 @@ type bill {
   totalamount: Int!
   totaltax: Int!
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
 }
 
 """
@@ -672,7 +672,7 @@ input bill_bool_exp {
   billpayments: billpayment_bool_exp
   check: check_bool_exp
   checkid: Int_comparison_exp
-  creationtime: timestamptz_comparison_exp
+  creationtime: timestamp_comparison_exp
   creatorid: Int_comparison_exp
   guestname: String_comparison_exp
   id: Int_comparison_exp
@@ -682,7 +682,7 @@ input bill_bool_exp {
   totalamount: Int_comparison_exp
   totaltax: Int_comparison_exp
   updaterid: Int_comparison_exp
-  updatetime: timestamptz_comparison_exp
+  updatetime: timestamp_comparison_exp
 }
 
 """
@@ -718,7 +718,7 @@ input bill_insert_input {
   billpayments: billpayment_arr_rel_insert_input
   check: check_obj_rel_insert_input
   checkid: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
@@ -728,14 +728,14 @@ input bill_insert_input {
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
 }
 
 """aggregate max on columns"""
 type bill_max_fields {
   billno: String
   checkid: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
@@ -744,7 +744,7 @@ type bill_max_fields {
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
 }
 
 """
@@ -769,7 +769,7 @@ input bill_max_order_by {
 type bill_min_fields {
   billno: String
   checkid: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
@@ -778,7 +778,7 @@ type bill_min_fields {
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
 }
 
 """
@@ -904,7 +904,7 @@ input type for updating data in table "bill"
 input bill_set_input {
   billno: String
   checkid: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
@@ -914,7 +914,7 @@ input bill_set_input {
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
 }
 
 scalar bill_status
@@ -2144,12 +2144,12 @@ type check {
   ): checkdetail_aggregate!
   checkno: String!
   cover: Int
-  creationtime: timestamptz!
+  creationtime: timestamp!
   creatorid: Int!
   guestname: String
   id: Int!
   note: String
-  runningsince: timestamptz!
+  runningsince: timestamp!
 
   """An object relationship"""
   shift: shift!
@@ -2163,7 +2163,7 @@ type check {
   totalamount: Int!
   totaltax: Int!
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
 
   """An object relationship"""
   voidreason: voidreason
@@ -2267,12 +2267,12 @@ input check_bool_exp {
   checkdetails: checkdetail_bool_exp
   checkno: String_comparison_exp
   cover: Int_comparison_exp
-  creationtime: timestamptz_comparison_exp
+  creationtime: timestamp_comparison_exp
   creatorid: Int_comparison_exp
   guestname: String_comparison_exp
   id: Int_comparison_exp
   note: String_comparison_exp
-  runningsince: timestamptz_comparison_exp
+  runningsince: timestamp_comparison_exp
   shift: shift_bool_exp
   shiftid: Int_comparison_exp
   status: check_status_comparison_exp
@@ -2282,7 +2282,7 @@ input check_bool_exp {
   totalamount: Int_comparison_exp
   totaltax: Int_comparison_exp
   updaterid: Int_comparison_exp
-  updatetime: timestamptz_comparison_exp
+  updatetime: timestamp_comparison_exp
   voidreason: voidreason_bool_exp
   voidreasonid: Int_comparison_exp
 }
@@ -2325,12 +2325,12 @@ input check_insert_input {
   checkdetails: checkdetail_arr_rel_insert_input
   checkno: String
   cover: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
   note: String
-  runningsince: timestamptz
+  runningsince: timestamp
   shift: shift_obj_rel_insert_input
   shiftid: Int
   status: check_status
@@ -2340,7 +2340,7 @@ input check_insert_input {
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   voidreason: voidreason_obj_rel_insert_input
   voidreasonid: Int
 }
@@ -2350,19 +2350,19 @@ type check_max_fields {
   accountid: Int
   checkno: String
   cover: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
   note: String
-  runningsince: timestamptz
+  runningsince: timestamp
   shiftid: Int
   subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   voidreasonid: Int
 }
 
@@ -2394,19 +2394,19 @@ type check_min_fields {
   accountid: Int
   checkno: String
   cover: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
   note: String
-  runningsince: timestamptz
+  runningsince: timestamp
   shiftid: Int
   subtotal: Int
   tableid: Int
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   voidreasonid: Int
 }
 
@@ -2562,12 +2562,12 @@ input check_set_input {
   accountid: Int
   checkno: String
   cover: Int
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   guestname: String
   id: Int
   note: String
-  runningsince: timestamptz
+  runningsince: timestamp
   shiftid: Int
   status: check_status
   subtotal: Int
@@ -2575,7 +2575,7 @@ input check_set_input {
   totalamount: Int
   totaltax: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   voidreasonid: Int
 }
 
@@ -2934,6 +2934,7 @@ type checkdetail {
   itemprice: Int!
   note: String
   quantity: float8!
+  starttime: timetz!
   status: checkdetail_status!
   subtotal: Int!
   taxamount: Int!
@@ -3042,6 +3043,7 @@ input checkdetail_bool_exp {
   itemprice: Int_comparison_exp
   note: String_comparison_exp
   quantity: float8_comparison_exp
+  starttime: timetz_comparison_exp
   status: checkdetail_status_comparison_exp
   subtotal: Int_comparison_exp
   taxamount: Int_comparison_exp
@@ -3088,6 +3090,7 @@ input checkdetail_insert_input {
   itemprice: Int
   note: String
   quantity: float8
+  starttime: timetz
   status: checkdetail_status
   subtotal: Int
   taxamount: Int
@@ -3105,6 +3108,7 @@ type checkdetail_max_fields {
   itemprice: Int
   note: String
   quantity: float8
+  starttime: timetz
   subtotal: Int
   taxamount: Int
   voidreasonid: Int
@@ -3122,6 +3126,7 @@ input checkdetail_max_order_by {
   itemprice: order_by
   note: order_by
   quantity: order_by
+  starttime: order_by
   subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
@@ -3137,6 +3142,7 @@ type checkdetail_min_fields {
   itemprice: Int
   note: String
   quantity: float8
+  starttime: timetz
   subtotal: Int
   taxamount: Int
   voidreasonid: Int
@@ -3154,6 +3160,7 @@ input checkdetail_min_order_by {
   itemprice: order_by
   note: order_by
   quantity: order_by
+  starttime: order_by
   subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
@@ -3203,6 +3210,7 @@ input checkdetail_order_by {
   itemprice: order_by
   note: order_by
   quantity: order_by
+  starttime: order_by
   status: order_by
   subtotal: order_by
   taxamount: order_by
@@ -3247,6 +3255,9 @@ enum checkdetail_select_column {
   quantity
 
   """column name"""
+  starttime
+
+  """column name"""
   status
 
   """column name"""
@@ -3272,6 +3283,7 @@ input checkdetail_set_input {
   itemprice: Int
   note: String
   quantity: float8
+  starttime: timetz
   status: checkdetail_status
   subtotal: Int
   taxamount: Int
@@ -3437,6 +3449,9 @@ enum checkdetail_update_column {
 
   """column name"""
   quantity
+
+  """column name"""
+  starttime
 
   """column name"""
   status
@@ -9030,7 +9045,7 @@ type role_variance_fields {
 columns and relationships of "sessions"
 """
 type sessions {
-  expired: timestamptz!
+  expired: timestamp!
   sess(
     """JSON select path"""
     path: String
@@ -9062,7 +9077,7 @@ input sessions_bool_exp {
   _and: [sessions_bool_exp!]
   _not: sessions_bool_exp
   _or: [sessions_bool_exp!]
-  expired: timestamptz_comparison_exp
+  expired: timestamp_comparison_exp
   sess: json_comparison_exp
   sid: String_comparison_exp
 }
@@ -9079,20 +9094,20 @@ enum sessions_constraint {
 input type for inserting data into table "sessions"
 """
 input sessions_insert_input {
-  expired: timestamptz
+  expired: timestamp
   sess: json
   sid: String
 }
 
 """aggregate max on columns"""
 type sessions_max_fields {
-  expired: timestamptz
+  expired: timestamp
   sid: String
 }
 
 """aggregate min on columns"""
 type sessions_min_fields {
-  expired: timestamptz
+  expired: timestamp
   sid: String
 }
 
@@ -9146,7 +9161,7 @@ enum sessions_select_column {
 input type for updating data in table "sessions"
 """
 input sessions_set_input {
-  expired: timestamptz
+  expired: timestamp
   sess: json
   sid: String
 }
@@ -11730,21 +11745,21 @@ input time_comparison_exp {
   _nin: [time!]
 }
 
-scalar timestamptz
+scalar timestamp
 
 """
-Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
 """
-input timestamptz_comparison_exp {
-  _eq: timestamptz
-  _gt: timestamptz
-  _gte: timestamptz
-  _in: [timestamptz!]
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
   _is_null: Boolean
-  _lt: timestamptz
-  _lte: timestamptz
-  _neq: timestamptz
-  _nin: [timestamptz!]
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
 }
 
 scalar timetz
@@ -12063,7 +12078,7 @@ type voidreason_variance_fields {
 columns and relationships of "worksession"
 """
 type worksession {
-  creationtime: timestamptz!
+  creationtime: timestamp!
   creatorid: Int!
   id: Int!
   isopen: Boolean!
@@ -12104,7 +12119,7 @@ type worksession {
     where: shift_bool_exp
   ): shift_aggregate!
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   workdate: date!
 }
 
@@ -12147,13 +12162,13 @@ input worksession_bool_exp {
   _and: [worksession_bool_exp!]
   _not: worksession_bool_exp
   _or: [worksession_bool_exp!]
-  creationtime: timestamptz_comparison_exp
+  creationtime: timestamp_comparison_exp
   creatorid: Int_comparison_exp
   id: Int_comparison_exp
   isopen: Boolean_comparison_exp
   shifts: shift_bool_exp
   updaterid: Int_comparison_exp
-  updatetime: timestamptz_comparison_exp
+  updatetime: timestamp_comparison_exp
   workdate: date_comparison_exp
 }
 
@@ -12178,33 +12193,33 @@ input worksession_inc_input {
 input type for inserting data into table "worksession"
 """
 input worksession_insert_input {
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   id: Int
   isopen: Boolean
   shifts: shift_arr_rel_insert_input
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   workdate: date
 }
 
 """aggregate max on columns"""
 type worksession_max_fields {
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   id: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   workdate: date
 }
 
 """aggregate min on columns"""
 type worksession_min_fields {
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   id: Int
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   workdate: date
 }
 
@@ -12285,12 +12300,12 @@ enum worksession_select_column {
 input type for updating data in table "worksession"
 """
 input worksession_set_input {
-  creationtime: timestamptz
+  creationtime: timestamp
   creatorid: Int
   id: Int
   isopen: Boolean
   updaterid: Int
-  updatetime: timestamptz
+  updatetime: timestamp
   workdate: date
 }
 

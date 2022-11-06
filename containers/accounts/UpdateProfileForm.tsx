@@ -24,10 +24,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import PendingIcon from "@mui/icons-material/Pending";
 import { handleUpload } from "configurations/firebase";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
+const UpdateProfileForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
     const { data: defaultData, isView } = props;
     const ref = useRef<HTMLInputElement | null>(null);
 
@@ -52,8 +50,6 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
         setValue("avatar", defaultData.avatar);
         setValue("status", defaultData.status);
     }, [defaultData, setValue]);
-
-    const [eye, setEye] = useState<boolean>(true);
 
     const [avatar, setAvatar] = useState("");
     const [file, setFile] = useState<File | null>(null);
@@ -121,11 +117,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
             <CardContainer width="90%" maxWidth={820}>
                 <Box sx={{ display: "flex", justifyContent: "center", m: 3 }}>
                     <Typography variant="h6" component="h2">
-                        {defaultData.id
-                            ? props.isView
-                                ? "Xem chi tiết tài khoản"
-                                : "Chỉnh sửa tài khoản"
-                            : "Thêm mới tài khoản"}
+                        Chỉnh sửa thông tin cá nhân
                     </Typography>
                 </Box>
                 <Grid
@@ -215,23 +207,10 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                             <TextfieldBase
                                 id="password"
                                 label={"Mật khẩu"}
-                                type={eye ? "password" : "text"}
+                                type="password"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => setEye(!eye)}
-                                                edge="end"
-                                            >
-                                                {eye ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
                                 error={!!errors.password}
                                 helperText={errors.password && errors.password.message}
                                 {...register("password", {
@@ -430,7 +409,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                                     message: "Vai trò là bắt buộc",
                                 },
                             }}
-                            readonly={isView}
+                            readonly={true}
                             name="roleid"
                             entity="role"
                             displayField="name"
@@ -476,7 +455,7 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
                                 }
                                 autoFocus
                             >
-                                {defaultData.id ? "Chỉnh sửa" : "Tạo mới"}
+                                Chỉnh sửa
                             </Button>
                         )}
                     </Box>
@@ -486,4 +465,4 @@ const AccountForm: React.FC<IForm<AccountDTO>> = (props: IForm<AccountDTO>) => {
     );
 };
 
-export default React.memo(AccountForm);
+export default React.memo(UpdateProfileForm);

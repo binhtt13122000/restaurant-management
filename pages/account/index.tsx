@@ -15,6 +15,7 @@ import useUpdateAccount from "hooks/account/useUpdateAccount";
 import useDeleteAccount from "hooks/account/useDeleteAccount";
 import useCreateAccount from "hooks/account/useCreateAccount";
 import bcrypt from "bcryptjs";
+import useUpdateAccountWithNoPass from "hooks/account/useUpdateAccountWithNoPass";
 
 const Account: NextPage = () => {
     useEffect(() => {
@@ -37,6 +38,7 @@ const Account: NextPage = () => {
 
     const { mutate: mutateCreate } = useCreateAccount("AccountQuery");
     const { mutate: mutateUpdate } = useUpdateAccount("AccountQuery");
+    const { mutate: mutateUpdateWithNoPass } = useUpdateAccountWithNoPass("AccountQuery");
     const { mutate: mutateDelete } = useDeleteAccount("AccountQuery");
     const showSnackbar = useSnackbar();
     const [data, setData] = useState<AccountDTO>(initData);
@@ -211,41 +213,63 @@ const Account: NextPage = () => {
                     if (!data.id) {
                         data.id = undefined;
                         data.status = USER_ENUM.OFFLINE;
-                        data.password = "123456";
                         bcrypt.genSalt(10, function (err, salt) {
-                            bcrypt.hash("123456", salt, function (err, hash) {
+                            bcrypt.hash(data.password || "", salt, function (err, hash) {
                                 data.password = hash;
+                                mutateCreate(data, {
+                                    onSuccess: () => {
+                                        showSnackbar({
+                                            children: "Thêm mới thành công",
+                                            severity: "success",
+                                        });
+                                    },
+                                    onError: () => {
+                                        showSnackbar({
+                                            children: "Thêm mới thất bại",
+                                            severity: "error",
+                                        });
+                                    },
+                                });
                             });
                         });
-                        mutateCreate(data, {
-                            onSuccess: () => {
-                                showSnackbar({
-                                    children: "Thêm mới thành công",
-                                    severity: "success",
-                                });
-                            },
-                            onError: () => {
-                                showSnackbar({
-                                    children: "Thêm mới thất bại",
-                                    severity: "error",
-                                });
-                            },
-                        });
                     } else {
-                        mutateUpdate(data, {
-                            onSuccess: () => {
-                                showSnackbar({
-                                    children: "Chỉnh sửa thành công",
-                                    severity: "success",
+                        if (data.password) {
+                            bcrypt.genSalt(10, function (err, salt) {
+                                bcrypt.hash(data.password || "", salt, function (err, hash) {
+                                    data.password = hash;
+                                    mutateUpdate(data, {
+                                        onSuccess: () => {
+                                            showSnackbar({
+                                                children: "Chỉnh sửa thành công",
+                                                severity: "success",
+                                            });
+                                        },
+                                        onError: () => {
+                                            showSnackbar({
+                                                children: "Chỉnh sửa thất bại",
+                                                severity: "error",
+                                            });
+                                        },
+                                    });
                                 });
-                            },
-                            onError: () => {
-                                showSnackbar({
-                                    children: "Chỉnh sửa thất bại",
-                                    severity: "error",
-                                });
-                            },
-                        });
+                            });
+                        } else {
+                            data.password = undefined;
+                            mutateUpdateWithNoPass(data, {
+                                onSuccess: () => {
+                                    showSnackbar({
+                                        children: "Chỉnh sửa thành công",
+                                        severity: "success",
+                                    });
+                                },
+                                onError: () => {
+                                    showSnackbar({
+                                        children: "Chỉnh sửa thất bại",
+                                        severity: "error",
+                                    });
+                                },
+                            });
+                        }
                     }
                 }
             }

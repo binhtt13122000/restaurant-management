@@ -19,7 +19,7 @@ export type Scalars = {
     json: any;
     table_status: any;
     time: any;
-    timestamptz: any;
+    timestamp: any;
     timetz: any;
     user_status: any;
 };
@@ -505,7 +505,7 @@ export type Bill = {
     /** An object relationship */
     check: Check;
     checkid: Scalars["Int"];
-    creationtime: Scalars["timestamptz"];
+    creationtime: Scalars["timestamp"];
     creatorid: Scalars["Int"];
     guestname?: Maybe<Scalars["String"]>;
     id: Scalars["Int"];
@@ -515,7 +515,7 @@ export type Bill = {
     totalamount: Scalars["Int"];
     totaltax: Scalars["Int"];
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
 };
 
 /** columns and relationships of "bill" */
@@ -638,7 +638,7 @@ export type Bill_Bool_Exp = {
     billpayments?: InputMaybe<Billpayment_Bool_Exp>;
     check?: InputMaybe<Check_Bool_Exp>;
     checkid?: InputMaybe<Int_Comparison_Exp>;
-    creationtime?: InputMaybe<Timestamptz_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
     creatorid?: InputMaybe<Int_Comparison_Exp>;
     guestname?: InputMaybe<String_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
@@ -648,7 +648,7 @@ export type Bill_Bool_Exp = {
     totalamount?: InputMaybe<Int_Comparison_Exp>;
     totaltax?: InputMaybe<Int_Comparison_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
-    updatetime?: InputMaybe<Timestamptz_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "bill" */
@@ -677,7 +677,7 @@ export type Bill_Insert_Input = {
     billpayments?: InputMaybe<Billpayment_Arr_Rel_Insert_Input>;
     check?: InputMaybe<Check_Obj_Rel_Insert_Input>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamptz"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
@@ -687,7 +687,7 @@ export type Bill_Insert_Input = {
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
 };
 
 /** aggregate max on columns */
@@ -695,7 +695,7 @@ export type Bill_Max_Fields = {
     __typename?: "bill_max_fields";
     billno?: Maybe<Scalars["String"]>;
     checkid?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamptz"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
@@ -704,7 +704,7 @@ export type Bill_Max_Fields = {
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
 };
 
 /** order by max() on columns of table "bill" */
@@ -728,7 +728,7 @@ export type Bill_Min_Fields = {
     __typename?: "bill_min_fields";
     billno?: Maybe<Scalars["String"]>;
     checkid?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamptz"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
@@ -737,7 +737,7 @@ export type Bill_Min_Fields = {
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
 };
 
 /** order by min() on columns of table "bill" */
@@ -838,7 +838,7 @@ export enum Bill_Select_Column {
 export type Bill_Set_Input = {
     billno?: InputMaybe<Scalars["String"]>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamptz"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
@@ -848,7 +848,7 @@ export type Bill_Set_Input = {
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
 };
 
 /** Boolean expression to compare columns of type "bill_status". All fields are combined with logical 'AND'. */
@@ -1885,12 +1885,12 @@ export type Check = {
     checkdetails_aggregate: Checkdetail_Aggregate;
     checkno: Scalars["String"];
     cover?: Maybe<Scalars["Int"]>;
-    creationtime: Scalars["timestamptz"];
+    creationtime: Scalars["timestamp"];
     creatorid: Scalars["Int"];
     guestname?: Maybe<Scalars["String"]>;
     id: Scalars["Int"];
     note?: Maybe<Scalars["String"]>;
-    runningsince: Scalars["timestamptz"];
+    runningsince: Scalars["timestamp"];
     /** An object relationship */
     shift: Shift;
     shiftid: Scalars["Int"];
@@ -1902,7 +1902,7 @@ export type Check = {
     totalamount: Scalars["Int"];
     totaltax: Scalars["Int"];
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
     /** An object relationship */
     voidreason?: Maybe<Voidreason>;
     voidreasonid?: Maybe<Scalars["Int"]>;
@@ -2037,12 +2037,12 @@ export type Check_Bool_Exp = {
     checkdetails?: InputMaybe<Checkdetail_Bool_Exp>;
     checkno?: InputMaybe<String_Comparison_Exp>;
     cover?: InputMaybe<Int_Comparison_Exp>;
-    creationtime?: InputMaybe<Timestamptz_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
     creatorid?: InputMaybe<Int_Comparison_Exp>;
     guestname?: InputMaybe<String_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
-    runningsince?: InputMaybe<Timestamptz_Comparison_Exp>;
+    runningsince?: InputMaybe<Timestamp_Comparison_Exp>;
     shift?: InputMaybe<Shift_Bool_Exp>;
     shiftid?: InputMaybe<Int_Comparison_Exp>;
     status?: InputMaybe<Check_Status_Comparison_Exp>;
@@ -2052,7 +2052,7 @@ export type Check_Bool_Exp = {
     totalamount?: InputMaybe<Int_Comparison_Exp>;
     totaltax?: InputMaybe<Int_Comparison_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
-    updatetime?: InputMaybe<Timestamptz_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
     voidreason?: InputMaybe<Voidreason_Bool_Exp>;
     voidreasonid?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -2088,12 +2088,12 @@ export type Check_Insert_Input = {
     checkdetails?: InputMaybe<Checkdetail_Arr_Rel_Insert_Input>;
     checkno?: InputMaybe<Scalars["String"]>;
     cover?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamptz"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
-    runningsince?: InputMaybe<Scalars["timestamptz"]>;
+    runningsince?: InputMaybe<Scalars["timestamp"]>;
     shift?: InputMaybe<Shift_Obj_Rel_Insert_Input>;
     shiftid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["check_status"]>;
@@ -2103,7 +2103,7 @@ export type Check_Insert_Input = {
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
     voidreason?: InputMaybe<Voidreason_Obj_Rel_Insert_Input>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
@@ -2114,19 +2114,19 @@ export type Check_Max_Fields = {
     accountid?: Maybe<Scalars["Int"]>;
     checkno?: Maybe<Scalars["String"]>;
     cover?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamptz"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
-    runningsince?: Maybe<Scalars["timestamptz"]>;
+    runningsince?: Maybe<Scalars["timestamp"]>;
     shiftid?: Maybe<Scalars["Int"]>;
     subtotal?: Maybe<Scalars["Int"]>;
     tableid?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
 
@@ -2157,19 +2157,19 @@ export type Check_Min_Fields = {
     accountid?: Maybe<Scalars["Int"]>;
     checkno?: Maybe<Scalars["String"]>;
     cover?: Maybe<Scalars["Int"]>;
-    creationtime?: Maybe<Scalars["timestamptz"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
-    runningsince?: Maybe<Scalars["timestamptz"]>;
+    runningsince?: Maybe<Scalars["timestamp"]>;
     shiftid?: Maybe<Scalars["Int"]>;
     subtotal?: Maybe<Scalars["Int"]>;
     tableid?: Maybe<Scalars["Int"]>;
     totalamount?: Maybe<Scalars["Int"]>;
     totaltax?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
 
@@ -2295,12 +2295,12 @@ export type Check_Set_Input = {
     accountid?: InputMaybe<Scalars["Int"]>;
     checkno?: InputMaybe<Scalars["String"]>;
     cover?: InputMaybe<Scalars["Int"]>;
-    creationtime?: InputMaybe<Scalars["timestamptz"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
-    runningsince?: InputMaybe<Scalars["timestamptz"]>;
+    runningsince?: InputMaybe<Scalars["timestamp"]>;
     shiftid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["check_status"]>;
     subtotal?: InputMaybe<Scalars["Int"]>;
@@ -2308,7 +2308,7 @@ export type Check_Set_Input = {
     totalamount?: InputMaybe<Scalars["Int"]>;
     totaltax?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -2602,6 +2602,7 @@ export type Checkdetail = {
     itemprice: Scalars["Int"];
     note?: Maybe<Scalars["String"]>;
     quantity: Scalars["float8"];
+    starttime: Scalars["timetz"];
     status: Scalars["checkdetail_status"];
     subtotal: Scalars["Int"];
     taxamount: Scalars["Int"];
@@ -2723,6 +2724,7 @@ export type Checkdetail_Bool_Exp = {
     itemprice?: InputMaybe<Int_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
     quantity?: InputMaybe<Float8_Comparison_Exp>;
+    starttime?: InputMaybe<Timetz_Comparison_Exp>;
     status?: InputMaybe<Checkdetail_Status_Comparison_Exp>;
     subtotal?: InputMaybe<Int_Comparison_Exp>;
     taxamount?: InputMaybe<Int_Comparison_Exp>;
@@ -2763,6 +2765,7 @@ export type Checkdetail_Insert_Input = {
     itemprice?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
+    starttime?: InputMaybe<Scalars["timetz"]>;
     status?: InputMaybe<Scalars["checkdetail_status"]>;
     subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
@@ -2781,6 +2784,7 @@ export type Checkdetail_Max_Fields = {
     itemprice?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    starttime?: Maybe<Scalars["timetz"]>;
     subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
@@ -2796,6 +2800,7 @@ export type Checkdetail_Max_Order_By = {
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    starttime?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
@@ -2812,6 +2817,7 @@ export type Checkdetail_Min_Fields = {
     itemprice?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
     quantity?: Maybe<Scalars["float8"]>;
+    starttime?: Maybe<Scalars["timetz"]>;
     subtotal?: Maybe<Scalars["Int"]>;
     taxamount?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
@@ -2827,6 +2833,7 @@ export type Checkdetail_Min_Order_By = {
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    starttime?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
@@ -2869,6 +2876,7 @@ export type Checkdetail_Order_By = {
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
+    starttime?: InputMaybe<Order_By>;
     status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
@@ -2902,6 +2910,8 @@ export enum Checkdetail_Select_Column {
     /** column name */
     Quantity = "quantity",
     /** column name */
+    Starttime = "starttime",
+    /** column name */
     Status = "status",
     /** column name */
     Subtotal = "subtotal",
@@ -2922,6 +2932,7 @@ export type Checkdetail_Set_Input = {
     itemprice?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
+    starttime?: InputMaybe<Scalars["timetz"]>;
     status?: InputMaybe<Scalars["checkdetail_status"]>;
     subtotal?: InputMaybe<Scalars["Int"]>;
     taxamount?: InputMaybe<Scalars["Int"]>;
@@ -3069,6 +3080,8 @@ export enum Checkdetail_Update_Column {
     Note = "note",
     /** column name */
     Quantity = "quantity",
+    /** column name */
+    Starttime = "starttime",
     /** column name */
     Status = "status",
     /** column name */
@@ -7572,7 +7585,7 @@ export type Role_Variance_Fields = {
 /** columns and relationships of "sessions" */
 export type Sessions = {
     __typename?: "sessions";
-    expired: Scalars["timestamptz"];
+    expired: Scalars["timestamp"];
     sess: Scalars["json"];
     sid: Scalars["String"];
 };
@@ -7608,7 +7621,7 @@ export type Sessions_Bool_Exp = {
     _and?: InputMaybe<Array<Sessions_Bool_Exp>>;
     _not?: InputMaybe<Sessions_Bool_Exp>;
     _or?: InputMaybe<Array<Sessions_Bool_Exp>>;
-    expired?: InputMaybe<Timestamptz_Comparison_Exp>;
+    expired?: InputMaybe<Timestamp_Comparison_Exp>;
     sess?: InputMaybe<Json_Comparison_Exp>;
     sid?: InputMaybe<String_Comparison_Exp>;
 };
@@ -7621,7 +7634,7 @@ export enum Sessions_Constraint {
 
 /** input type for inserting data into table "sessions" */
 export type Sessions_Insert_Input = {
-    expired?: InputMaybe<Scalars["timestamptz"]>;
+    expired?: InputMaybe<Scalars["timestamp"]>;
     sess?: InputMaybe<Scalars["json"]>;
     sid?: InputMaybe<Scalars["String"]>;
 };
@@ -7629,14 +7642,14 @@ export type Sessions_Insert_Input = {
 /** aggregate max on columns */
 export type Sessions_Max_Fields = {
     __typename?: "sessions_max_fields";
-    expired?: Maybe<Scalars["timestamptz"]>;
+    expired?: Maybe<Scalars["timestamp"]>;
     sid?: Maybe<Scalars["String"]>;
 };
 
 /** aggregate min on columns */
 export type Sessions_Min_Fields = {
     __typename?: "sessions_min_fields";
-    expired?: Maybe<Scalars["timestamptz"]>;
+    expired?: Maybe<Scalars["timestamp"]>;
     sid?: Maybe<Scalars["String"]>;
 };
 
@@ -7680,7 +7693,7 @@ export enum Sessions_Select_Column {
 
 /** input type for updating data in table "sessions" */
 export type Sessions_Set_Input = {
-    expired?: InputMaybe<Scalars["timestamptz"]>;
+    expired?: InputMaybe<Scalars["timestamp"]>;
     sess?: InputMaybe<Scalars["json"]>;
     sid?: InputMaybe<Scalars["String"]>;
 };
@@ -9624,17 +9637,17 @@ export type Time_Comparison_Exp = {
     _nin?: InputMaybe<Array<Scalars["time"]>>;
 };
 
-/** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
-export type Timestamptz_Comparison_Exp = {
-    _eq?: InputMaybe<Scalars["timestamptz"]>;
-    _gt?: InputMaybe<Scalars["timestamptz"]>;
-    _gte?: InputMaybe<Scalars["timestamptz"]>;
-    _in?: InputMaybe<Array<Scalars["timestamptz"]>>;
+/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+export type Timestamp_Comparison_Exp = {
+    _eq?: InputMaybe<Scalars["timestamp"]>;
+    _gt?: InputMaybe<Scalars["timestamp"]>;
+    _gte?: InputMaybe<Scalars["timestamp"]>;
+    _in?: InputMaybe<Array<Scalars["timestamp"]>>;
     _is_null?: InputMaybe<Scalars["Boolean"]>;
-    _lt?: InputMaybe<Scalars["timestamptz"]>;
-    _lte?: InputMaybe<Scalars["timestamptz"]>;
-    _neq?: InputMaybe<Scalars["timestamptz"]>;
-    _nin?: InputMaybe<Array<Scalars["timestamptz"]>>;
+    _lt?: InputMaybe<Scalars["timestamp"]>;
+    _lte?: InputMaybe<Scalars["timestamp"]>;
+    _neq?: InputMaybe<Scalars["timestamp"]>;
+    _nin?: InputMaybe<Array<Scalars["timestamp"]>>;
 };
 
 /** Boolean expression to compare columns of type "timetz". All fields are combined with logical 'AND'. */
@@ -9905,7 +9918,7 @@ export type Voidreason_Variance_Fields = {
 /** columns and relationships of "worksession" */
 export type Worksession = {
     __typename?: "worksession";
-    creationtime: Scalars["timestamptz"];
+    creationtime: Scalars["timestamp"];
     creatorid: Scalars["Int"];
     id: Scalars["Int"];
     isopen: Scalars["Boolean"];
@@ -9914,7 +9927,7 @@ export type Worksession = {
     /** An aggregate relationship */
     shifts_aggregate: Shift_Aggregate;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
     workdate: Scalars["date"];
 };
 
@@ -9978,13 +9991,13 @@ export type Worksession_Bool_Exp = {
     _and?: InputMaybe<Array<Worksession_Bool_Exp>>;
     _not?: InputMaybe<Worksession_Bool_Exp>;
     _or?: InputMaybe<Array<Worksession_Bool_Exp>>;
-    creationtime?: InputMaybe<Timestamptz_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
     creatorid?: InputMaybe<Int_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     isopen?: InputMaybe<Boolean_Comparison_Exp>;
     shifts?: InputMaybe<Shift_Bool_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
-    updatetime?: InputMaybe<Timestamptz_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
     workdate?: InputMaybe<Date_Comparison_Exp>;
 };
 
@@ -10003,35 +10016,35 @@ export type Worksession_Inc_Input = {
 
 /** input type for inserting data into table "worksession" */
 export type Worksession_Insert_Input = {
-    creationtime?: InputMaybe<Scalars["timestamptz"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isopen?: InputMaybe<Scalars["Boolean"]>;
     shifts?: InputMaybe<Shift_Arr_Rel_Insert_Input>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
     workdate?: InputMaybe<Scalars["date"]>;
 };
 
 /** aggregate max on columns */
 export type Worksession_Max_Fields = {
     __typename?: "worksession_max_fields";
-    creationtime?: Maybe<Scalars["timestamptz"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
     workdate?: Maybe<Scalars["date"]>;
 };
 
 /** aggregate min on columns */
 export type Worksession_Min_Fields = {
     __typename?: "worksession_min_fields";
-    creationtime?: Maybe<Scalars["timestamptz"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     updaterid?: Maybe<Scalars["Int"]>;
-    updatetime?: Maybe<Scalars["timestamptz"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
     workdate?: Maybe<Scalars["date"]>;
 };
 
@@ -10095,12 +10108,12 @@ export enum Worksession_Select_Column {
 
 /** input type for updating data in table "worksession" */
 export type Worksession_Set_Input = {
-    creationtime?: InputMaybe<Scalars["timestamptz"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isopen?: InputMaybe<Scalars["Boolean"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
     workdate?: InputMaybe<Scalars["date"]>;
 };
 
@@ -10231,9 +10244,26 @@ export type UpdateAccountMutationMutationVariables = Exact<{
     roleid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["user_status"]>;
     username?: InputMaybe<Scalars["String"]>;
+    password?: InputMaybe<Scalars["String"]>;
 }>;
 
 export type UpdateAccountMutationMutation = {
+    __typename?: "mutation_root";
+    update_account_by_pk?: { __typename?: "account"; id: number } | null;
+};
+
+export type UpdateAccountWithNoPassMutationMutationVariables = Exact<{
+    id?: InputMaybe<Scalars["Int"]>;
+    avatar?: InputMaybe<Scalars["String"]>;
+    email?: InputMaybe<Scalars["String"]>;
+    fullname?: InputMaybe<Scalars["String"]>;
+    phone?: InputMaybe<Scalars["String"]>;
+    roleid?: InputMaybe<Scalars["Int"]>;
+    status?: InputMaybe<Scalars["user_status"]>;
+    username?: InputMaybe<Scalars["String"]>;
+}>;
+
+export type UpdateAccountWithNoPassMutationMutation = {
     __typename?: "mutation_root";
     update_account_by_pk?: { __typename?: "account"; id: number } | null;
 };
@@ -10704,7 +10734,7 @@ export type UpdateWorkSessionMutationMutationVariables = Exact<{
     id?: InputMaybe<Scalars["Int"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     isopen?: InputMaybe<Scalars["Boolean"]>;
-    updatetime?: InputMaybe<Scalars["timestamptz"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
 }>;
 
 export type UpdateWorkSessionMutationMutation = {

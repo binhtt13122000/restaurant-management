@@ -168,7 +168,7 @@ const TableForm: React.FC<IForm<TableMutationType>> = (props: IForm<TableMutatio
                             control={control}
                             label="Trạng thái"
                             name="status"
-                            readOnly
+                            readOnly={isView}
                         >
                             <MenuItem value={TABLE_ENUM.NOT_USE}>Không được sử dụng</MenuItem>
                             <MenuItem value={TABLE_ENUM.IN_USE}>Đang được sử dụng</MenuItem>
@@ -176,7 +176,7 @@ const TableForm: React.FC<IForm<TableMutationType>> = (props: IForm<TableMutatio
                         </ReactHookFormSelect>
                         <CustomizeAutocomplete
                             defaultId={!!defaultData.id ? defaultData.locationid : undefined}
-                            conditionField="status"
+                            conditionField=""
                             control={control}
                             rules={{
                                 min: {

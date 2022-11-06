@@ -26,7 +26,7 @@ const useUpdateWorkSession = (queryKey: string) => {
                         $id: Int = 10
                         $updaterid: Int = 10
                         $isopen: Boolean = false
-                        $updatetime: timestamptz = ""
+                        $updatetime: timestamp = ""
                     ) {
                         update_worksession_by_pk(
                             pk_columns: { id: $id }

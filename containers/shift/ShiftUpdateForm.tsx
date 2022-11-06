@@ -88,8 +88,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                 .filter((x) => x.id !== id)
                                 .findIndex(
                                     (k) =>
-                                        (convert(startTimeString) <= convert(k.endtime) &&
-                                            convert(endTimeString) >= convert(k.starttime)) ||
+                                        (convert(startTimeString) < convert(k.endtime) &&
+                                            convert(endTimeString) > convert(k.starttime)) ||
                                         k.name === data.name
                                 );
                             if (index !== -1) {

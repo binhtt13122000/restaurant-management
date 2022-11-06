@@ -40,7 +40,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
     } = props;
     const [paging, setPaging] = useState<{ offset: number; limit: number }>({
         offset: 0,
-        limit: 5,
+        limit: 10,
     });
 
     const [selectedColumns, setSelectedColumns] = useState<IColumn[]>([...columns]);
@@ -170,7 +170,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
         setPaging(() => {
             return {
                 offset: 0,
-                limit: 5,
+                limit: 10,
             };
         });
     };
@@ -187,7 +187,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
         setPaging(() => {
             return {
                 offset: newPage,
-                limit: 5,
+                limit: 10,
             };
         });
         refetch();
@@ -317,7 +317,7 @@ const HasuraTable = (props: ITable & { children?: React.ReactNode }) => {
                                 {isLoading ? (
                                     <TableRow
                                         style={{
-                                            height: 53 * (paging.limit || 5),
+                                            height: 53 * (paging.limit || 10),
                                         }}
                                     >
                                         <TableCell colSpan={selectedColumns.length + 1}>

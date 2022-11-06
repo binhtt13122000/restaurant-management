@@ -71,8 +71,8 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                 .filter((x) => x.status === "ACTIVE")
                                 .findIndex(
                                     (k) =>
-                                        (convert(startTimeString) <= convert(k.endtime) &&
-                                            convert(endTimeString) >= convert(k.starttime)) ||
+                                        (convert(startTimeString) < convert(k.endtime) &&
+                                            convert(endTimeString) > convert(k.starttime)) ||
                                         k.name === data.name
                                 );
                             if (index !== -1) {
@@ -179,7 +179,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                                                       ? new Date(x?.workdate)
                                                                       : new Date(),
                                                                   "yyyy/MM/dd"
-                                                              ) >
+                                                              ) >=
                                                                   format(
                                                                       new Date(),
                                                                       "yyyy/MM/dd"

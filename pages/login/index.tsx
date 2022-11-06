@@ -71,7 +71,7 @@ const Login: NextPageWithLayout = () => {
                             return;
                         }
                         localStorage.setItem("user", JSON.stringify(user));
-                        Router.push("/");
+                        Router.push("/account");
                     },
                 }
             );

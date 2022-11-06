@@ -7,7 +7,6 @@ import RoutesCollapse from "./components/RoutesCollapse";
 import { routes } from "./data";
 
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import PersonIcon from "@mui/icons-material/Person";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import {
     ListItem,
@@ -15,8 +14,6 @@ import {
     ListItemText,
     Box,
     Typography,
-    ListItemAvatar,
-    Avatar,
     Collapse,
     List,
     ListItemButton,
@@ -25,6 +22,15 @@ import {
 import Image from "next/image";
 import _ from "lodash";
 import LogoutIcon from "@mui/icons-material/Logout";
+import UpdateProfileForm from "containers/accounts/UpdateProfileForm";
+import { LoginQueryQuery } from "generated/graphql";
+import { USER_ENUM } from "utils/enums";
+import AccountDTO from "models/account.model";
+import bcrypt from "bcryptjs";
+import useUpdateAccount from "hooks/account/useUpdateAccount";
+import useLogin from "hooks/login/useLogin";
+import useSnackbar from "components/Snackbar/useSnackbar";
+import useUpdateAccountWithNoPass from "hooks/account/useUpdateAccountWithNoPass";
 
 export type ChildrenType = {
     fatherIndex: number;
@@ -52,7 +58,17 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
     const theme = useTheme();
     const router = useRouter();
     const [openUserInfo, setOpenUserInfor] = useState<boolean>(false);
+    const { mutate: mutateUpdate } = useUpdateAccount("AccountQuery");
+    const { mutate: mutateUpdateNoPass } = useUpdateAccountWithNoPass("AccountQuery");
+    const { mutate: login } = useLogin();
+    const showSnackbar = useSnackbar();
     // const [isOpenFormChangePassword, setOpenFormChangePassword] = useState<boolean>(false);
+    const [userCurrent, setUserCurrent] = useState<LoginQueryQuery>();
+
+    useEffect(() => {
+        // Perform localStorage action
+        setUserCurrent(JSON.parse(localStorage.getItem("user") || "{}"));
+    }, []);
     const [openChildren, setOpenChildren] = useState<ChildrenType>(initialValue);
     useEffect(() => {
         let itemSelectedFromSessionStorage = null;
@@ -138,18 +154,101 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
         }
     };
 
+    const handleClose = (type: "SAVE" | "CANCEL", data?: AccountDTO, clearErrors?: Function) => {
+        if (type === "SAVE") {
+            if (data) {
+                if (data.id) {
+                    if (data.password) {
+                        bcrypt.genSalt(10, function (err, salt) {
+                            bcrypt.hash(data.password || "", salt, function (err, hash) {
+                                data.password = hash;
+                                mutateUpdate(data, {
+                                    onSuccess: () => {
+                                        login(
+                                            {
+                                                _eq: data.username,
+                                            },
+                                            {
+                                                onSuccess(dataLogin) {
+                                                    localStorage.setItem(
+                                                        "user",
+                                                        JSON.stringify(dataLogin)
+                                                    );
+                                                    setOpen(false);
+                                                    showSnackbar({
+                                                        children: "Chỉnh sửa thành công",
+                                                        severity: "success",
+                                                    });
+                                                    window.location.reload();
+                                                },
+                                            }
+                                        );
+                                    },
+                                    onError: () => {
+                                        showSnackbar({
+                                            children: "Chỉnh sửa thất bại",
+                                            severity: "error",
+                                        });
+                                    },
+                                });
+                            });
+                        });
+                    } else {
+                        data.password = undefined;
+                        mutateUpdateNoPass(data, {
+                            onSuccess: () => {
+                                login(
+                                    {
+                                        _eq: data.username,
+                                    },
+                                    {
+                                        onSuccess(dataLogin) {
+                                            localStorage.setItem("user", JSON.stringify(dataLogin));
+                                            setOpen(false);
+                                            showSnackbar({
+                                                children: "Chỉnh sửa thành công",
+                                                severity: "success",
+                                            });
+                                            window.location.reload();
+                                        },
+                                    }
+                                );
+                                showSnackbar({
+                                    children: "Chỉnh sửa thành công",
+                                    severity: "success",
+                                });
+                            },
+                            onError: () => {
+                                showSnackbar({
+                                    children: "Chỉnh sửa thất bại",
+                                    severity: "error",
+                                });
+                            },
+                        });
+                    }
+                }
+            }
+        } else {
+            setOpen(false);
+        }
+        if (clearErrors) {
+            clearErrors();
+        }
+    };
+
     const logout = async () => {
         localStorage.clear();
         router.push("/login");
     };
 
+    const [open, setOpen] = useState(false);
+
     const changePasswordData = () => {
         // setOpenFormChangePassword(true);
     };
 
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    const handleClose = (type: "SAVE" | "CANCEL") => {
-        // setOpenFormChangePassword(false);
+    const changeProfile = () => {
+        setOpen(true);
     };
 
     return (
@@ -166,6 +265,21 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                     height: "100%",
                 }}
             >
+                <UpdateProfileForm
+                    opened={open}
+                    isView={false}
+                    data={{
+                        email: userCurrent?.account[0].email || "",
+                        fullname: userCurrent?.account[0].fullname || "",
+                        phone: userCurrent?.account[0].phone || "",
+                        username: userCurrent?.account[0].username || "",
+                        roleid: userCurrent?.account[0].roleid || 0,
+                        avatar: userCurrent?.account[0].avatar || "",
+                        id: userCurrent?.account[0].id || 0,
+                        status: userCurrent?.account[0].status || USER_ENUM.INACTIVE,
+                    }}
+                    handleClose={handleClose}
+                />
                 <Box
                     sx={{
                         marginTop: `${appbarHeight}px`,
@@ -204,9 +318,6 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                             }}
                             onClick={() => setOpenUserInfor(!openUserInfo)}
                         >
-                            <ListItemAvatar>
-                                <Avatar alt={user?.firstName || "A"} src={user?.avatar || ""} />
-                            </ListItemAvatar>
                             <ListItemText
                                 style={{
                                     fontWeight: "800 !important",
@@ -241,20 +352,6 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                                     sx={{
                                         color: "rgba(255,255,255, 0.6)",
                                     }}
-                                >
-                                    <ListItemIcon>
-                                        <PersonIcon
-                                            sx={{
-                                                color: "rgba(255,255,255, 0.6)",
-                                            }}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Thông tin cá nhân"} />
-                                </ListItemButton>
-                                <ListItemButton
-                                    sx={{
-                                        color: "rgba(255,255,255, 0.6)",
-                                    }}
                                     onClick={() => changePasswordData()}
                                 >
                                     <ListItemIcon>
@@ -264,7 +361,10 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
                                             }}
                                         />
                                     </ListItemIcon>
-                                    <ListItemText primary={"Thay đổi mật khẩu"} />
+                                    <ListItemText
+                                        onClick={() => changeProfile()}
+                                        primary={"Thông tin cá nhân"}
+                                    />
                                 </ListItemButton>
                                 <ListItemButton
                                     sx={{

@@ -184,7 +184,7 @@ const Shift = () => {
                 id: x.id,
                 title: x.name,
                 backgroundColor:
-                    !x.isopen && !x.openerid ? "grey" : x.isopen ? "#1e88e5" : "#fb8c00",
+                    !x.isopen && !x.openerid ? "#fb8c00" : x.isopen ? "#1e88e5" : "#fb8c00",
             };
         });
 
@@ -246,7 +246,7 @@ const Shift = () => {
                                             width={20}
                                             bgcolor="#fb8c00"
                                         ></Box>
-                                        {"Đã đóng"}
+                                        {"Đang đóng"}
                                     </Grid>
                                 </Grid>
                                 <Button
