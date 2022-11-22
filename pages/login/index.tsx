@@ -52,7 +52,10 @@ const Login: NextPageWithLayout = () => {
                             });
                             return;
                         }
-                        const match = await bcrypt.compare(data.password, user.account[0].password);
+                        const match = await bcrypt.compare(
+                            data.password,
+                            user.account[0] ? user.account[0].password : ""
+                        );
                         if (!match) {
                             setError("username", { message: "" });
                             setError("password", {
