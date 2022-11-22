@@ -86,7 +86,7 @@ const VoidReason: NextPage = () => {
         },
         {
             field: "name",
-            title: "Tên phuơng thức thanh toán",
+            title: "Tên lý do",
             index: 2,
             type: "string",
         },

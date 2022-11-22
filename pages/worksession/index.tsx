@@ -130,7 +130,7 @@ const WorkSession = () => {
                         <Box>
                             <Typography variant="inherit">
                                 Thời gian đóng:{" "}
-                                {format(new Date(x.creationtime), "dd/MM/yyyy hh:mm:ss")}
+                                {format(new Date(x.updatetime), "dd/MM/yyyy hh:mm:ss")}
                             </Typography>
                             {/* <Typography variant="inherit">Trạng thái: Đã đóng</Typography> */}
                         </Box>
@@ -479,14 +479,7 @@ const WorkSession = () => {
                                 />
                                 <DateTimePicker
                                     renderInput={(params) => <TextField fullWidth {...params} />}
-                                    label={
-                                        !dataById?.worksession_by_pk?.isopen &&
-                                        !dataById?.worksession_by_pk?.updaterid
-                                            ? "Thời gian mở"
-                                            : dataById?.worksession_by_pk?.isopen
-                                            ? "Thời gian mở"
-                                            : "Thời gian đóng"
-                                    }
+                                    label={"Thời gian thay đổi"}
                                     value={dataById?.worksession_by_pk?.updatetime}
                                     onChange={() => {}}
                                     inputFormat="dd/MM/yyyy hh:mm:ss"
@@ -518,14 +511,7 @@ const WorkSession = () => {
                                 />
                                 <TextfieldBase
                                     id="creator"
-                                    label={
-                                        !dataById?.worksession_by_pk?.isopen &&
-                                        !dataById?.worksession_by_pk?.updaterid
-                                            ? "Người mở"
-                                            : dataById?.worksession_by_pk?.isopen
-                                            ? "Người mở"
-                                            : "Người đóng"
-                                    }
+                                    label={"Người thay đổi"}
                                     variant="outlined"
                                     InputProps={{
                                         readOnly: true,
@@ -594,27 +580,22 @@ const WorkSession = () => {
                                         Xóa phiên làm việc
                                     </Button>
                                 ) : null}
-                                {!dataById?.worksession_by_pk?.isopen &&
-                                dataById?.worksession_by_pk?.updaterid ? null : (
-                                    <Button
-                                        variant="contained"
-                                        onClick={() => hanldeWorkSessionItem(selected)}
-                                        disabled={
-                                            format(
-                                                dataById?.worksession_by_pk?.workdate
-                                                    ? new Date(
-                                                          dataById?.worksession_by_pk?.workdate
-                                                      )
-                                                    : new Date(),
-                                                "dd/MM/yyyy"
-                                            ) !== format(new Date(), "dd/MM/yyyy")
-                                        }
-                                    >
-                                        {dataById?.worksession_by_pk?.isopen
-                                            ? "Đóng phiên làm việc"
-                                            : "Mở phiên làm việc"}
-                                    </Button>
-                                )}
+                                <Button
+                                    variant="contained"
+                                    onClick={() => hanldeWorkSessionItem(selected)}
+                                    disabled={
+                                        format(
+                                            dataById?.worksession_by_pk?.workdate
+                                                ? new Date(dataById?.worksession_by_pk?.workdate)
+                                                : new Date(),
+                                            "dd/MM/yyyy"
+                                        ) !== format(new Date(), "dd/MM/yyyy")
+                                    }
+                                >
+                                    {dataById?.worksession_by_pk?.isopen
+                                        ? "Đóng phiên làm việc"
+                                        : "Mở phiên làm việc"}
+                                </Button>
                             </Box>
                         </Grid>
                     </CardContainer>

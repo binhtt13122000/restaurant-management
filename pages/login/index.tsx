@@ -60,15 +60,19 @@ const Login: NextPageWithLayout = () => {
                             });
                             return;
                         }
-                        if (user.account[0].role.name.toLocaleUpperCase() !== "ADMIN") {
-                            setError("username", { message: "" });
-                            setError("password", { message: "Người dùng không phải là admin!" });
-                            return;
-                        }
-                        if (user.account[0].status === USER_ENUM.INACTIVE) {
-                            setError("username", { message: "" });
-                            setError("password", { message: "Người dùng đã bị khóa!" });
-                            return;
+                        if (user.account[0]) {
+                            if (user.account[0].role.name.toLocaleUpperCase() !== "ADMIN") {
+                                setError("username", { message: "" });
+                                setError("password", {
+                                    message: "Người dùng không phải là admin!",
+                                });
+                                return;
+                            }
+                            if (user.account[0].status === USER_ENUM.INACTIVE) {
+                                setError("username", { message: "" });
+                                setError("password", { message: "Người dùng đã bị khóa!" });
+                                return;
+                            }
                         }
                         localStorage.setItem("user", JSON.stringify(user));
                         Router.push("/account");
