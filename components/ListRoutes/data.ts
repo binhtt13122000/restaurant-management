@@ -40,7 +40,7 @@ export const routes = [
     },
     {
         id: 3,
-        name: "Lí do",
+        name: "Lý do hủy",
         path: ROUTES.VOID_REASON,
         icon: "/images/price-list.png",
     },

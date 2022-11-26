@@ -22,14 +22,9 @@ const Role: NextPage = () => {
             disableFilter: true,
         },
         {
-            field: "id",
-            title: "Mã hệ thống",
-            index: 2,
-        },
-        {
             field: "name",
             title: "Tên phân quyền",
-            index: 3,
+            index: 2,
             type: "string",
         },
     ];

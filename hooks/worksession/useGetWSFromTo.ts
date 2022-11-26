@@ -14,6 +14,7 @@ const useGetWSFromTo = () => {
                     query CheckWSFromTo($_gte: date = "", $_lte: date = "") {
                         worksession(where: { workdate: { _gte: $_gte, _lte: $_lte } }) {
                             id
+                            workdate
                         }
                     }
                 `,

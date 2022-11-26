@@ -12,11 +12,13 @@ export type Scalars = {
     Float: number;
     basic_status: any;
     bill_status: any;
+    cashierlog_type: any;
     check_status: any;
     checkdetail_status: any;
     date: any;
     float8: any;
     json: any;
+    numeric: any;
     table_status: any;
     time: any;
     timestamp: any;
@@ -88,6 +90,10 @@ export type Account = {
     __typename?: "account";
     avatar?: Maybe<Scalars["String"]>;
     /** An array relationship */
+    cashierlogs: Array<Cashierlog>;
+    /** An aggregate relationship */
+    cashierlogs_aggregate: Cashierlog_Aggregate;
+    /** An array relationship */
     checks: Array<Check>;
     /** An aggregate relationship */
     checks_aggregate: Check_Aggregate;
@@ -101,6 +107,24 @@ export type Account = {
     roleid: Scalars["Int"];
     status?: Maybe<Scalars["user_status"]>;
     username: Scalars["String"];
+};
+
+/** columns and relationships of "account" */
+export type AccountCashierlogsArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+/** columns and relationships of "account" */
+export type AccountCashierlogs_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
 };
 
 /** columns and relationships of "account" */
@@ -191,6 +215,7 @@ export type Account_Bool_Exp = {
     _not?: InputMaybe<Account_Bool_Exp>;
     _or?: InputMaybe<Array<Account_Bool_Exp>>;
     avatar?: InputMaybe<String_Comparison_Exp>;
+    cashierlogs?: InputMaybe<Cashierlog_Bool_Exp>;
     checks?: InputMaybe<Check_Bool_Exp>;
     email?: InputMaybe<String_Comparison_Exp>;
     fullname?: InputMaybe<String_Comparison_Exp>;
@@ -224,6 +249,7 @@ export type Account_Inc_Input = {
 /** input type for inserting data into table "account" */
 export type Account_Insert_Input = {
     avatar?: InputMaybe<Scalars["String"]>;
+    cashierlogs?: InputMaybe<Cashierlog_Arr_Rel_Insert_Input>;
     checks?: InputMaybe<Check_Arr_Rel_Insert_Input>;
     email?: InputMaybe<Scalars["String"]>;
     fullname?: InputMaybe<Scalars["String"]>;
@@ -312,6 +338,7 @@ export type Account_On_Conflict = {
 /** Ordering options when selecting data from "account". */
 export type Account_Order_By = {
     avatar?: InputMaybe<Order_By>;
+    cashierlogs_aggregate?: InputMaybe<Cashierlog_Aggregate_Order_By>;
     checks_aggregate?: InputMaybe<Check_Aggregate_Order_By>;
     email?: InputMaybe<Order_By>;
     fullname?: InputMaybe<Order_By>;
@@ -1867,6 +1894,418 @@ export type Billpayment_Variance_Order_By = {
     billid?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     paymentmethodid?: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "cashierlog" */
+export type Cashierlog = {
+    __typename?: "cashierlog";
+    /** An object relationship */
+    account: Account;
+    accountid: Scalars["Int"];
+    amount: Scalars["numeric"];
+    creationtime: Scalars["timestamp"];
+    id: Scalars["Int"];
+    /** An object relationship */
+    shift: Shift;
+    shiftid: Scalars["Int"];
+    type: Scalars["cashierlog_type"];
+    updaterid?: Maybe<Scalars["Int"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
+};
+
+/** aggregated selection of "cashierlog" */
+export type Cashierlog_Aggregate = {
+    __typename?: "cashierlog_aggregate";
+    aggregate?: Maybe<Cashierlog_Aggregate_Fields>;
+    nodes: Array<Cashierlog>;
+};
+
+/** aggregate fields of "cashierlog" */
+export type Cashierlog_Aggregate_Fields = {
+    __typename?: "cashierlog_aggregate_fields";
+    avg?: Maybe<Cashierlog_Avg_Fields>;
+    count: Scalars["Int"];
+    max?: Maybe<Cashierlog_Max_Fields>;
+    min?: Maybe<Cashierlog_Min_Fields>;
+    stddev?: Maybe<Cashierlog_Stddev_Fields>;
+    stddev_pop?: Maybe<Cashierlog_Stddev_Pop_Fields>;
+    stddev_samp?: Maybe<Cashierlog_Stddev_Samp_Fields>;
+    sum?: Maybe<Cashierlog_Sum_Fields>;
+    var_pop?: Maybe<Cashierlog_Var_Pop_Fields>;
+    var_samp?: Maybe<Cashierlog_Var_Samp_Fields>;
+    variance?: Maybe<Cashierlog_Variance_Fields>;
+};
+
+/** aggregate fields of "cashierlog" */
+export type Cashierlog_Aggregate_FieldsCountArgs = {
+    columns?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    distinct?: InputMaybe<Scalars["Boolean"]>;
+};
+
+/** order by aggregate values of table "cashierlog" */
+export type Cashierlog_Aggregate_Order_By = {
+    avg?: InputMaybe<Cashierlog_Avg_Order_By>;
+    count?: InputMaybe<Order_By>;
+    max?: InputMaybe<Cashierlog_Max_Order_By>;
+    min?: InputMaybe<Cashierlog_Min_Order_By>;
+    stddev?: InputMaybe<Cashierlog_Stddev_Order_By>;
+    stddev_pop?: InputMaybe<Cashierlog_Stddev_Pop_Order_By>;
+    stddev_samp?: InputMaybe<Cashierlog_Stddev_Samp_Order_By>;
+    sum?: InputMaybe<Cashierlog_Sum_Order_By>;
+    var_pop?: InputMaybe<Cashierlog_Var_Pop_Order_By>;
+    var_samp?: InputMaybe<Cashierlog_Var_Samp_Order_By>;
+    variance?: InputMaybe<Cashierlog_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "cashierlog" */
+export type Cashierlog_Arr_Rel_Insert_Input = {
+    data: Array<Cashierlog_Insert_Input>;
+    /** upsert condition */
+    on_conflict?: InputMaybe<Cashierlog_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Cashierlog_Avg_Fields = {
+    __typename?: "cashierlog_avg_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by avg() on columns of table "cashierlog" */
+export type Cashierlog_Avg_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "cashierlog". All fields are combined with a logical 'AND'. */
+export type Cashierlog_Bool_Exp = {
+    _and?: InputMaybe<Array<Cashierlog_Bool_Exp>>;
+    _not?: InputMaybe<Cashierlog_Bool_Exp>;
+    _or?: InputMaybe<Array<Cashierlog_Bool_Exp>>;
+    account?: InputMaybe<Account_Bool_Exp>;
+    accountid?: InputMaybe<Int_Comparison_Exp>;
+    amount?: InputMaybe<Numeric_Comparison_Exp>;
+    creationtime?: InputMaybe<Timestamp_Comparison_Exp>;
+    id?: InputMaybe<Int_Comparison_Exp>;
+    shift?: InputMaybe<Shift_Bool_Exp>;
+    shiftid?: InputMaybe<Int_Comparison_Exp>;
+    type?: InputMaybe<Cashierlog_Type_Comparison_Exp>;
+    updaterid?: InputMaybe<Int_Comparison_Exp>;
+    updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "cashierlog" */
+export enum Cashierlog_Constraint {
+    /** unique or primary key constraint */
+    CashierlogPkey = "cashierlog_pkey",
+}
+
+/** input type for incrementing numeric columns in table "cashierlog" */
+export type Cashierlog_Inc_Input = {
+    accountid?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
+    id?: InputMaybe<Scalars["Int"]>;
+    shiftid?: InputMaybe<Scalars["Int"]>;
+    updaterid?: InputMaybe<Scalars["Int"]>;
+};
+
+/** input type for inserting data into table "cashierlog" */
+export type Cashierlog_Insert_Input = {
+    account?: InputMaybe<Account_Obj_Rel_Insert_Input>;
+    accountid?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    id?: InputMaybe<Scalars["Int"]>;
+    shift?: InputMaybe<Shift_Obj_Rel_Insert_Input>;
+    shiftid?: InputMaybe<Scalars["Int"]>;
+    type?: InputMaybe<Scalars["cashierlog_type"]>;
+    updaterid?: InputMaybe<Scalars["Int"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
+};
+
+/** aggregate max on columns */
+export type Cashierlog_Max_Fields = {
+    __typename?: "cashierlog_max_fields";
+    accountid?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
+    id?: Maybe<Scalars["Int"]>;
+    shiftid?: Maybe<Scalars["Int"]>;
+    updaterid?: Maybe<Scalars["Int"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
+};
+
+/** order by max() on columns of table "cashierlog" */
+export type Cashierlog_Max_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    creationtime?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+    updatetime?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Cashierlog_Min_Fields = {
+    __typename?: "cashierlog_min_fields";
+    accountid?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
+    creationtime?: Maybe<Scalars["timestamp"]>;
+    id?: Maybe<Scalars["Int"]>;
+    shiftid?: Maybe<Scalars["Int"]>;
+    updaterid?: Maybe<Scalars["Int"]>;
+    updatetime?: Maybe<Scalars["timestamp"]>;
+};
+
+/** order by min() on columns of table "cashierlog" */
+export type Cashierlog_Min_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    creationtime?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+    updatetime?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "cashierlog" */
+export type Cashierlog_Mutation_Response = {
+    __typename?: "cashierlog_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: Scalars["Int"];
+    /** data from the rows affected by the mutation */
+    returning: Array<Cashierlog>;
+};
+
+/** on_conflict condition type for table "cashierlog" */
+export type Cashierlog_On_Conflict = {
+    constraint: Cashierlog_Constraint;
+    update_columns?: Array<Cashierlog_Update_Column>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "cashierlog". */
+export type Cashierlog_Order_By = {
+    account?: InputMaybe<Account_Order_By>;
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    creationtime?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shift?: InputMaybe<Shift_Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    type?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+    updatetime?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: cashierlog */
+export type Cashierlog_Pk_Columns_Input = {
+    id: Scalars["Int"];
+};
+
+/** select columns of table "cashierlog" */
+export enum Cashierlog_Select_Column {
+    /** column name */
+    Accountid = "accountid",
+    /** column name */
+    Amount = "amount",
+    /** column name */
+    Creationtime = "creationtime",
+    /** column name */
+    Id = "id",
+    /** column name */
+    Shiftid = "shiftid",
+    /** column name */
+    Type = "type",
+    /** column name */
+    Updaterid = "updaterid",
+    /** column name */
+    Updatetime = "updatetime",
+}
+
+/** input type for updating data in table "cashierlog" */
+export type Cashierlog_Set_Input = {
+    accountid?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
+    creationtime?: InputMaybe<Scalars["timestamp"]>;
+    id?: InputMaybe<Scalars["Int"]>;
+    shiftid?: InputMaybe<Scalars["Int"]>;
+    type?: InputMaybe<Scalars["cashierlog_type"]>;
+    updaterid?: InputMaybe<Scalars["Int"]>;
+    updatetime?: InputMaybe<Scalars["timestamp"]>;
+};
+
+/** aggregate stddev on columns */
+export type Cashierlog_Stddev_Fields = {
+    __typename?: "cashierlog_stddev_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by stddev() on columns of table "cashierlog" */
+export type Cashierlog_Stddev_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Cashierlog_Stddev_Pop_Fields = {
+    __typename?: "cashierlog_stddev_pop_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by stddev_pop() on columns of table "cashierlog" */
+export type Cashierlog_Stddev_Pop_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Cashierlog_Stddev_Samp_Fields = {
+    __typename?: "cashierlog_stddev_samp_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by stddev_samp() on columns of table "cashierlog" */
+export type Cashierlog_Stddev_Samp_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Cashierlog_Sum_Fields = {
+    __typename?: "cashierlog_sum_fields";
+    accountid?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
+    id?: Maybe<Scalars["Int"]>;
+    shiftid?: Maybe<Scalars["Int"]>;
+    updaterid?: Maybe<Scalars["Int"]>;
+};
+
+/** order by sum() on columns of table "cashierlog" */
+export type Cashierlog_Sum_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to compare columns of type "cashierlog_type". All fields are combined with logical 'AND'. */
+export type Cashierlog_Type_Comparison_Exp = {
+    _eq?: InputMaybe<Scalars["cashierlog_type"]>;
+    _gt?: InputMaybe<Scalars["cashierlog_type"]>;
+    _gte?: InputMaybe<Scalars["cashierlog_type"]>;
+    _in?: InputMaybe<Array<Scalars["cashierlog_type"]>>;
+    _is_null?: InputMaybe<Scalars["Boolean"]>;
+    _lt?: InputMaybe<Scalars["cashierlog_type"]>;
+    _lte?: InputMaybe<Scalars["cashierlog_type"]>;
+    _neq?: InputMaybe<Scalars["cashierlog_type"]>;
+    _nin?: InputMaybe<Array<Scalars["cashierlog_type"]>>;
+};
+
+/** update columns of table "cashierlog" */
+export enum Cashierlog_Update_Column {
+    /** column name */
+    Accountid = "accountid",
+    /** column name */
+    Amount = "amount",
+    /** column name */
+    Creationtime = "creationtime",
+    /** column name */
+    Id = "id",
+    /** column name */
+    Shiftid = "shiftid",
+    /** column name */
+    Type = "type",
+    /** column name */
+    Updaterid = "updaterid",
+    /** column name */
+    Updatetime = "updatetime",
+}
+
+/** aggregate var_pop on columns */
+export type Cashierlog_Var_Pop_Fields = {
+    __typename?: "cashierlog_var_pop_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by var_pop() on columns of table "cashierlog" */
+export type Cashierlog_Var_Pop_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Cashierlog_Var_Samp_Fields = {
+    __typename?: "cashierlog_var_samp_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by var_samp() on columns of table "cashierlog" */
+export type Cashierlog_Var_Samp_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Cashierlog_Variance_Fields = {
+    __typename?: "cashierlog_variance_fields";
+    accountid?: Maybe<Scalars["Float"]>;
+    amount?: Maybe<Scalars["Float"]>;
+    id?: Maybe<Scalars["Float"]>;
+    shiftid?: Maybe<Scalars["Float"]>;
+    updaterid?: Maybe<Scalars["Float"]>;
+};
+
+/** order by variance() on columns of table "cashierlog" */
+export type Cashierlog_Variance_Order_By = {
+    accountid?: InputMaybe<Order_By>;
+    amount?: InputMaybe<Order_By>;
+    id?: InputMaybe<Order_By>;
+    shiftid?: InputMaybe<Order_By>;
+    updaterid?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "check" */
@@ -5455,6 +5894,10 @@ export type Mutation_Root = {
     delete_billpayment?: Maybe<Billpayment_Mutation_Response>;
     /** delete single row from the table: "billpayment" */
     delete_billpayment_by_pk?: Maybe<Billpayment>;
+    /** delete data from the table: "cashierlog" */
+    delete_cashierlog?: Maybe<Cashierlog_Mutation_Response>;
+    /** delete single row from the table: "cashierlog" */
+    delete_cashierlog_by_pk?: Maybe<Cashierlog>;
     /** delete data from the table: "check" */
     delete_check?: Maybe<Check_Mutation_Response>;
     /** delete single row from the table: "check" */
@@ -5547,6 +5990,10 @@ export type Mutation_Root = {
     insert_billpayment?: Maybe<Billpayment_Mutation_Response>;
     /** insert a single row into the table: "billpayment" */
     insert_billpayment_one?: Maybe<Billpayment>;
+    /** insert data into the table: "cashierlog" */
+    insert_cashierlog?: Maybe<Cashierlog_Mutation_Response>;
+    /** insert a single row into the table: "cashierlog" */
+    insert_cashierlog_one?: Maybe<Cashierlog>;
     /** insert data into the table: "check" */
     insert_check?: Maybe<Check_Mutation_Response>;
     /** insert a single row into the table: "check" */
@@ -5639,6 +6086,10 @@ export type Mutation_Root = {
     update_billpayment?: Maybe<Billpayment_Mutation_Response>;
     /** update single row of the table: "billpayment" */
     update_billpayment_by_pk?: Maybe<Billpayment>;
+    /** update data of the table: "cashierlog" */
+    update_cashierlog?: Maybe<Cashierlog_Mutation_Response>;
+    /** update single row of the table: "cashierlog" */
+    update_cashierlog_by_pk?: Maybe<Cashierlog>;
     /** update data of the table: "check" */
     update_check?: Maybe<Check_Mutation_Response>;
     /** update single row of the table: "check" */
@@ -5754,6 +6205,16 @@ export type Mutation_RootDelete_BillpaymentArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Billpayment_By_PkArgs = {
+    id: Scalars["Int"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_CashierlogArgs = {
+    where: Cashierlog_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Cashierlog_By_PkArgs = {
     id: Scalars["Int"];
 };
 
@@ -5993,6 +6454,18 @@ export type Mutation_RootInsert_BillpaymentArgs = {
 export type Mutation_RootInsert_Billpayment_OneArgs = {
     object: Billpayment_Insert_Input;
     on_conflict?: InputMaybe<Billpayment_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_CashierlogArgs = {
+    objects: Array<Cashierlog_Insert_Input>;
+    on_conflict?: InputMaybe<Cashierlog_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Cashierlog_OneArgs = {
+    object: Cashierlog_Insert_Input;
+    on_conflict?: InputMaybe<Cashierlog_On_Conflict>;
 };
 
 /** mutation root */
@@ -6280,6 +6753,20 @@ export type Mutation_RootUpdate_Billpayment_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_CashierlogArgs = {
+    _inc?: InputMaybe<Cashierlog_Inc_Input>;
+    _set?: InputMaybe<Cashierlog_Set_Input>;
+    where: Cashierlog_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Cashierlog_By_PkArgs = {
+    _inc?: InputMaybe<Cashierlog_Inc_Input>;
+    _set?: InputMaybe<Cashierlog_Set_Input>;
+    pk_columns: Cashierlog_Pk_Columns_Input;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_CheckArgs = {
     _inc?: InputMaybe<Check_Inc_Input>;
     _set?: InputMaybe<Check_Set_Input>;
@@ -6543,6 +7030,19 @@ export type Mutation_RootUpdate_Worksession_By_PkArgs = {
     pk_columns: Worksession_Pk_Columns_Input;
 };
 
+/** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
+export type Numeric_Comparison_Exp = {
+    _eq?: InputMaybe<Scalars["numeric"]>;
+    _gt?: InputMaybe<Scalars["numeric"]>;
+    _gte?: InputMaybe<Scalars["numeric"]>;
+    _in?: InputMaybe<Array<Scalars["numeric"]>>;
+    _is_null?: InputMaybe<Scalars["Boolean"]>;
+    _lt?: InputMaybe<Scalars["numeric"]>;
+    _lte?: InputMaybe<Scalars["numeric"]>;
+    _neq?: InputMaybe<Scalars["numeric"]>;
+    _nin?: InputMaybe<Array<Scalars["numeric"]>>;
+};
+
 /** column ordering options */
 export enum Order_By {
     /** in ascending order, nulls last */
@@ -6799,6 +7299,12 @@ export type Query_Root = {
     billpayment_aggregate: Billpayment_Aggregate;
     /** fetch data from the table: "billpayment" using primary key columns */
     billpayment_by_pk?: Maybe<Billpayment>;
+    /** fetch data from the table: "cashierlog" */
+    cashierlog: Array<Cashierlog>;
+    /** fetch aggregated fields from the table: "cashierlog" */
+    cashierlog_aggregate: Cashierlog_Aggregate;
+    /** fetch data from the table: "cashierlog" using primary key columns */
+    cashierlog_by_pk?: Maybe<Cashierlog>;
     /** fetch data from the table: "check" */
     check: Array<Check>;
     /** fetch aggregated fields from the table: "check" */
@@ -6992,6 +7498,26 @@ export type Query_RootBillpayment_AggregateArgs = {
 };
 
 export type Query_RootBillpayment_By_PkArgs = {
+    id: Scalars["Int"];
+};
+
+export type Query_RootCashierlogArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+export type Query_RootCashierlog_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+export type Query_RootCashierlog_By_PkArgs = {
     id: Scalars["Int"];
 };
 
@@ -7712,6 +8238,10 @@ export enum Sessions_Update_Column {
 export type Shift = {
     __typename?: "shift";
     /** An array relationship */
+    cashierlogs: Array<Cashierlog>;
+    /** An aggregate relationship */
+    cashierlogs_aggregate: Cashierlog_Aggregate;
+    /** An array relationship */
     checks: Array<Check>;
     /** An aggregate relationship */
     checks_aggregate: Check_Aggregate;
@@ -7726,6 +8256,24 @@ export type Shift = {
     /** An object relationship */
     worksession: Worksession;
     worksessionid: Scalars["Int"];
+};
+
+/** columns and relationships of "shift" */
+export type ShiftCashierlogsArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+/** columns and relationships of "shift" */
+export type ShiftCashierlogs_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
 };
 
 /** columns and relationships of "shift" */
@@ -7819,6 +8367,7 @@ export type Shift_Bool_Exp = {
     _and?: InputMaybe<Array<Shift_Bool_Exp>>;
     _not?: InputMaybe<Shift_Bool_Exp>;
     _or?: InputMaybe<Array<Shift_Bool_Exp>>;
+    cashierlogs?: InputMaybe<Cashierlog_Bool_Exp>;
     checks?: InputMaybe<Check_Bool_Exp>;
     closerid?: InputMaybe<Int_Comparison_Exp>;
     endtime?: InputMaybe<Time_Comparison_Exp>;
@@ -7848,6 +8397,7 @@ export type Shift_Inc_Input = {
 
 /** input type for inserting data into table "shift" */
 export type Shift_Insert_Input = {
+    cashierlogs?: InputMaybe<Cashierlog_Arr_Rel_Insert_Input>;
     checks?: InputMaybe<Check_Arr_Rel_Insert_Input>;
     closerid?: InputMaybe<Scalars["Int"]>;
     endtime?: InputMaybe<Scalars["time"]>;
@@ -7924,6 +8474,7 @@ export type Shift_On_Conflict = {
 
 /** Ordering options when selecting data from "shift". */
 export type Shift_Order_By = {
+    cashierlogs_aggregate?: InputMaybe<Cashierlog_Aggregate_Order_By>;
     checks_aggregate?: InputMaybe<Check_Aggregate_Order_By>;
     closerid?: InputMaybe<Order_By>;
     endtime?: InputMaybe<Order_By>;
@@ -8467,6 +9018,12 @@ export type Subscription_Root = {
     billpayment_aggregate: Billpayment_Aggregate;
     /** fetch data from the table: "billpayment" using primary key columns */
     billpayment_by_pk?: Maybe<Billpayment>;
+    /** fetch data from the table: "cashierlog" */
+    cashierlog: Array<Cashierlog>;
+    /** fetch aggregated fields from the table: "cashierlog" */
+    cashierlog_aggregate: Cashierlog_Aggregate;
+    /** fetch data from the table: "cashierlog" using primary key columns */
+    cashierlog_by_pk?: Maybe<Cashierlog>;
     /** fetch data from the table: "check" */
     check: Array<Check>;
     /** fetch aggregated fields from the table: "check" */
@@ -8660,6 +9217,26 @@ export type Subscription_RootBillpayment_AggregateArgs = {
 };
 
 export type Subscription_RootBillpayment_By_PkArgs = {
+    id: Scalars["Int"];
+};
+
+export type Subscription_RootCashierlogArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+export type Subscription_RootCashierlog_AggregateArgs = {
+    distinct_on?: InputMaybe<Array<Cashierlog_Select_Column>>;
+    limit?: InputMaybe<Scalars["Int"]>;
+    offset?: InputMaybe<Scalars["Int"]>;
+    order_by?: InputMaybe<Array<Cashierlog_Order_By>>;
+    where?: InputMaybe<Cashierlog_Bool_Exp>;
+};
+
+export type Subscription_RootCashierlog_By_PkArgs = {
     id: Scalars["Int"];
 };
 
@@ -10696,7 +11273,7 @@ export type CheckWsFromToQueryVariables = Exact<{
 
 export type CheckWsFromToQuery = {
     __typename?: "query_root";
-    worksession: Array<{ __typename?: "worksession"; id: number }>;
+    worksession: Array<{ __typename?: "worksession"; id: number; workdate: any }>;
 };
 
 export type GetWorksessionByIdQueryVariables = Exact<{

@@ -264,7 +264,7 @@ const Shift = () => {
                                     color="warning"
                                     onClick={() => setOpenClone(true)}
                                 >
-                                    Sao chép phiên làm việc
+                                    Sao chép ca phiên làm việc
                                 </Button>
                             </Box>
                         );

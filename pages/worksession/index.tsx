@@ -174,21 +174,29 @@ const WorkSession = () => {
                     },
                     {
                         onSuccess(dataWS) {
-                            if (dataWS.worksession.length > 0) {
-                                showSnackbar({
-                                    children: "Đã tồn tại phiên làm việc",
-                                    variant: "filled",
-                                    severity: "error",
-                                });
-                                return;
-                            }
+                            // if (dataWS.worksession.length > 0) {
+                            //     showSnackbar({
+                            //         children: "Đã tồn tại phiên làm việc",
+                            //         variant: "filled",
+                            //         severity: "error",
+                            //     });
+                            //     return;
+                            // }
+
+                            const listWorkDate: any = {};
+                            dataWS.worksession.forEach((x) => {
+                                listWorkDate[String(x.workdate)] = 1;
+                            });
+
                             if (data && data.startTime && data.endTime) {
                                 const listOfDates: Date[] = [];
                                 while (data.startTime <= data.endTime) {
-                                    listOfDates.push(data.startTime);
-                                    data.startTime = add(data.startTime, {
-                                        days: 1,
-                                    });
+                                    if (!listWorkDate[format(data.startTime, "yyyy-MM-dd")]) {
+                                        listOfDates.push(data.startTime);
+                                        data.startTime = add(data.startTime, {
+                                            days: 1,
+                                        });
+                                    }
                                 }
                                 // dataAll?.worksession.map((x) => listOfDates.findIndex((k) => k === x.workdate));
                                 mutate(

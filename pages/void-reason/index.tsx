@@ -46,7 +46,7 @@ const VoidReason: NextPage = () => {
     const deleteRowData = (rowData: VoidReasonMutationType) => {
         if (rowData.status === BASIC_ENUM.INACTIVE) {
             showSnackbar({
-                children: "Lí do này hiện đã ngừng hoạt động!",
+                children: "Lý do hủy này hiện đã ngừng hoạt động!",
                 severity: "error",
             });
         } else {
@@ -86,7 +86,7 @@ const VoidReason: NextPage = () => {
         },
         {
             field: "name",
-            title: "Tên lý do",
+            title: "Tên lý do hủy",
             index: 2,
             type: "string",
         },
@@ -209,7 +209,7 @@ const VoidReason: NextPage = () => {
             <CRUDTable
                 queryKey="VoidReasonQuery"
                 columns={columns}
-                title={"Quản lý các lí do"}
+                title={"Quản lý các lý do hủy"}
                 entity="voidreason"
                 firstOrderField="id"
                 sort

@@ -2,7 +2,6 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import WarningIcon from "@mui/icons-material/Warning";
 import { LoginModel } from "models/login.model";
@@ -185,7 +184,7 @@ const Login: NextPageWithLayout = () => {
                                 mt: 2,
                             }}
                         >
-                            <Link href={"/"} passHref>
+                            {/* <Link href={"/"} passHref>
                                 <Typography
                                     ml={1}
                                     variant="overline"
@@ -196,7 +195,7 @@ const Login: NextPageWithLayout = () => {
                                 >
                                     Quên mật khẩu?
                                 </Typography>
-                            </Link>
+                            </Link> */}
                             <Button type="submit" variant="contained" color="primary">
                                 Đăng nhập
                             </Button>

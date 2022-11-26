@@ -152,7 +152,7 @@ const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) 
             <CardContainer width="90%" maxWidth={820}>
                 <Box sx={{ display: "flex", justifyContent: "center", m: 3 }}>
                     <Typography variant="h6" component="h2">
-                        Sao chép phiên làm việc
+                        Sao chép ca làm việc
                     </Typography>
                 </Box>
                 <Grid

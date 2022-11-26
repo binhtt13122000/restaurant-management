@@ -57,9 +57,9 @@ const VoidreasonForm: React.FC<IForm<VoidReasonMutationType>> = (
                     <Typography variant="h6" component="h2">
                         {defaultData.id
                             ? props.isView
-                                ? "Chi tiết lí do"
-                                : "Chỉnh sửa lí do"
-                            : "Tạo mới lí do"}
+                                ? "Chi tiết lý do hủy"
+                                : "Chỉnh sửa lý do hủy"
+                            : "Tạo mới lý do hủy"}
                     </Typography>
                 </Box>
                 <Grid
@@ -83,7 +83,7 @@ const VoidreasonForm: React.FC<IForm<VoidReasonMutationType>> = (
                     >
                         <TextfieldBase
                             id="name"
-                            label={"Tên lí do"}
+                            label={"Tên lý do hủy"}
                             variant="outlined"
                             InputProps={{
                                 readOnly: isView,
@@ -95,7 +95,7 @@ const VoidreasonForm: React.FC<IForm<VoidReasonMutationType>> = (
                             {...register("name", {
                                 required: {
                                     value: true,
-                                    message: "Tên lí do là bắt buộc!",
+                                    message: "Tên lý do hủy là bắt buộc!",
                                 },
                                 onBlur: () =>
                                     setValue(

@@ -20,6 +20,42 @@ type account {
   avatar: String
 
   """An array relationship"""
+  cashierlogs(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): [cashierlog!]!
+
+  """An aggregate relationship"""
+  cashierlogs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): cashierlog_aggregate!
+
+  """An array relationship"""
   checks(
     """distinct select on columns"""
     distinct_on: [check_select_column!]
@@ -141,6 +177,7 @@ input account_bool_exp {
   _not: account_bool_exp
   _or: [account_bool_exp!]
   avatar: String_comparison_exp
+  cashierlogs: cashierlog_bool_exp
   checks: check_bool_exp
   email: String_comparison_exp
   fullname: String_comparison_exp
@@ -183,6 +220,7 @@ input type for inserting data into table "account"
 """
 input account_insert_input {
   avatar: String
+  cashierlogs: cashierlog_arr_rel_insert_input
   checks: check_arr_rel_insert_input
   email: String
   fullname: String
@@ -280,6 +318,7 @@ input account_on_conflict {
 """Ordering options when selecting data from "account"."""
 input account_order_by {
   avatar: order_by
+  cashierlogs_aggregate: cashierlog_aggregate_order_by
   checks_aggregate: check_aggregate_order_by
   email: order_by
   fullname: order_by
@@ -2061,6 +2100,467 @@ input Boolean_comparison_exp {
   _lte: Boolean
   _neq: Boolean
   _nin: [Boolean!]
+}
+
+"""
+columns and relationships of "cashierlog"
+"""
+type cashierlog {
+  """An object relationship"""
+  account: account!
+  accountid: Int!
+  amount: numeric!
+  creationtime: timestamp!
+  id: Int!
+
+  """An object relationship"""
+  shift: shift!
+  shiftid: Int!
+  type: cashierlog_type!
+  updaterid: Int
+  updatetime: timestamp
+}
+
+"""
+aggregated selection of "cashierlog"
+"""
+type cashierlog_aggregate {
+  aggregate: cashierlog_aggregate_fields
+  nodes: [cashierlog!]!
+}
+
+"""
+aggregate fields of "cashierlog"
+"""
+type cashierlog_aggregate_fields {
+  avg: cashierlog_avg_fields
+  count(columns: [cashierlog_select_column!], distinct: Boolean): Int!
+  max: cashierlog_max_fields
+  min: cashierlog_min_fields
+  stddev: cashierlog_stddev_fields
+  stddev_pop: cashierlog_stddev_pop_fields
+  stddev_samp: cashierlog_stddev_samp_fields
+  sum: cashierlog_sum_fields
+  var_pop: cashierlog_var_pop_fields
+  var_samp: cashierlog_var_samp_fields
+  variance: cashierlog_variance_fields
+}
+
+"""
+order by aggregate values of table "cashierlog"
+"""
+input cashierlog_aggregate_order_by {
+  avg: cashierlog_avg_order_by
+  count: order_by
+  max: cashierlog_max_order_by
+  min: cashierlog_min_order_by
+  stddev: cashierlog_stddev_order_by
+  stddev_pop: cashierlog_stddev_pop_order_by
+  stddev_samp: cashierlog_stddev_samp_order_by
+  sum: cashierlog_sum_order_by
+  var_pop: cashierlog_var_pop_order_by
+  var_samp: cashierlog_var_samp_order_by
+  variance: cashierlog_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "cashierlog"
+"""
+input cashierlog_arr_rel_insert_input {
+  data: [cashierlog_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: cashierlog_on_conflict
+}
+
+"""aggregate avg on columns"""
+type cashierlog_avg_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by avg() on columns of table "cashierlog"
+"""
+input cashierlog_avg_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "cashierlog". All fields are combined with a logical 'AND'.
+"""
+input cashierlog_bool_exp {
+  _and: [cashierlog_bool_exp!]
+  _not: cashierlog_bool_exp
+  _or: [cashierlog_bool_exp!]
+  account: account_bool_exp
+  accountid: Int_comparison_exp
+  amount: numeric_comparison_exp
+  creationtime: timestamp_comparison_exp
+  id: Int_comparison_exp
+  shift: shift_bool_exp
+  shiftid: Int_comparison_exp
+  type: cashierlog_type_comparison_exp
+  updaterid: Int_comparison_exp
+  updatetime: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "cashierlog"
+"""
+enum cashierlog_constraint {
+  """unique or primary key constraint"""
+  cashierlog_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "cashierlog"
+"""
+input cashierlog_inc_input {
+  accountid: Int
+  amount: numeric
+  id: Int
+  shiftid: Int
+  updaterid: Int
+}
+
+"""
+input type for inserting data into table "cashierlog"
+"""
+input cashierlog_insert_input {
+  account: account_obj_rel_insert_input
+  accountid: Int
+  amount: numeric
+  creationtime: timestamp
+  id: Int
+  shift: shift_obj_rel_insert_input
+  shiftid: Int
+  type: cashierlog_type
+  updaterid: Int
+  updatetime: timestamp
+}
+
+"""aggregate max on columns"""
+type cashierlog_max_fields {
+  accountid: Int
+  amount: numeric
+  creationtime: timestamp
+  id: Int
+  shiftid: Int
+  updaterid: Int
+  updatetime: timestamp
+}
+
+"""
+order by max() on columns of table "cashierlog"
+"""
+input cashierlog_max_order_by {
+  accountid: order_by
+  amount: order_by
+  creationtime: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+  updatetime: order_by
+}
+
+"""aggregate min on columns"""
+type cashierlog_min_fields {
+  accountid: Int
+  amount: numeric
+  creationtime: timestamp
+  id: Int
+  shiftid: Int
+  updaterid: Int
+  updatetime: timestamp
+}
+
+"""
+order by min() on columns of table "cashierlog"
+"""
+input cashierlog_min_order_by {
+  accountid: order_by
+  amount: order_by
+  creationtime: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+  updatetime: order_by
+}
+
+"""
+response of any mutation on the table "cashierlog"
+"""
+type cashierlog_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [cashierlog!]!
+}
+
+"""
+on_conflict condition type for table "cashierlog"
+"""
+input cashierlog_on_conflict {
+  constraint: cashierlog_constraint!
+  update_columns: [cashierlog_update_column!]! = []
+  where: cashierlog_bool_exp
+}
+
+"""Ordering options when selecting data from "cashierlog"."""
+input cashierlog_order_by {
+  account: account_order_by
+  accountid: order_by
+  amount: order_by
+  creationtime: order_by
+  id: order_by
+  shift: shift_order_by
+  shiftid: order_by
+  type: order_by
+  updaterid: order_by
+  updatetime: order_by
+}
+
+"""primary key columns input for table: cashierlog"""
+input cashierlog_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "cashierlog"
+"""
+enum cashierlog_select_column {
+  """column name"""
+  accountid
+
+  """column name"""
+  amount
+
+  """column name"""
+  creationtime
+
+  """column name"""
+  id
+
+  """column name"""
+  shiftid
+
+  """column name"""
+  type
+
+  """column name"""
+  updaterid
+
+  """column name"""
+  updatetime
+}
+
+"""
+input type for updating data in table "cashierlog"
+"""
+input cashierlog_set_input {
+  accountid: Int
+  amount: numeric
+  creationtime: timestamp
+  id: Int
+  shiftid: Int
+  type: cashierlog_type
+  updaterid: Int
+  updatetime: timestamp
+}
+
+"""aggregate stddev on columns"""
+type cashierlog_stddev_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by stddev() on columns of table "cashierlog"
+"""
+input cashierlog_stddev_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type cashierlog_stddev_pop_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by stddev_pop() on columns of table "cashierlog"
+"""
+input cashierlog_stddev_pop_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type cashierlog_stddev_samp_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by stddev_samp() on columns of table "cashierlog"
+"""
+input cashierlog_stddev_samp_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+"""aggregate sum on columns"""
+type cashierlog_sum_fields {
+  accountid: Int
+  amount: numeric
+  id: Int
+  shiftid: Int
+  updaterid: Int
+}
+
+"""
+order by sum() on columns of table "cashierlog"
+"""
+input cashierlog_sum_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+scalar cashierlog_type
+
+"""
+Boolean expression to compare columns of type "cashierlog_type". All fields are combined with logical 'AND'.
+"""
+input cashierlog_type_comparison_exp {
+  _eq: cashierlog_type
+  _gt: cashierlog_type
+  _gte: cashierlog_type
+  _in: [cashierlog_type!]
+  _is_null: Boolean
+  _lt: cashierlog_type
+  _lte: cashierlog_type
+  _neq: cashierlog_type
+  _nin: [cashierlog_type!]
+}
+
+"""
+update columns of table "cashierlog"
+"""
+enum cashierlog_update_column {
+  """column name"""
+  accountid
+
+  """column name"""
+  amount
+
+  """column name"""
+  creationtime
+
+  """column name"""
+  id
+
+  """column name"""
+  shiftid
+
+  """column name"""
+  type
+
+  """column name"""
+  updaterid
+
+  """column name"""
+  updatetime
+}
+
+"""aggregate var_pop on columns"""
+type cashierlog_var_pop_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by var_pop() on columns of table "cashierlog"
+"""
+input cashierlog_var_pop_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+"""aggregate var_samp on columns"""
+type cashierlog_var_samp_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by var_samp() on columns of table "cashierlog"
+"""
+input cashierlog_var_samp_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
+}
+
+"""aggregate variance on columns"""
+type cashierlog_variance_fields {
+  accountid: Float
+  amount: Float
+  id: Float
+  shiftid: Float
+  updaterid: Float
+}
+
+"""
+order by variance() on columns of table "cashierlog"
+"""
+input cashierlog_variance_order_by {
+  accountid: order_by
+  amount: order_by
+  id: order_by
+  shiftid: order_by
+  updaterid: order_by
 }
 
 """
@@ -6212,6 +6712,19 @@ type mutation_root {
   delete_billpayment_by_pk(id: Int!): billpayment
 
   """
+  delete data from the table: "cashierlog"
+  """
+  delete_cashierlog(
+    """filter the rows which have to be deleted"""
+    where: cashierlog_bool_exp!
+  ): cashierlog_mutation_response
+
+  """
+  delete single row from the table: "cashierlog"
+  """
+  delete_cashierlog_by_pk(id: Int!): cashierlog
+
+  """
   delete data from the table: "check"
   """
   delete_check(
@@ -6545,6 +7058,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: billpayment_on_conflict
   ): billpayment
+
+  """
+  insert data into the table: "cashierlog"
+  """
+  insert_cashierlog(
+    """the rows to be inserted"""
+    objects: [cashierlog_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: cashierlog_on_conflict
+  ): cashierlog_mutation_response
+
+  """
+  insert a single row into the table: "cashierlog"
+  """
+  insert_cashierlog_one(
+    """the row to be inserted"""
+    object: cashierlog_insert_input!
+
+    """upsert condition"""
+    on_conflict: cashierlog_on_conflict
+  ): cashierlog
 
   """
   insert data into the table: "check"
@@ -7069,6 +7604,32 @@ type mutation_root {
   ): billpayment
 
   """
+  update data of the table: "cashierlog"
+  """
+  update_cashierlog(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: cashierlog_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: cashierlog_set_input
+
+    """filter the rows which have to be updated"""
+    where: cashierlog_bool_exp!
+  ): cashierlog_mutation_response
+
+  """
+  update single row of the table: "cashierlog"
+  """
+  update_cashierlog_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: cashierlog_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: cashierlog_set_input
+    pk_columns: cashierlog_pk_columns_input!
+  ): cashierlog
+
+  """
   update data of the table: "check"
   """
   update_check(
@@ -7557,6 +8118,23 @@ type mutation_root {
   ): worksession
 }
 
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
 """column ordering options"""
 enum order_by {
   """in ascending order, nulls last"""
@@ -7989,6 +8567,49 @@ type query_root {
 
   """fetch data from the table: "billpayment" using primary key columns"""
   billpayment_by_pk(id: Int!): billpayment
+
+  """
+  fetch data from the table: "cashierlog"
+  """
+  cashierlog(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): [cashierlog!]!
+
+  """
+  fetch aggregated fields from the table: "cashierlog"
+  """
+  cashierlog_aggregate(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): cashierlog_aggregate!
+
+  """fetch data from the table: "cashierlog" using primary key columns"""
+  cashierlog_by_pk(id: Int!): cashierlog
 
   """
   fetch data from the table: "check"
@@ -9185,6 +9806,42 @@ columns and relationships of "shift"
 """
 type shift {
   """An array relationship"""
+  cashierlogs(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): [cashierlog!]!
+
+  """An aggregate relationship"""
+  cashierlogs_aggregate(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): cashierlog_aggregate!
+
+  """An array relationship"""
   checks(
     """distinct select on columns"""
     distinct_on: [check_select_column!]
@@ -9310,6 +9967,7 @@ input shift_bool_exp {
   _and: [shift_bool_exp!]
   _not: shift_bool_exp
   _or: [shift_bool_exp!]
+  cashierlogs: cashierlog_bool_exp
   checks: check_bool_exp
   closerid: Int_comparison_exp
   endtime: time_comparison_exp
@@ -9345,6 +10003,7 @@ input shift_inc_input {
 input type for inserting data into table "shift"
 """
 input shift_insert_input {
+  cashierlogs: cashierlog_arr_rel_insert_input
   checks: check_arr_rel_insert_input
   closerid: Int
   endtime: time
@@ -9430,6 +10089,7 @@ input shift_on_conflict {
 
 """Ordering options when selecting data from "shift"."""
 input shift_order_by {
+  cashierlogs_aggregate: cashierlog_aggregate_order_by
   checks_aggregate: check_aggregate_order_by
   closerid: order_by
   endtime: order_by
@@ -10254,6 +10914,49 @@ type subscription_root {
 
   """fetch data from the table: "billpayment" using primary key columns"""
   billpayment_by_pk(id: Int!): billpayment
+
+  """
+  fetch data from the table: "cashierlog"
+  """
+  cashierlog(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): [cashierlog!]!
+
+  """
+  fetch aggregated fields from the table: "cashierlog"
+  """
+  cashierlog_aggregate(
+    """distinct select on columns"""
+    distinct_on: [cashierlog_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [cashierlog_order_by!]
+
+    """filter the rows returned"""
+    where: cashierlog_bool_exp
+  ): cashierlog_aggregate!
+
+  """fetch data from the table: "cashierlog" using primary key columns"""
+  cashierlog_by_pk(id: Int!): cashierlog
 
   """
   fetch data from the table: "check"
