@@ -2,21 +2,11 @@ import React, { useEffect } from "react";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import {
-    Button,
-    Grid,
-    Modal,
-    Box,
-    Typography,
-    Autocomplete,
-    MenuItem,
-    TextField,
-} from "@mui/material";
+import { Button, Grid, Modal, Box, Typography, Autocomplete, TextField } from "@mui/material";
 import CardContainer from "components/Card/Container";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import TextfieldBase from "components/BaseTextField";
 import { format } from "date-fns";
-import ReactHookFormSelect from "components/SelectBase";
 import { TimePicker } from "@mui/x-date-pickers";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useGetOneShift from "hooks/shift/useGetOneShift";
@@ -43,8 +33,17 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
 
     const showSnackbar = useSnackbar();
 
-    const { handleSubmit, setValue, control, clearErrors, unregister, watch } =
-        useForm<UpdateShiftDTO>({});
+    const {
+        handleSubmit,
+        setValue,
+        control,
+        clearErrors,
+        unregister,
+        watch,
+        register,
+        getValues,
+        formState: { errors },
+    } = useForm<UpdateShiftDTO>({});
 
     useEffect(() => {
         if (opened) {
@@ -71,6 +70,67 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
     const convert = (time: string) => {
         const times = time.split(":");
         return Number(times[0]) * 60 + Number(times[1]);
+    };
+
+    const closeShift = () => {
+        mutate(
+            {
+                id: id,
+                isopen: false,
+                name: dataById?.shift_by_pk?.name || "",
+                status: dataById?.shift_by_pk?.status,
+                starttime: dataById?.shift_by_pk?.starttime || "",
+                endtime: dataById?.shift_by_pk?.endtime || "",
+                worksessionid: dataById?.shift_by_pk?.worksessionid || 0,
+            },
+            {
+                onSuccess() {
+                    showSnackbar({
+                        children: "Đóng thành công",
+                        severity: "success",
+                    });
+                    action();
+                    clearErrors();
+                    unregister();
+                },
+                onError() {
+                    showSnackbar({
+                        children: "Đóng thất bại",
+                        severity: "error",
+                    });
+                },
+            }
+        );
+    };
+    const openShift = () => {
+        mutate(
+            {
+                id: id,
+                isopen: true,
+                name: dataById?.shift_by_pk?.name || "",
+                status: dataById?.shift_by_pk?.status,
+                starttime: dataById?.shift_by_pk?.starttime || "",
+                endtime: dataById?.shift_by_pk?.endtime || "",
+                worksessionid: dataById?.shift_by_pk?.worksessionid || 0,
+            },
+            {
+                onSuccess() {
+                    showSnackbar({
+                        children: "Đóng thành công",
+                        severity: "success",
+                    });
+                    action();
+                    clearErrors();
+                    unregister();
+                },
+                onError() {
+                    showSnackbar({
+                        children: "Đóng thất bại",
+                        severity: "error",
+                    });
+                },
+            }
+        );
     };
 
     const submitHandler: SubmitHandler<UpdateShiftDTO> = async (data: UpdateShiftDTO) => {
@@ -254,18 +314,28 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                             flexWrap: { xs: "wrap", md: "nowrap" },
                         }}
                     >
-                        <ReactHookFormSelect
+                        <TextfieldBase
+                            id="name"
+                            label={"Tên ca làm việc"}
+                            variant="outlined"
+                            required
                             fullWidth
-                            control={control}
-                            label="Tên ca làm việc"
-                            name="name"
-                        >
-                            <MenuItem value={"Ca 1"}>Ca 1</MenuItem>
-                            <MenuItem value={"Ca 2"}>Ca 2</MenuItem>
-                            <MenuItem value={"Ca 3"}>Ca 3</MenuItem>
-                            <MenuItem value={"Ca 4"}>Ca 4</MenuItem>
-                            <MenuItem value={"Ca 5"}>Ca 5</MenuItem>
-                        </ReactHookFormSelect>
+                            error={!!errors.name}
+                            helperText={errors.name && errors.name.message}
+                            {...register("name", {
+                                required: {
+                                    value: true,
+                                    message: "Tên ca làm việc là bắt buộc!",
+                                },
+                                onBlur: () =>
+                                    setValue(
+                                        "name",
+                                        getValues("name")
+                                            ? getValues("name")?.trim()
+                                            : getValues("name")
+                                    ),
+                            })}
+                        />
                     </Grid>
                     <Grid
                         item
@@ -388,6 +458,15 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                 {"Xóa ca làm việc"}
                             </Button>
                         )}
+                        <Button
+                            disabled={watch("startTime") >= watch("endTime")}
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                        >
+                            {"Chỉnh sửa"}
+                        </Button>
+
                         {format(
                             data?.worksession.find((x) => x.id === watch("worksessionId"))?.workdate
                                 ? new Date(
@@ -397,14 +476,14 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                   )
                                 : new Date(),
                             "yyyy/MM/dd"
-                        ) > format(new Date(), "yyyy/MM/dd") && (
+                        ) === format(new Date(), "yyyy/MM/dd") && (
                             <Button
                                 disabled={watch("startTime") >= watch("endTime")}
                                 variant="contained"
                                 color="primary"
-                                type="submit"
+                                onClick={dataById?.shift_by_pk?.isopen ? closeShift : openShift}
                             >
-                                {"Chỉnh sửa"}
+                                {dataById?.shift_by_pk?.isopen ? "Đóng" : "Mở"}
                             </Button>
                         )}
                     </Box>

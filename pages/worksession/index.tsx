@@ -187,18 +187,16 @@ const WorkSession = () => {
                             dataWS.worksession.forEach((x) => {
                                 listWorkDate[String(x.workdate)] = 1;
                             });
-
                             if (data && data.startTime && data.endTime) {
                                 const listOfDates: Date[] = [];
                                 while (data.startTime <= data.endTime) {
                                     if (!listWorkDate[format(data.startTime, "yyyy-MM-dd")]) {
                                         listOfDates.push(data.startTime);
-                                        data.startTime = add(data.startTime, {
-                                            days: 1,
-                                        });
                                     }
+                                    data.startTime = add(data.startTime, {
+                                        days: 1,
+                                    });
                                 }
-                                // dataAll?.worksession.map((x) => listOfDates.findIndex((k) => k === x.workdate));
                                 mutate(
                                     {
                                         objects: listOfDates.map((workingDate) => {

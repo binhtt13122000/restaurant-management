@@ -2,21 +2,11 @@ import React, { useEffect } from "react";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import {
-    Button,
-    Grid,
-    Modal,
-    Box,
-    Typography,
-    Autocomplete,
-    MenuItem,
-    TextField,
-} from "@mui/material";
+import { Button, Grid, Modal, Box, Typography, Autocomplete, TextField } from "@mui/material";
 import CardContainer from "components/Card/Container";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
 import TextfieldBase from "components/BaseTextField";
 import { format } from "date-fns";
-import ReactHookFormSelect from "components/SelectBase";
 import { TimePicker } from "@mui/x-date-pickers";
 import useCreateShift from "hooks/shift/useCreateShift";
 import useSnackbar from "components/Snackbar/useSnackbar";
@@ -37,13 +27,21 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
 
     const showSnackbar = useSnackbar();
 
-    const { handleSubmit, setValue, control, clearErrors, unregister, watch } =
-        useForm<CreateShiftDTO>({});
+    const {
+        handleSubmit,
+        formState: { errors },
+        setValue,
+        control,
+        clearErrors,
+        unregister,
+        getValues,
+        watch,
+        register,
+    } = useForm<CreateShiftDTO>({});
 
     useEffect(() => {
         if (opened) {
             const newDate = new Date();
-            setValue("name", "Ca 1");
             setValue("startTime", newDate);
             setValue("endTime", newDate);
         }
@@ -230,18 +228,28 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                             flexWrap: { xs: "wrap", md: "nowrap" },
                         }}
                     >
-                        <ReactHookFormSelect
+                        <TextfieldBase
+                            id="name"
+                            label={"Tên ca làm việc"}
+                            variant="outlined"
+                            required
                             fullWidth
-                            control={control}
-                            label="Tên ca làm việc"
-                            name="name"
-                        >
-                            <MenuItem value={"Ca 1"}>Ca 1</MenuItem>
-                            <MenuItem value={"Ca 2"}>Ca 2</MenuItem>
-                            <MenuItem value={"Ca 3"}>Ca 3</MenuItem>
-                            <MenuItem value={"Ca 4"}>Ca 4</MenuItem>
-                            <MenuItem value={"Ca 5"}>Ca 5</MenuItem>
-                        </ReactHookFormSelect>
+                            error={!!errors.name}
+                            helperText={errors.name && errors.name.message}
+                            {...register("name", {
+                                required: {
+                                    value: true,
+                                    message: "Tên ca làm việc là bắt buộc!",
+                                },
+                                onBlur: () =>
+                                    setValue(
+                                        "name",
+                                        getValues("name")
+                                            ? getValues("name")?.trim()
+                                            : getValues("name")
+                                    ),
+                            })}
+                        />
                     </Grid>
                     <Grid
                         item
