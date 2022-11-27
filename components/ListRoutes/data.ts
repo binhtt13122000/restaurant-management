@@ -47,13 +47,13 @@ export const routes = [
     {
         id: 4,
         name: "Cấu hình chung",
-        icon: "/images/employees.png",
+        icon: "/images/settings.png",
         children: [
             {
                 id: 4.1,
                 name: "Thông tin nhà hàng",
                 path: ROUTES.SETTING,
-                icon: "/images/combo.png",
+                icon: "/images/settings.png",
             },
             {
                 id: 4.2,
