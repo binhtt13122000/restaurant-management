@@ -20,6 +20,9 @@ const useGetShiftById = (id: number) => {
                             openerid
                             starttime
                             status
+                            checks {
+                                id
+                            }
                             worksession {
                                 creationtime
                                 creatorid

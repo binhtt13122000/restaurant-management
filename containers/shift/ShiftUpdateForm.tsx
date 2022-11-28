@@ -13,6 +13,7 @@ import useGetOneShift from "hooks/shift/useGetOneShift";
 import useGetShiftById from "hooks/shift/useGetShiftById";
 import useDeleteShift from "hooks/shift/useDeleteShift";
 import useUpdateShift from "hooks/shift/useUpdateShift";
+import { LoginQueryQuery } from "generated/graphql";
 
 export interface UpdateShiftDTO {
     worksessionId: number;
@@ -25,6 +26,15 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
     const { opened, action, id } = props;
 
     const { data: dataById, isLoading } = useGetShiftById(id);
+
+    const [user, setUser] = React.useState<LoginQueryQuery>();
+
+    useEffect(() => {
+        const userJson = localStorage.getItem("user");
+        if (userJson) {
+            setUser(JSON.parse(localStorage.getItem("user") || "{}"));
+        }
+    }, []);
 
     const { mutate } = useUpdateShift("ShiftQuery");
     const { mutate: mutateDelete } = useDeleteShift("ShiftQuery");
@@ -82,6 +92,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                 starttime: dataById?.shift_by_pk?.starttime || "",
                 endtime: dataById?.shift_by_pk?.endtime || "",
                 worksessionid: dataById?.shift_by_pk?.worksessionid || 0,
+                closerid: user?.account[0]?.id || 0,
+                openerid: dataById?.shift_by_pk?.openerid,
             },
             {
                 onSuccess() {
@@ -112,6 +124,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                 starttime: dataById?.shift_by_pk?.starttime || "",
                 endtime: dataById?.shift_by_pk?.endtime || "",
                 worksessionid: dataById?.shift_by_pk?.worksessionid || 0,
+                openerid: user?.account[0]?.id || 0,
+                closerid: dataById?.shift_by_pk?.closerid,
             },
             {
                 onSuccess() {
@@ -168,6 +182,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                     starttime: startTimeString,
                                     endtime: endTimeString,
                                     worksessionid: data.worksessionId,
+                                    openerid: dataById?.shift_by_pk?.openerid,
+                                    closerid: dataById?.shift_by_pk?.closerid,
                                 },
                                 {
                                     onSuccess() {
@@ -416,20 +432,17 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                         >
                             {"Trở về"}
                         </Button>
-                        {format(
-                            data?.worksession.find((x) => x.id === watch("worksessionId"))?.workdate
-                                ? new Date(
-                                      data?.worksession.find(
-                                          (x) => x.id === watch("worksessionId")
-                                      )?.workdate
-                                  )
-                                : new Date(),
-                            "yyyy/MM/dd"
-                        ) > format(new Date(), "yyyy/MM/dd") && (
-                            <Button
-                                variant="contained"
-                                color="warning"
-                                onClick={() => {
+
+                        <Button
+                            variant="contained"
+                            color="warning"
+                            onClick={() => {
+                                if ((dataById?.shift_by_pk?.checks?.length || 0) > 0) {
+                                    showSnackbar({
+                                        children: "Ca đã có giao dịch",
+                                        severity: "error",
+                                    });
+                                } else {
                                     mutateDelete(
                                         {
                                             id: id,
@@ -453,11 +466,11 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                             },
                                         }
                                     );
-                                }}
-                            >
-                                {"Xóa ca làm việc"}
-                            </Button>
-                        )}
+                                }
+                            }}
+                        >
+                            {"Xóa ca làm việc"}
+                        </Button>
                         <Button
                             disabled={watch("startTime") >= watch("endTime")}
                             variant="contained"

@@ -11087,6 +11087,7 @@ export type GetShiftByIdQuery = {
         starttime: any;
         status: any;
         worksessionid: number;
+        checks: Array<{ __typename?: "check"; id: number }>;
         worksession: {
             __typename?: "worksession";
             creationtime: any;
