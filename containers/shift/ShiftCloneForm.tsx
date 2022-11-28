@@ -279,9 +279,9 @@ const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) 
                                         <TextField
                                             fullWidth
                                             {...params}
-                                            error={watch("startTime") >= watch("endTime")}
+                                            error={watch("startTime") > watch("endTime")}
                                             helperText={
-                                                watch("startTime") >= watch("endTime") &&
+                                                watch("startTime") > watch("endTime") &&
                                                 "Thời gian bắt đầu phải bé hơn thời gian kết thúc"
                                             }
                                         />

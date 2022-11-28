@@ -31,6 +31,7 @@ import useUpdateAccount from "hooks/account/useUpdateAccount";
 import useLogin from "hooks/login/useLogin";
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useUpdateAccountWithNoPass from "hooks/account/useUpdateAccountWithNoPass";
+import useDeleteAccount from "hooks/account/useDeleteAccount";
 
 export type ChildrenType = {
     fatherIndex: number;
@@ -64,6 +65,7 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
     const showSnackbar = useSnackbar();
     // const [isOpenFormChangePassword, setOpenFormChangePassword] = useState<boolean>(false);
     const [userCurrent, setUserCurrent] = useState<LoginQueryQuery>();
+    const { mutate: mutateDelete } = useDeleteAccount("xxx");
 
     useEffect(() => {
         // Perform localStorage action
@@ -238,6 +240,10 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
 
     const logout = async () => {
         localStorage.clear();
+        mutateDelete({
+            id: (userCurrent && userCurrent?.account && userCurrent?.account[0]?.id) || 0,
+            status: USER_ENUM.OFFLINE,
+        });
         router.push("/login");
     };
 

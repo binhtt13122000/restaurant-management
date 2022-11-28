@@ -16,12 +16,17 @@ import useDeleteAccount from "hooks/account/useDeleteAccount";
 import useCreateAccount from "hooks/account/useCreateAccount";
 import bcrypt from "bcryptjs";
 import useUpdateAccountWithNoPass from "hooks/account/useUpdateAccountWithNoPass";
+import { LoginQueryQuery } from "generated/graphql";
 
 const Account: NextPage = () => {
+    const [user, setUser] = React.useState<LoginQueryQuery>();
+
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
             router.push("/login");
+        } else {
+            setUser(JSON.parse(localStorage.getItem("user") || "{}"));
         }
     }, []);
 
@@ -58,26 +63,33 @@ const Account: NextPage = () => {
                 severity: "error",
             });
         } else {
-            mutateDelete(
-                {
-                    id: rowData.id,
-                    status: USER_ENUM.INACTIVE,
-                },
-                {
-                    onSuccess: () => {
-                        showSnackbar({
-                            children: "Xóa thành công",
-                            severity: "success",
-                        });
+            if (rowData.id === user?.account[0]?.id) {
+                showSnackbar({
+                    children: "Không được xóa chính mình!",
+                    severity: "error",
+                });
+            } else {
+                mutateDelete(
+                    {
+                        id: rowData.id,
+                        status: USER_ENUM.INACTIVE,
                     },
-                    onError: () => {
-                        showSnackbar({
-                            children: "Xóa thất bại",
-                            severity: "error",
-                        });
-                    },
-                }
-            );
+                    {
+                        onSuccess: () => {
+                            showSnackbar({
+                                children: "Xóa thành công",
+                                severity: "success",
+                            });
+                        },
+                        onError: () => {
+                            showSnackbar({
+                                children: "Xóa thất bại",
+                                severity: "error",
+                            });
+                        },
+                    }
+                );
+            }
         }
     };
 
@@ -109,15 +121,15 @@ const Account: NextPage = () => {
             enumValue: [
                 {
                     key: "ONLINE",
-                    value: "ONLINE",
+                    value: "TRỰC TUYẾN",
                 },
                 {
                     key: "OFFLINE",
-                    value: "OFFLINE",
+                    value: "NGOẠI TUYẾN",
                 },
                 {
                     key: "INACTIVE",
-                    value: "INACTIVE",
+                    value: "KHÔNG HOẠT ĐỘNG",
                 },
             ],
             render: (status: string) => {

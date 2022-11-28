@@ -13,6 +13,7 @@ import { NextPageWithLayout } from "utils/common";
 import { USER_ENUM } from "utils/enums";
 import { useEffect } from "react";
 import router from "next/router";
+import useDeleteAccount from "hooks/account/useDeleteAccount";
 
 const Login: NextPageWithLayout = () => {
     useEffect(() => {
@@ -22,6 +23,8 @@ const Login: NextPageWithLayout = () => {
         }
     }, []);
     const { mutate } = useLogin();
+    const { mutate: mutateDelete } = useDeleteAccount("xxx");
+
     const {
         handleSubmit,
         register,
@@ -76,6 +79,10 @@ const Login: NextPageWithLayout = () => {
                                 return;
                             }
                         }
+                        mutateDelete({
+                            id: user?.account[0]?.id,
+                            status: USER_ENUM.ONLINE,
+                        });
                         localStorage.setItem("user", JSON.stringify(user));
                         Router.push("/account");
                     },

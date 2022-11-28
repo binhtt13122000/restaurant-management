@@ -264,7 +264,7 @@ const Shift = () => {
                                     color="warning"
                                     onClick={() => setOpenClone(true)}
                                 >
-                                    Sao chép ca phiên làm việc
+                                    Sao chép ca làm việc
                                 </Button>
                             </Box>
                         );
@@ -285,9 +285,9 @@ const Shift = () => {
                                     return (
                                         <MenuItem key={x.name} value={x.name}>
                                             {x.displayName.toUpperCase() === "WEEK"
-                                                ? "Hiện thị theo tuần"
+                                                ? "Hiển thị theo tuần"
                                                 : x.displayName.toUpperCase() === "DAY"
-                                                ? "Hiện thị theo ngày"
+                                                ? "Hiển thị theo ngày"
                                                 : ""}
                                         </MenuItem>
                                     );
