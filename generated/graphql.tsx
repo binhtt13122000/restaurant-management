@@ -22,7 +22,6 @@ export type Scalars = {
     table_status: any;
     time: any;
     timestamp: any;
-    timetz: any;
     user_status: any;
 };
 
@@ -272,6 +271,7 @@ export type Account_Max_Fields = {
     password?: Maybe<Scalars["String"]>;
     phone?: Maybe<Scalars["String"]>;
     roleid?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["user_status"]>;
     username?: Maybe<Scalars["String"]>;
 };
 
@@ -284,6 +284,7 @@ export type Account_Max_Order_By = {
     password?: InputMaybe<Order_By>;
     phone?: InputMaybe<Order_By>;
     roleid?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     username?: InputMaybe<Order_By>;
 };
 
@@ -297,6 +298,7 @@ export type Account_Min_Fields = {
     password?: Maybe<Scalars["String"]>;
     phone?: Maybe<Scalars["String"]>;
     roleid?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["user_status"]>;
     username?: Maybe<Scalars["String"]>;
 };
 
@@ -309,6 +311,7 @@ export type Account_Min_Order_By = {
     password?: InputMaybe<Order_By>;
     phone?: InputMaybe<Order_By>;
     roleid?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     username?: InputMaybe<Order_By>;
 };
 
@@ -538,9 +541,9 @@ export type Bill = {
     id: Scalars["Int"];
     note?: Maybe<Scalars["String"]>;
     status: Scalars["bill_status"];
-    subtotal: Scalars["Int"];
-    totalamount: Scalars["Int"];
-    totaltax: Scalars["Int"];
+    subtotal: Scalars["numeric"];
+    totalamount: Scalars["numeric"];
+    totaltax: Scalars["numeric"];
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
 };
@@ -671,9 +674,9 @@ export type Bill_Bool_Exp = {
     id?: InputMaybe<Int_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
     status?: InputMaybe<Bill_Status_Comparison_Exp>;
-    subtotal?: InputMaybe<Int_Comparison_Exp>;
-    totalamount?: InputMaybe<Int_Comparison_Exp>;
-    totaltax?: InputMaybe<Int_Comparison_Exp>;
+    subtotal?: InputMaybe<Numeric_Comparison_Exp>;
+    totalamount?: InputMaybe<Numeric_Comparison_Exp>;
+    totaltax?: InputMaybe<Numeric_Comparison_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
     updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
 };
@@ -691,9 +694,9 @@ export type Bill_Inc_Input = {
     checkid?: InputMaybe<Scalars["Int"]>;
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    totalamount?: InputMaybe<Scalars["Int"]>;
-    totaltax?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    totalamount?: InputMaybe<Scalars["numeric"]>;
+    totaltax?: InputMaybe<Scalars["numeric"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -710,9 +713,9 @@ export type Bill_Insert_Input = {
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
     status?: InputMaybe<Scalars["bill_status"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    totalamount?: InputMaybe<Scalars["Int"]>;
-    totaltax?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    totalamount?: InputMaybe<Scalars["numeric"]>;
+    totaltax?: InputMaybe<Scalars["numeric"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     updatetime?: InputMaybe<Scalars["timestamp"]>;
 };
@@ -727,9 +730,10 @@ export type Bill_Max_Fields = {
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    totalamount?: Maybe<Scalars["Int"]>;
-    totaltax?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["bill_status"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    totalamount?: Maybe<Scalars["numeric"]>;
+    totaltax?: Maybe<Scalars["numeric"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
 };
@@ -743,6 +747,7 @@ export type Bill_Max_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
@@ -760,9 +765,10 @@ export type Bill_Min_Fields = {
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    totalamount?: Maybe<Scalars["Int"]>;
-    totaltax?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["bill_status"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    totalamount?: Maybe<Scalars["numeric"]>;
+    totaltax?: Maybe<Scalars["numeric"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
 };
@@ -776,6 +782,7 @@ export type Bill_Min_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
     totaltax?: InputMaybe<Order_By>;
@@ -871,9 +878,9 @@ export type Bill_Set_Input = {
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
     status?: InputMaybe<Scalars["bill_status"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    totalamount?: InputMaybe<Scalars["Int"]>;
-    totaltax?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    totalamount?: InputMaybe<Scalars["numeric"]>;
+    totaltax?: InputMaybe<Scalars["numeric"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     updatetime?: InputMaybe<Scalars["timestamp"]>;
 };
@@ -966,9 +973,9 @@ export type Bill_Sum_Fields = {
     checkid?: Maybe<Scalars["Int"]>;
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    totalamount?: Maybe<Scalars["Int"]>;
-    totaltax?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    totalamount?: Maybe<Scalars["numeric"]>;
+    totaltax?: Maybe<Scalars["numeric"]>;
     updaterid?: Maybe<Scalars["Int"]>;
 };
 
@@ -1085,7 +1092,7 @@ export type Bill_Variance_Order_By = {
 /** columns and relationships of "billdetail" */
 export type Billdetail = {
     __typename?: "billdetail";
-    amount: Scalars["Int"];
+    amount: Scalars["numeric"];
     /** An object relationship */
     bill: Bill;
     billid: Scalars["Int"];
@@ -1094,10 +1101,10 @@ export type Billdetail = {
     item: Item;
     itemid: Scalars["Int"];
     itemname: Scalars["String"];
-    itemprice: Scalars["Int"];
+    itemprice: Scalars["numeric"];
     quantity: Scalars["float8"];
-    subtotal: Scalars["Int"];
-    taxamount: Scalars["Int"];
+    subtotal: Scalars["numeric"];
+    taxamount: Scalars["numeric"];
 };
 
 /** aggregated selection of "billdetail" */
@@ -1181,17 +1188,17 @@ export type Billdetail_Bool_Exp = {
     _and?: InputMaybe<Array<Billdetail_Bool_Exp>>;
     _not?: InputMaybe<Billdetail_Bool_Exp>;
     _or?: InputMaybe<Array<Billdetail_Bool_Exp>>;
-    amount?: InputMaybe<Int_Comparison_Exp>;
+    amount?: InputMaybe<Numeric_Comparison_Exp>;
     bill?: InputMaybe<Bill_Bool_Exp>;
     billid?: InputMaybe<Int_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     item?: InputMaybe<Item_Bool_Exp>;
     itemid?: InputMaybe<Int_Comparison_Exp>;
     itemname?: InputMaybe<String_Comparison_Exp>;
-    itemprice?: InputMaybe<Int_Comparison_Exp>;
+    itemprice?: InputMaybe<Numeric_Comparison_Exp>;
     quantity?: InputMaybe<Float8_Comparison_Exp>;
-    subtotal?: InputMaybe<Int_Comparison_Exp>;
-    taxamount?: InputMaybe<Int_Comparison_Exp>;
+    subtotal?: InputMaybe<Numeric_Comparison_Exp>;
+    taxamount?: InputMaybe<Numeric_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "billdetail" */
@@ -1202,43 +1209,43 @@ export enum Billdetail_Constraint {
 
 /** input type for incrementing numeric columns in table "billdetail" */
 export type Billdetail_Inc_Input = {
-    amount?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
     billid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
-    itemprice?: InputMaybe<Scalars["Int"]>;
+    itemprice?: InputMaybe<Scalars["numeric"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    taxamount?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    taxamount?: InputMaybe<Scalars["numeric"]>;
 };
 
 /** input type for inserting data into table "billdetail" */
 export type Billdetail_Insert_Input = {
-    amount?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
     bill?: InputMaybe<Bill_Obj_Rel_Insert_Input>;
     billid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     item?: InputMaybe<Item_Obj_Rel_Insert_Input>;
     itemid?: InputMaybe<Scalars["Int"]>;
     itemname?: InputMaybe<Scalars["String"]>;
-    itemprice?: InputMaybe<Scalars["Int"]>;
+    itemprice?: InputMaybe<Scalars["numeric"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    taxamount?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    taxamount?: InputMaybe<Scalars["numeric"]>;
 };
 
 /** aggregate max on columns */
 export type Billdetail_Max_Fields = {
     __typename?: "billdetail_max_fields";
-    amount?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
     billid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     itemname?: Maybe<Scalars["String"]>;
-    itemprice?: Maybe<Scalars["Int"]>;
+    itemprice?: Maybe<Scalars["numeric"]>;
     quantity?: Maybe<Scalars["float8"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    taxamount?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    taxamount?: Maybe<Scalars["numeric"]>;
 };
 
 /** order by max() on columns of table "billdetail" */
@@ -1257,15 +1264,15 @@ export type Billdetail_Max_Order_By = {
 /** aggregate min on columns */
 export type Billdetail_Min_Fields = {
     __typename?: "billdetail_min_fields";
-    amount?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
     billid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     itemname?: Maybe<Scalars["String"]>;
-    itemprice?: Maybe<Scalars["Int"]>;
+    itemprice?: Maybe<Scalars["numeric"]>;
     quantity?: Maybe<Scalars["float8"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    taxamount?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    taxamount?: Maybe<Scalars["numeric"]>;
 };
 
 /** order by min() on columns of table "billdetail" */
@@ -1341,15 +1348,15 @@ export enum Billdetail_Select_Column {
 
 /** input type for updating data in table "billdetail" */
 export type Billdetail_Set_Input = {
-    amount?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
     billid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
     itemname?: InputMaybe<Scalars["String"]>;
-    itemprice?: InputMaybe<Scalars["Int"]>;
+    itemprice?: InputMaybe<Scalars["numeric"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    taxamount?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    taxamount?: InputMaybe<Scalars["numeric"]>;
 };
 
 /** aggregate stddev on columns */
@@ -1430,14 +1437,14 @@ export type Billdetail_Stddev_Samp_Order_By = {
 /** aggregate sum on columns */
 export type Billdetail_Sum_Fields = {
     __typename?: "billdetail_sum_fields";
-    amount?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
     billid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
-    itemprice?: Maybe<Scalars["Int"]>;
+    itemprice?: Maybe<Scalars["numeric"]>;
     quantity?: Maybe<Scalars["float8"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    taxamount?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    taxamount?: Maybe<Scalars["numeric"]>;
 };
 
 /** order by sum() on columns of table "billdetail" */
@@ -1552,7 +1559,7 @@ export type Billdetail_Variance_Order_By = {
 /** columns and relationships of "billpayment" */
 export type Billpayment = {
     __typename?: "billpayment";
-    amountreceive: Scalars["Int"];
+    amountreceive: Scalars["numeric"];
     /** An object relationship */
     bill: Bill;
     billid: Scalars["Int"];
@@ -1636,7 +1643,7 @@ export type Billpayment_Bool_Exp = {
     _and?: InputMaybe<Array<Billpayment_Bool_Exp>>;
     _not?: InputMaybe<Billpayment_Bool_Exp>;
     _or?: InputMaybe<Array<Billpayment_Bool_Exp>>;
-    amountreceive?: InputMaybe<Int_Comparison_Exp>;
+    amountreceive?: InputMaybe<Numeric_Comparison_Exp>;
     bill?: InputMaybe<Bill_Bool_Exp>;
     billid?: InputMaybe<Int_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
@@ -1653,7 +1660,7 @@ export enum Billpayment_Constraint {
 
 /** input type for incrementing numeric columns in table "billpayment" */
 export type Billpayment_Inc_Input = {
-    amountreceive?: InputMaybe<Scalars["Int"]>;
+    amountreceive?: InputMaybe<Scalars["numeric"]>;
     billid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     paymentmethodid?: InputMaybe<Scalars["Int"]>;
@@ -1661,7 +1668,7 @@ export type Billpayment_Inc_Input = {
 
 /** input type for inserting data into table "billpayment" */
 export type Billpayment_Insert_Input = {
-    amountreceive?: InputMaybe<Scalars["Int"]>;
+    amountreceive?: InputMaybe<Scalars["numeric"]>;
     bill?: InputMaybe<Bill_Obj_Rel_Insert_Input>;
     billid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
@@ -1673,7 +1680,7 @@ export type Billpayment_Insert_Input = {
 /** aggregate max on columns */
 export type Billpayment_Max_Fields = {
     __typename?: "billpayment_max_fields";
-    amountreceive?: Maybe<Scalars["Int"]>;
+    amountreceive?: Maybe<Scalars["numeric"]>;
     billid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     paymentmethodid?: Maybe<Scalars["Int"]>;
@@ -1692,7 +1699,7 @@ export type Billpayment_Max_Order_By = {
 /** aggregate min on columns */
 export type Billpayment_Min_Fields = {
     __typename?: "billpayment_min_fields";
-    amountreceive?: Maybe<Scalars["Int"]>;
+    amountreceive?: Maybe<Scalars["numeric"]>;
     billid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     paymentmethodid?: Maybe<Scalars["Int"]>;
@@ -1756,7 +1763,7 @@ export enum Billpayment_Select_Column {
 
 /** input type for updating data in table "billpayment" */
 export type Billpayment_Set_Input = {
-    amountreceive?: InputMaybe<Scalars["Int"]>;
+    amountreceive?: InputMaybe<Scalars["numeric"]>;
     billid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     paymentmethodid?: InputMaybe<Scalars["Int"]>;
@@ -1817,7 +1824,7 @@ export type Billpayment_Stddev_Samp_Order_By = {
 /** aggregate sum on columns */
 export type Billpayment_Sum_Fields = {
     __typename?: "billpayment_sum_fields";
-    amountreceive?: Maybe<Scalars["Int"]>;
+    amountreceive?: Maybe<Scalars["numeric"]>;
     billid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     paymentmethodid?: Maybe<Scalars["Int"]>;
@@ -2037,6 +2044,7 @@ export type Cashierlog_Max_Fields = {
     creationtime?: Maybe<Scalars["timestamp"]>;
     id?: Maybe<Scalars["Int"]>;
     shiftid?: Maybe<Scalars["Int"]>;
+    type?: Maybe<Scalars["cashierlog_type"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
 };
@@ -2048,6 +2056,7 @@ export type Cashierlog_Max_Order_By = {
     creationtime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    type?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     updatetime?: InputMaybe<Order_By>;
 };
@@ -2060,6 +2069,7 @@ export type Cashierlog_Min_Fields = {
     creationtime?: Maybe<Scalars["timestamp"]>;
     id?: Maybe<Scalars["Int"]>;
     shiftid?: Maybe<Scalars["Int"]>;
+    type?: Maybe<Scalars["cashierlog_type"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
 };
@@ -2071,6 +2081,7 @@ export type Cashierlog_Min_Order_By = {
     creationtime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    type?: InputMaybe<Order_By>;
     updaterid?: InputMaybe<Order_By>;
     updatetime?: InputMaybe<Order_By>;
 };
@@ -2329,17 +2340,16 @@ export type Check = {
     guestname?: Maybe<Scalars["String"]>;
     id: Scalars["Int"];
     note?: Maybe<Scalars["String"]>;
-    runningsince: Scalars["timestamp"];
     /** An object relationship */
     shift: Shift;
     shiftid: Scalars["Int"];
     status: Scalars["check_status"];
-    subtotal: Scalars["Int"];
+    subtotal: Scalars["numeric"];
     /** An object relationship */
     table: Table;
     tableid: Scalars["Int"];
-    totalamount: Scalars["Int"];
-    totaltax: Scalars["Int"];
+    totalamount: Scalars["numeric"];
+    totaltax: Scalars["numeric"];
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
     /** An object relationship */
@@ -2481,15 +2491,14 @@ export type Check_Bool_Exp = {
     guestname?: InputMaybe<String_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
-    runningsince?: InputMaybe<Timestamp_Comparison_Exp>;
     shift?: InputMaybe<Shift_Bool_Exp>;
     shiftid?: InputMaybe<Int_Comparison_Exp>;
     status?: InputMaybe<Check_Status_Comparison_Exp>;
-    subtotal?: InputMaybe<Int_Comparison_Exp>;
+    subtotal?: InputMaybe<Numeric_Comparison_Exp>;
     table?: InputMaybe<Table_Bool_Exp>;
     tableid?: InputMaybe<Int_Comparison_Exp>;
-    totalamount?: InputMaybe<Int_Comparison_Exp>;
-    totaltax?: InputMaybe<Int_Comparison_Exp>;
+    totalamount?: InputMaybe<Numeric_Comparison_Exp>;
+    totaltax?: InputMaybe<Numeric_Comparison_Exp>;
     updaterid?: InputMaybe<Int_Comparison_Exp>;
     updatetime?: InputMaybe<Timestamp_Comparison_Exp>;
     voidreason?: InputMaybe<Voidreason_Bool_Exp>;
@@ -2511,10 +2520,10 @@ export type Check_Inc_Input = {
     creatorid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     shiftid?: InputMaybe<Scalars["Int"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
     tableid?: InputMaybe<Scalars["Int"]>;
-    totalamount?: InputMaybe<Scalars["Int"]>;
-    totaltax?: InputMaybe<Scalars["Int"]>;
+    totalamount?: InputMaybe<Scalars["numeric"]>;
+    totaltax?: InputMaybe<Scalars["numeric"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
@@ -2532,15 +2541,14 @@ export type Check_Insert_Input = {
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
-    runningsince?: InputMaybe<Scalars["timestamp"]>;
     shift?: InputMaybe<Shift_Obj_Rel_Insert_Input>;
     shiftid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["check_status"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
     table?: InputMaybe<Table_Obj_Rel_Insert_Input>;
     tableid?: InputMaybe<Scalars["Int"]>;
-    totalamount?: InputMaybe<Scalars["Int"]>;
-    totaltax?: InputMaybe<Scalars["Int"]>;
+    totalamount?: InputMaybe<Scalars["numeric"]>;
+    totaltax?: InputMaybe<Scalars["numeric"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     updatetime?: InputMaybe<Scalars["timestamp"]>;
     voidreason?: InputMaybe<Voidreason_Obj_Rel_Insert_Input>;
@@ -2558,12 +2566,12 @@ export type Check_Max_Fields = {
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
-    runningsince?: Maybe<Scalars["timestamp"]>;
     shiftid?: Maybe<Scalars["Int"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["check_status"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
     tableid?: Maybe<Scalars["Int"]>;
-    totalamount?: Maybe<Scalars["Int"]>;
-    totaltax?: Maybe<Scalars["Int"]>;
+    totalamount?: Maybe<Scalars["numeric"]>;
+    totaltax?: Maybe<Scalars["numeric"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
@@ -2579,8 +2587,8 @@ export type Check_Max_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
-    runningsince?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
@@ -2601,12 +2609,12 @@ export type Check_Min_Fields = {
     guestname?: Maybe<Scalars["String"]>;
     id?: Maybe<Scalars["Int"]>;
     note?: Maybe<Scalars["String"]>;
-    runningsince?: Maybe<Scalars["timestamp"]>;
     shiftid?: Maybe<Scalars["Int"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["check_status"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
     tableid?: Maybe<Scalars["Int"]>;
-    totalamount?: Maybe<Scalars["Int"]>;
-    totaltax?: Maybe<Scalars["Int"]>;
+    totalamount?: Maybe<Scalars["numeric"]>;
+    totaltax?: Maybe<Scalars["numeric"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     updatetime?: Maybe<Scalars["timestamp"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
@@ -2622,8 +2630,8 @@ export type Check_Min_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
-    runningsince?: InputMaybe<Order_By>;
     shiftid?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     tableid?: InputMaybe<Order_By>;
     totalamount?: InputMaybe<Order_By>;
@@ -2669,7 +2677,6 @@ export type Check_Order_By = {
     guestname?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
-    runningsince?: InputMaybe<Order_By>;
     shift?: InputMaybe<Shift_Order_By>;
     shiftid?: InputMaybe<Order_By>;
     status?: InputMaybe<Order_By>;
@@ -2708,8 +2715,6 @@ export enum Check_Select_Column {
     /** column name */
     Note = "note",
     /** column name */
-    Runningsince = "runningsince",
-    /** column name */
     Shiftid = "shiftid",
     /** column name */
     Status = "status",
@@ -2739,13 +2744,12 @@ export type Check_Set_Input = {
     guestname?: InputMaybe<Scalars["String"]>;
     id?: InputMaybe<Scalars["Int"]>;
     note?: InputMaybe<Scalars["String"]>;
-    runningsince?: InputMaybe<Scalars["timestamp"]>;
     shiftid?: InputMaybe<Scalars["Int"]>;
     status?: InputMaybe<Scalars["check_status"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
     tableid?: InputMaybe<Scalars["Int"]>;
-    totalamount?: InputMaybe<Scalars["Int"]>;
-    totaltax?: InputMaybe<Scalars["Int"]>;
+    totalamount?: InputMaybe<Scalars["numeric"]>;
+    totaltax?: InputMaybe<Scalars["numeric"]>;
     updaterid?: InputMaybe<Scalars["Int"]>;
     updatetime?: InputMaybe<Scalars["timestamp"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
@@ -2865,10 +2869,10 @@ export type Check_Sum_Fields = {
     creatorid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     shiftid?: Maybe<Scalars["Int"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
     tableid?: Maybe<Scalars["Int"]>;
-    totalamount?: Maybe<Scalars["Int"]>;
-    totaltax?: Maybe<Scalars["Int"]>;
+    totalamount?: Maybe<Scalars["numeric"]>;
+    totaltax?: Maybe<Scalars["numeric"]>;
     updaterid?: Maybe<Scalars["Int"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
@@ -2906,8 +2910,6 @@ export enum Check_Update_Column {
     Id = "id",
     /** column name */
     Note = "note",
-    /** column name */
-    Runningsince = "runningsince",
     /** column name */
     Shiftid = "shiftid",
     /** column name */
@@ -3024,7 +3026,7 @@ export type Check_Variance_Order_By = {
 /** columns and relationships of "checkdetail" */
 export type Checkdetail = {
     __typename?: "checkdetail";
-    amount: Scalars["Int"];
+    amount: Scalars["numeric"];
     /** An object relationship */
     check: Check;
     /** An array relationship */
@@ -3032,19 +3034,19 @@ export type Checkdetail = {
     /** An aggregate relationship */
     checkdetailspecialrequests_aggregate: Checkdetailspecialrequest_Aggregate;
     checkid: Scalars["Int"];
-    completiontime?: Maybe<Scalars["timetz"]>;
+    completiontime?: Maybe<Scalars["time"]>;
     id: Scalars["Int"];
     isreminded: Scalars["Boolean"];
     /** An object relationship */
     item: Item;
     itemid: Scalars["Int"];
-    itemprice: Scalars["Int"];
+    itemprice: Scalars["numeric"];
     note?: Maybe<Scalars["String"]>;
     quantity: Scalars["float8"];
-    starttime: Scalars["timetz"];
+    starttime: Scalars["time"];
     status: Scalars["checkdetail_status"];
-    subtotal: Scalars["Int"];
-    taxamount: Scalars["Int"];
+    subtotal: Scalars["numeric"];
+    taxamount: Scalars["numeric"];
     /** An object relationship */
     voidreason?: Maybe<Voidreason>;
     voidreasonid?: Maybe<Scalars["Int"]>;
@@ -3151,22 +3153,22 @@ export type Checkdetail_Bool_Exp = {
     _and?: InputMaybe<Array<Checkdetail_Bool_Exp>>;
     _not?: InputMaybe<Checkdetail_Bool_Exp>;
     _or?: InputMaybe<Array<Checkdetail_Bool_Exp>>;
-    amount?: InputMaybe<Int_Comparison_Exp>;
+    amount?: InputMaybe<Numeric_Comparison_Exp>;
     check?: InputMaybe<Check_Bool_Exp>;
     checkdetailspecialrequests?: InputMaybe<Checkdetailspecialrequest_Bool_Exp>;
     checkid?: InputMaybe<Int_Comparison_Exp>;
-    completiontime?: InputMaybe<Timetz_Comparison_Exp>;
+    completiontime?: InputMaybe<Time_Comparison_Exp>;
     id?: InputMaybe<Int_Comparison_Exp>;
     isreminded?: InputMaybe<Boolean_Comparison_Exp>;
     item?: InputMaybe<Item_Bool_Exp>;
     itemid?: InputMaybe<Int_Comparison_Exp>;
-    itemprice?: InputMaybe<Int_Comparison_Exp>;
+    itemprice?: InputMaybe<Numeric_Comparison_Exp>;
     note?: InputMaybe<String_Comparison_Exp>;
     quantity?: InputMaybe<Float8_Comparison_Exp>;
-    starttime?: InputMaybe<Timetz_Comparison_Exp>;
+    starttime?: InputMaybe<Time_Comparison_Exp>;
     status?: InputMaybe<Checkdetail_Status_Comparison_Exp>;
-    subtotal?: InputMaybe<Int_Comparison_Exp>;
-    taxamount?: InputMaybe<Int_Comparison_Exp>;
+    subtotal?: InputMaybe<Numeric_Comparison_Exp>;
+    taxamount?: InputMaybe<Numeric_Comparison_Exp>;
     voidreason?: InputMaybe<Voidreason_Bool_Exp>;
     voidreasonid?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -3179,35 +3181,35 @@ export enum Checkdetail_Constraint {
 
 /** input type for incrementing numeric columns in table "checkdetail" */
 export type Checkdetail_Inc_Input = {
-    amount?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
     checkid?: InputMaybe<Scalars["Int"]>;
     id?: InputMaybe<Scalars["Int"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
-    itemprice?: InputMaybe<Scalars["Int"]>;
+    itemprice?: InputMaybe<Scalars["numeric"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    taxamount?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    taxamount?: InputMaybe<Scalars["numeric"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
 
 /** input type for inserting data into table "checkdetail" */
 export type Checkdetail_Insert_Input = {
-    amount?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
     check?: InputMaybe<Check_Obj_Rel_Insert_Input>;
     checkdetailspecialrequests?: InputMaybe<Checkdetailspecialrequest_Arr_Rel_Insert_Input>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    completiontime?: InputMaybe<Scalars["timetz"]>;
+    completiontime?: InputMaybe<Scalars["time"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isreminded?: InputMaybe<Scalars["Boolean"]>;
     item?: InputMaybe<Item_Obj_Rel_Insert_Input>;
     itemid?: InputMaybe<Scalars["Int"]>;
-    itemprice?: InputMaybe<Scalars["Int"]>;
+    itemprice?: InputMaybe<Scalars["numeric"]>;
     note?: InputMaybe<Scalars["String"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
-    starttime?: InputMaybe<Scalars["timetz"]>;
+    starttime?: InputMaybe<Scalars["time"]>;
     status?: InputMaybe<Scalars["checkdetail_status"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    taxamount?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    taxamount?: InputMaybe<Scalars["numeric"]>;
     voidreason?: InputMaybe<Voidreason_Obj_Rel_Insert_Input>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
@@ -3215,17 +3217,16 @@ export type Checkdetail_Insert_Input = {
 /** aggregate max on columns */
 export type Checkdetail_Max_Fields = {
     __typename?: "checkdetail_max_fields";
-    amount?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
     checkid?: Maybe<Scalars["Int"]>;
-    completiontime?: Maybe<Scalars["timetz"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
-    itemprice?: Maybe<Scalars["Int"]>;
+    itemprice?: Maybe<Scalars["numeric"]>;
     note?: Maybe<Scalars["String"]>;
     quantity?: Maybe<Scalars["float8"]>;
-    starttime?: Maybe<Scalars["timetz"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    taxamount?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["checkdetail_status"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    taxamount?: Maybe<Scalars["numeric"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
 
@@ -3233,13 +3234,12 @@ export type Checkdetail_Max_Fields = {
 export type Checkdetail_Max_Order_By = {
     amount?: InputMaybe<Order_By>;
     checkid?: InputMaybe<Order_By>;
-    completiontime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
-    starttime?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
@@ -3248,17 +3248,16 @@ export type Checkdetail_Max_Order_By = {
 /** aggregate min on columns */
 export type Checkdetail_Min_Fields = {
     __typename?: "checkdetail_min_fields";
-    amount?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
     checkid?: Maybe<Scalars["Int"]>;
-    completiontime?: Maybe<Scalars["timetz"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
-    itemprice?: Maybe<Scalars["Int"]>;
+    itemprice?: Maybe<Scalars["numeric"]>;
     note?: Maybe<Scalars["String"]>;
     quantity?: Maybe<Scalars["float8"]>;
-    starttime?: Maybe<Scalars["timetz"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    taxamount?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["checkdetail_status"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    taxamount?: Maybe<Scalars["numeric"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
 
@@ -3266,13 +3265,12 @@ export type Checkdetail_Min_Fields = {
 export type Checkdetail_Min_Order_By = {
     amount?: InputMaybe<Order_By>;
     checkid?: InputMaybe<Order_By>;
-    completiontime?: InputMaybe<Order_By>;
     id?: InputMaybe<Order_By>;
     itemid?: InputMaybe<Order_By>;
     itemprice?: InputMaybe<Order_By>;
     note?: InputMaybe<Order_By>;
     quantity?: InputMaybe<Order_By>;
-    starttime?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     subtotal?: InputMaybe<Order_By>;
     taxamount?: InputMaybe<Order_By>;
     voidreasonid?: InputMaybe<Order_By>;
@@ -3362,19 +3360,19 @@ export enum Checkdetail_Select_Column {
 
 /** input type for updating data in table "checkdetail" */
 export type Checkdetail_Set_Input = {
-    amount?: InputMaybe<Scalars["Int"]>;
+    amount?: InputMaybe<Scalars["numeric"]>;
     checkid?: InputMaybe<Scalars["Int"]>;
-    completiontime?: InputMaybe<Scalars["timetz"]>;
+    completiontime?: InputMaybe<Scalars["time"]>;
     id?: InputMaybe<Scalars["Int"]>;
     isreminded?: InputMaybe<Scalars["Boolean"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
-    itemprice?: InputMaybe<Scalars["Int"]>;
+    itemprice?: InputMaybe<Scalars["numeric"]>;
     note?: InputMaybe<Scalars["String"]>;
     quantity?: InputMaybe<Scalars["float8"]>;
-    starttime?: InputMaybe<Scalars["timetz"]>;
+    starttime?: InputMaybe<Scalars["time"]>;
     status?: InputMaybe<Scalars["checkdetail_status"]>;
-    subtotal?: InputMaybe<Scalars["Int"]>;
-    taxamount?: InputMaybe<Scalars["Int"]>;
+    subtotal?: InputMaybe<Scalars["numeric"]>;
+    taxamount?: InputMaybe<Scalars["numeric"]>;
     voidreasonid?: InputMaybe<Scalars["Int"]>;
 };
 
@@ -3475,14 +3473,14 @@ export type Checkdetail_Stddev_Samp_Order_By = {
 /** aggregate sum on columns */
 export type Checkdetail_Sum_Fields = {
     __typename?: "checkdetail_sum_fields";
-    amount?: Maybe<Scalars["Int"]>;
+    amount?: Maybe<Scalars["numeric"]>;
     checkid?: Maybe<Scalars["Int"]>;
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
-    itemprice?: Maybe<Scalars["Int"]>;
+    itemprice?: Maybe<Scalars["numeric"]>;
     quantity?: Maybe<Scalars["float8"]>;
-    subtotal?: Maybe<Scalars["Int"]>;
-    taxamount?: Maybe<Scalars["Int"]>;
+    subtotal?: Maybe<Scalars["numeric"]>;
+    taxamount?: Maybe<Scalars["numeric"]>;
     voidreasonid?: Maybe<Scalars["Int"]>;
 };
 
@@ -4136,6 +4134,7 @@ export type Item_Max_Fields = {
     image?: Maybe<Scalars["String"]>;
     majorgroupid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** order by max() on columns of table "item" */
@@ -4144,6 +4143,7 @@ export type Item_Max_Order_By = {
     image?: InputMaybe<Order_By>;
     majorgroupid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -4153,6 +4153,7 @@ export type Item_Min_Fields = {
     image?: Maybe<Scalars["String"]>;
     majorgroupid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** order by min() on columns of table "item" */
@@ -4161,6 +4162,7 @@ export type Item_Min_Order_By = {
     image?: InputMaybe<Order_By>;
     majorgroupid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "item" */
@@ -4642,6 +4644,7 @@ export type Location_Max_Fields = {
     __typename?: "location_max_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** aggregate min on columns */
@@ -4649,6 +4652,7 @@ export type Location_Min_Fields = {
     __typename?: "location_min_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** response of any mutation on the table "location" */
@@ -4880,6 +4884,7 @@ export type Majorgroup_Max_Fields = {
     __typename?: "majorgroup_max_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** aggregate min on columns */
@@ -4887,6 +4892,7 @@ export type Majorgroup_Min_Fields = {
     __typename?: "majorgroup_min_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** response of any mutation on the table "majorgroup" */
@@ -5095,6 +5101,7 @@ export type Mealtype_Max_Fields = {
     __typename?: "mealtype_max_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** aggregate min on columns */
@@ -5102,6 +5109,7 @@ export type Mealtype_Min_Fields = {
     __typename?: "mealtype_min_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** response of any mutation on the table "mealtype" */
@@ -5350,6 +5358,7 @@ export type Menu_Max_Fields = {
     id?: Maybe<Scalars["Int"]>;
     mealtypeid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** order by max() on columns of table "menu" */
@@ -5357,6 +5366,7 @@ export type Menu_Max_Order_By = {
     id?: InputMaybe<Order_By>;
     mealtypeid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -5365,6 +5375,7 @@ export type Menu_Min_Fields = {
     id?: Maybe<Scalars["Int"]>;
     mealtypeid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** order by min() on columns of table "menu" */
@@ -5372,6 +5383,7 @@ export type Menu_Min_Order_By = {
     id?: InputMaybe<Order_By>;
     mealtypeid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "menu" */
@@ -5551,7 +5563,7 @@ export type Menuitem = {
     /** An object relationship */
     menu: Menu;
     menuid: Scalars["Int"];
-    price: Scalars["Int"];
+    price: Scalars["numeric"];
 };
 
 /** aggregated selection of "menuitem" */
@@ -5632,7 +5644,7 @@ export type Menuitem_Bool_Exp = {
     itemid?: InputMaybe<Int_Comparison_Exp>;
     menu?: InputMaybe<Menu_Bool_Exp>;
     menuid?: InputMaybe<Int_Comparison_Exp>;
-    price?: InputMaybe<Int_Comparison_Exp>;
+    price?: InputMaybe<Numeric_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "menuitem" */
@@ -5646,7 +5658,7 @@ export type Menuitem_Inc_Input = {
     id?: InputMaybe<Scalars["Int"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
     menuid?: InputMaybe<Scalars["Int"]>;
-    price?: InputMaybe<Scalars["Int"]>;
+    price?: InputMaybe<Scalars["numeric"]>;
 };
 
 /** input type for inserting data into table "menuitem" */
@@ -5656,7 +5668,7 @@ export type Menuitem_Insert_Input = {
     itemid?: InputMaybe<Scalars["Int"]>;
     menu?: InputMaybe<Menu_Obj_Rel_Insert_Input>;
     menuid?: InputMaybe<Scalars["Int"]>;
-    price?: InputMaybe<Scalars["Int"]>;
+    price?: InputMaybe<Scalars["numeric"]>;
 };
 
 /** aggregate max on columns */
@@ -5665,7 +5677,7 @@ export type Menuitem_Max_Fields = {
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     menuid?: Maybe<Scalars["Int"]>;
-    price?: Maybe<Scalars["Int"]>;
+    price?: Maybe<Scalars["numeric"]>;
 };
 
 /** order by max() on columns of table "menuitem" */
@@ -5682,7 +5694,7 @@ export type Menuitem_Min_Fields = {
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     menuid?: Maybe<Scalars["Int"]>;
-    price?: Maybe<Scalars["Int"]>;
+    price?: Maybe<Scalars["numeric"]>;
 };
 
 /** order by min() on columns of table "menuitem" */
@@ -5741,7 +5753,7 @@ export type Menuitem_Set_Input = {
     id?: InputMaybe<Scalars["Int"]>;
     itemid?: InputMaybe<Scalars["Int"]>;
     menuid?: InputMaybe<Scalars["Int"]>;
-    price?: InputMaybe<Scalars["Int"]>;
+    price?: InputMaybe<Scalars["numeric"]>;
 };
 
 /** aggregate stddev on columns */
@@ -5801,7 +5813,7 @@ export type Menuitem_Sum_Fields = {
     id?: Maybe<Scalars["Int"]>;
     itemid?: Maybe<Scalars["Int"]>;
     menuid?: Maybe<Scalars["Int"]>;
-    price?: Maybe<Scalars["Int"]>;
+    price?: Maybe<Scalars["numeric"]>;
 };
 
 /** order by sum() on columns of table "menuitem" */
@@ -7159,6 +7171,7 @@ export type Paymentmethod_Max_Fields = {
     __typename?: "paymentmethod_max_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** aggregate min on columns */
@@ -7166,6 +7179,7 @@ export type Paymentmethod_Min_Fields = {
     __typename?: "paymentmethod_min_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** response of any mutation on the table "paymentmethod" */
@@ -8418,6 +8432,7 @@ export type Shift_Max_Fields = {
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
     openerid?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["basic_status"]>;
     worksessionid?: Maybe<Scalars["Int"]>;
 };
 
@@ -8427,6 +8442,7 @@ export type Shift_Max_Order_By = {
     id?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
     openerid?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     worksessionid?: InputMaybe<Order_By>;
 };
 
@@ -8437,6 +8453,7 @@ export type Shift_Min_Fields = {
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
     openerid?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["basic_status"]>;
     worksessionid?: Maybe<Scalars["Int"]>;
 };
 
@@ -8446,6 +8463,7 @@ export type Shift_Min_Order_By = {
     id?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
     openerid?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
     worksessionid?: InputMaybe<Order_By>;
 };
 
@@ -8807,6 +8825,7 @@ export type Specialrequest_Max_Fields = {
     id?: Maybe<Scalars["Int"]>;
     majorgroupid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** order by max() on columns of table "specialrequest" */
@@ -8814,6 +8833,7 @@ export type Specialrequest_Max_Order_By = {
     id?: InputMaybe<Order_By>;
     majorgroupid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -8822,6 +8842,7 @@ export type Specialrequest_Min_Fields = {
     id?: Maybe<Scalars["Int"]>;
     majorgroupid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** order by min() on columns of table "specialrequest" */
@@ -8829,6 +8850,7 @@ export type Specialrequest_Min_Order_By = {
     id?: InputMaybe<Order_By>;
     majorgroupid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "specialrequest" */
@@ -9980,6 +10002,7 @@ export type Table_Max_Fields = {
     locationid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
     seat?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["table_status"]>;
 };
 
 /** order by max() on columns of table "table" */
@@ -9988,6 +10011,7 @@ export type Table_Max_Order_By = {
     locationid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
     seat?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -9997,6 +10021,7 @@ export type Table_Min_Fields = {
     locationid?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
     seat?: Maybe<Scalars["Int"]>;
+    status?: Maybe<Scalars["table_status"]>;
 };
 
 /** order by min() on columns of table "table" */
@@ -10005,6 +10030,7 @@ export type Table_Min_Order_By = {
     locationid?: InputMaybe<Order_By>;
     name?: InputMaybe<Order_By>;
     seat?: InputMaybe<Order_By>;
+    status?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "table" */
@@ -10227,19 +10253,6 @@ export type Timestamp_Comparison_Exp = {
     _nin?: InputMaybe<Array<Scalars["timestamp"]>>;
 };
 
-/** Boolean expression to compare columns of type "timetz". All fields are combined with logical 'AND'. */
-export type Timetz_Comparison_Exp = {
-    _eq?: InputMaybe<Scalars["timetz"]>;
-    _gt?: InputMaybe<Scalars["timetz"]>;
-    _gte?: InputMaybe<Scalars["timetz"]>;
-    _in?: InputMaybe<Array<Scalars["timetz"]>>;
-    _is_null?: InputMaybe<Scalars["Boolean"]>;
-    _lt?: InputMaybe<Scalars["timetz"]>;
-    _lte?: InputMaybe<Scalars["timetz"]>;
-    _neq?: InputMaybe<Scalars["timetz"]>;
-    _nin?: InputMaybe<Array<Scalars["timetz"]>>;
-};
-
 /** Boolean expression to compare columns of type "user_status". All fields are combined with logical 'AND'. */
 export type User_Status_Comparison_Exp = {
     _eq?: InputMaybe<Scalars["user_status"]>;
@@ -10377,6 +10390,7 @@ export type Voidreason_Max_Fields = {
     __typename?: "voidreason_max_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** aggregate min on columns */
@@ -10384,6 +10398,7 @@ export type Voidreason_Min_Fields = {
     __typename?: "voidreason_min_fields";
     id?: Maybe<Scalars["Int"]>;
     name?: Maybe<Scalars["String"]>;
+    status?: Maybe<Scalars["basic_status"]>;
 };
 
 /** response of any mutation on the table "voidreason" */

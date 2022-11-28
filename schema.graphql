@@ -242,6 +242,7 @@ type account_max_fields {
   password: String
   phone: String
   roleid: Int
+  status: user_status
   username: String
 }
 
@@ -256,6 +257,7 @@ input account_max_order_by {
   password: order_by
   phone: order_by
   roleid: order_by
+  status: order_by
   username: order_by
 }
 
@@ -268,6 +270,7 @@ type account_min_fields {
   password: String
   phone: String
   roleid: Int
+  status: user_status
   username: String
 }
 
@@ -282,6 +285,7 @@ input account_min_order_by {
   password: order_by
   phone: order_by
   roleid: order_by
+  status: order_by
   username: order_by
 }
 
@@ -616,9 +620,9 @@ type bill {
   id: Int!
   note: String
   status: bill_status!
-  subtotal: Int!
-  totalamount: Int!
-  totaltax: Int!
+  subtotal: numeric!
+  totalamount: numeric!
+  totaltax: numeric!
   updaterid: Int
   updatetime: timestamp
 }
@@ -717,9 +721,9 @@ input bill_bool_exp {
   id: Int_comparison_exp
   note: String_comparison_exp
   status: bill_status_comparison_exp
-  subtotal: Int_comparison_exp
-  totalamount: Int_comparison_exp
-  totaltax: Int_comparison_exp
+  subtotal: numeric_comparison_exp
+  totalamount: numeric_comparison_exp
+  totaltax: numeric_comparison_exp
   updaterid: Int_comparison_exp
   updatetime: timestamp_comparison_exp
 }
@@ -742,9 +746,9 @@ input bill_inc_input {
   checkid: Int
   creatorid: Int
   id: Int
-  subtotal: Int
-  totalamount: Int
-  totaltax: Int
+  subtotal: numeric
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
 }
 
@@ -763,9 +767,9 @@ input bill_insert_input {
   id: Int
   note: String
   status: bill_status
-  subtotal: Int
-  totalamount: Int
-  totaltax: Int
+  subtotal: numeric
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
 }
@@ -779,9 +783,10 @@ type bill_max_fields {
   guestname: String
   id: Int
   note: String
-  subtotal: Int
-  totalamount: Int
-  totaltax: Int
+  status: bill_status
+  subtotal: numeric
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
 }
@@ -797,6 +802,7 @@ input bill_max_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  status: order_by
   subtotal: order_by
   totalamount: order_by
   totaltax: order_by
@@ -813,9 +819,10 @@ type bill_min_fields {
   guestname: String
   id: Int
   note: String
-  subtotal: Int
-  totalamount: Int
-  totaltax: Int
+  status: bill_status
+  subtotal: numeric
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
 }
@@ -831,6 +838,7 @@ input bill_min_order_by {
   guestname: order_by
   id: order_by
   note: order_by
+  status: order_by
   subtotal: order_by
   totalamount: order_by
   totaltax: order_by
@@ -949,9 +957,9 @@ input bill_set_input {
   id: Int
   note: String
   status: bill_status
-  subtotal: Int
-  totalamount: Int
-  totaltax: Int
+  subtotal: numeric
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
 }
@@ -1050,9 +1058,9 @@ type bill_sum_fields {
   checkid: Int
   creatorid: Int
   id: Int
-  subtotal: Int
-  totalamount: Int
-  totaltax: Int
+  subtotal: numeric
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
 }
 
@@ -1189,7 +1197,7 @@ input bill_variance_order_by {
 columns and relationships of "billdetail"
 """
 type billdetail {
-  amount: Int!
+  amount: numeric!
 
   """An object relationship"""
   bill: bill!
@@ -1200,10 +1208,10 @@ type billdetail {
   item: item!
   itemid: Int!
   itemname: String!
-  itemprice: Int!
+  itemprice: numeric!
   quantity: float8!
-  subtotal: Int!
-  taxamount: Int!
+  subtotal: numeric!
+  taxamount: numeric!
 }
 
 """
@@ -1291,17 +1299,17 @@ input billdetail_bool_exp {
   _and: [billdetail_bool_exp!]
   _not: billdetail_bool_exp
   _or: [billdetail_bool_exp!]
-  amount: Int_comparison_exp
+  amount: numeric_comparison_exp
   bill: bill_bool_exp
   billid: Int_comparison_exp
   id: Int_comparison_exp
   item: item_bool_exp
   itemid: Int_comparison_exp
   itemname: String_comparison_exp
-  itemprice: Int_comparison_exp
+  itemprice: numeric_comparison_exp
   quantity: float8_comparison_exp
-  subtotal: Int_comparison_exp
-  taxamount: Int_comparison_exp
+  subtotal: numeric_comparison_exp
+  taxamount: numeric_comparison_exp
 }
 
 """
@@ -1316,44 +1324,44 @@ enum billdetail_constraint {
 input type for incrementing numeric columns in table "billdetail"
 """
 input billdetail_inc_input {
-  amount: Int
+  amount: numeric
   billid: Int
   id: Int
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
 }
 
 """
 input type for inserting data into table "billdetail"
 """
 input billdetail_insert_input {
-  amount: Int
+  amount: numeric
   bill: bill_obj_rel_insert_input
   billid: Int
   id: Int
   item: item_obj_rel_insert_input
   itemid: Int
   itemname: String
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
 }
 
 """aggregate max on columns"""
 type billdetail_max_fields {
-  amount: Int
+  amount: numeric
   billid: Int
   id: Int
   itemid: Int
   itemname: String
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
 }
 
 """
@@ -1373,15 +1381,15 @@ input billdetail_max_order_by {
 
 """aggregate min on columns"""
 type billdetail_min_fields {
-  amount: Int
+  amount: numeric
   billid: Int
   id: Int
   itemid: Int
   itemname: String
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
 }
 
 """
@@ -1475,15 +1483,15 @@ enum billdetail_select_column {
 input type for updating data in table "billdetail"
 """
 input billdetail_set_input {
-  amount: Int
+  amount: numeric
   billid: Int
   id: Int
   itemid: Int
   itemname: String
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
 }
 
 """aggregate stddev on columns"""
@@ -1566,14 +1574,14 @@ input billdetail_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type billdetail_sum_fields {
-  amount: Int
+  amount: numeric
   billid: Int
   id: Int
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
 }
 
 """
@@ -1704,7 +1712,7 @@ input billdetail_variance_order_by {
 columns and relationships of "billpayment"
 """
 type billpayment {
-  amountreceive: Int!
+  amountreceive: numeric!
 
   """An object relationship"""
   bill: bill!
@@ -1794,7 +1802,7 @@ input billpayment_bool_exp {
   _and: [billpayment_bool_exp!]
   _not: billpayment_bool_exp
   _or: [billpayment_bool_exp!]
-  amountreceive: Int_comparison_exp
+  amountreceive: numeric_comparison_exp
   bill: bill_bool_exp
   billid: Int_comparison_exp
   id: Int_comparison_exp
@@ -1815,7 +1823,7 @@ enum billpayment_constraint {
 input type for incrementing numeric columns in table "billpayment"
 """
 input billpayment_inc_input {
-  amountreceive: Int
+  amountreceive: numeric
   billid: Int
   id: Int
   paymentmethodid: Int
@@ -1825,7 +1833,7 @@ input billpayment_inc_input {
 input type for inserting data into table "billpayment"
 """
 input billpayment_insert_input {
-  amountreceive: Int
+  amountreceive: numeric
   bill: bill_obj_rel_insert_input
   billid: Int
   id: Int
@@ -1836,7 +1844,7 @@ input billpayment_insert_input {
 
 """aggregate max on columns"""
 type billpayment_max_fields {
-  amountreceive: Int
+  amountreceive: numeric
   billid: Int
   id: Int
   paymentmethodid: Int
@@ -1856,7 +1864,7 @@ input billpayment_max_order_by {
 
 """aggregate min on columns"""
 type billpayment_min_fields {
-  amountreceive: Int
+  amountreceive: numeric
   billid: Int
   id: Int
   paymentmethodid: Int
@@ -1934,7 +1942,7 @@ enum billpayment_select_column {
 input type for updating data in table "billpayment"
 """
 input billpayment_set_input {
-  amountreceive: Int
+  amountreceive: numeric
   billid: Int
   id: Int
   paymentmethodid: Int
@@ -1997,7 +2005,7 @@ input billpayment_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type billpayment_sum_fields {
-  amountreceive: Int
+  amountreceive: numeric
   billid: Int
   id: Int
   paymentmethodid: Int
@@ -2254,6 +2262,7 @@ type cashierlog_max_fields {
   creationtime: timestamp
   id: Int
   shiftid: Int
+  type: cashierlog_type
   updaterid: Int
   updatetime: timestamp
 }
@@ -2267,6 +2276,7 @@ input cashierlog_max_order_by {
   creationtime: order_by
   id: order_by
   shiftid: order_by
+  type: order_by
   updaterid: order_by
   updatetime: order_by
 }
@@ -2278,6 +2288,7 @@ type cashierlog_min_fields {
   creationtime: timestamp
   id: Int
   shiftid: Int
+  type: cashierlog_type
   updaterid: Int
   updatetime: timestamp
 }
@@ -2291,6 +2302,7 @@ input cashierlog_min_order_by {
   creationtime: order_by
   id: order_by
   shiftid: order_by
+  type: order_by
   updaterid: order_by
   updatetime: order_by
 }
@@ -2649,19 +2661,18 @@ type check {
   guestname: String
   id: Int!
   note: String
-  runningsince: timestamp!
 
   """An object relationship"""
   shift: shift!
   shiftid: Int!
   status: check_status!
-  subtotal: Int!
+  subtotal: numeric!
 
   """An object relationship"""
   table: table!
   tableid: Int!
-  totalamount: Int!
-  totaltax: Int!
+  totalamount: numeric!
+  totaltax: numeric!
   updaterid: Int
   updatetime: timestamp
 
@@ -2772,15 +2783,14 @@ input check_bool_exp {
   guestname: String_comparison_exp
   id: Int_comparison_exp
   note: String_comparison_exp
-  runningsince: timestamp_comparison_exp
   shift: shift_bool_exp
   shiftid: Int_comparison_exp
   status: check_status_comparison_exp
-  subtotal: Int_comparison_exp
+  subtotal: numeric_comparison_exp
   table: table_bool_exp
   tableid: Int_comparison_exp
-  totalamount: Int_comparison_exp
-  totaltax: Int_comparison_exp
+  totalamount: numeric_comparison_exp
+  totaltax: numeric_comparison_exp
   updaterid: Int_comparison_exp
   updatetime: timestamp_comparison_exp
   voidreason: voidreason_bool_exp
@@ -2807,10 +2817,10 @@ input check_inc_input {
   creatorid: Int
   id: Int
   shiftid: Int
-  subtotal: Int
+  subtotal: numeric
   tableid: Int
-  totalamount: Int
-  totaltax: Int
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   voidreasonid: Int
 }
@@ -2830,15 +2840,14 @@ input check_insert_input {
   guestname: String
   id: Int
   note: String
-  runningsince: timestamp
   shift: shift_obj_rel_insert_input
   shiftid: Int
   status: check_status
-  subtotal: Int
+  subtotal: numeric
   table: table_obj_rel_insert_input
   tableid: Int
-  totalamount: Int
-  totaltax: Int
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
   voidreason: voidreason_obj_rel_insert_input
@@ -2855,12 +2864,12 @@ type check_max_fields {
   guestname: String
   id: Int
   note: String
-  runningsince: timestamp
   shiftid: Int
-  subtotal: Int
+  status: check_status
+  subtotal: numeric
   tableid: Int
-  totalamount: Int
-  totaltax: Int
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
   voidreasonid: Int
@@ -2878,8 +2887,8 @@ input check_max_order_by {
   guestname: order_by
   id: order_by
   note: order_by
-  runningsince: order_by
   shiftid: order_by
+  status: order_by
   subtotal: order_by
   tableid: order_by
   totalamount: order_by
@@ -2899,12 +2908,12 @@ type check_min_fields {
   guestname: String
   id: Int
   note: String
-  runningsince: timestamp
   shiftid: Int
-  subtotal: Int
+  status: check_status
+  subtotal: numeric
   tableid: Int
-  totalamount: Int
-  totaltax: Int
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
   voidreasonid: Int
@@ -2922,8 +2931,8 @@ input check_min_order_by {
   guestname: order_by
   id: order_by
   note: order_by
-  runningsince: order_by
   shiftid: order_by
+  status: order_by
   subtotal: order_by
   tableid: order_by
   totalamount: order_by
@@ -2976,7 +2985,6 @@ input check_order_by {
   guestname: order_by
   id: order_by
   note: order_by
-  runningsince: order_by
   shift: shift_order_by
   shiftid: order_by
   status: order_by
@@ -3025,9 +3033,6 @@ enum check_select_column {
   note
 
   """column name"""
-  runningsince
-
-  """column name"""
   shiftid
 
   """column name"""
@@ -3067,13 +3072,12 @@ input check_set_input {
   guestname: String
   id: Int
   note: String
-  runningsince: timestamp
   shiftid: Int
   status: check_status
-  subtotal: Int
+  subtotal: numeric
   tableid: Int
-  totalamount: Int
-  totaltax: Int
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   updatetime: timestamp
   voidreasonid: Int
@@ -3199,10 +3203,10 @@ type check_sum_fields {
   creatorid: Int
   id: Int
   shiftid: Int
-  subtotal: Int
+  subtotal: numeric
   tableid: Int
-  totalamount: Int
-  totaltax: Int
+  totalamount: numeric
+  totaltax: numeric
   updaterid: Int
   voidreasonid: Int
 }
@@ -3251,9 +3255,6 @@ enum check_update_column {
 
   """column name"""
   note
-
-  """column name"""
-  runningsince
 
   """column name"""
   shiftid
@@ -3383,7 +3384,7 @@ input check_variance_order_by {
 columns and relationships of "checkdetail"
 """
 type checkdetail {
-  amount: Int!
+  amount: numeric!
 
   """An object relationship"""
   check: check!
@@ -3424,20 +3425,20 @@ type checkdetail {
     where: checkdetailspecialrequest_bool_exp
   ): checkdetailspecialrequest_aggregate!
   checkid: Int!
-  completiontime: timetz
+  completiontime: time
   id: Int!
   isreminded: Boolean!
 
   """An object relationship"""
   item: item!
   itemid: Int!
-  itemprice: Int!
+  itemprice: numeric!
   note: String
   quantity: float8!
-  starttime: timetz!
+  starttime: time!
   status: checkdetail_status!
-  subtotal: Int!
-  taxamount: Int!
+  subtotal: numeric!
+  taxamount: numeric!
 
   """An object relationship"""
   voidreason: voidreason
@@ -3531,22 +3532,22 @@ input checkdetail_bool_exp {
   _and: [checkdetail_bool_exp!]
   _not: checkdetail_bool_exp
   _or: [checkdetail_bool_exp!]
-  amount: Int_comparison_exp
+  amount: numeric_comparison_exp
   check: check_bool_exp
   checkdetailspecialrequests: checkdetailspecialrequest_bool_exp
   checkid: Int_comparison_exp
-  completiontime: timetz_comparison_exp
+  completiontime: time_comparison_exp
   id: Int_comparison_exp
   isreminded: Boolean_comparison_exp
   item: item_bool_exp
   itemid: Int_comparison_exp
-  itemprice: Int_comparison_exp
+  itemprice: numeric_comparison_exp
   note: String_comparison_exp
   quantity: float8_comparison_exp
-  starttime: timetz_comparison_exp
+  starttime: time_comparison_exp
   status: checkdetail_status_comparison_exp
-  subtotal: Int_comparison_exp
-  taxamount: Int_comparison_exp
+  subtotal: numeric_comparison_exp
+  taxamount: numeric_comparison_exp
   voidreason: voidreason_bool_exp
   voidreasonid: Int_comparison_exp
 }
@@ -3563,14 +3564,14 @@ enum checkdetail_constraint {
 input type for incrementing numeric columns in table "checkdetail"
 """
 input checkdetail_inc_input {
-  amount: Int
+  amount: numeric
   checkid: Int
   id: Int
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
   voidreasonid: Int
 }
 
@@ -3578,39 +3579,38 @@ input checkdetail_inc_input {
 input type for inserting data into table "checkdetail"
 """
 input checkdetail_insert_input {
-  amount: Int
+  amount: numeric
   check: check_obj_rel_insert_input
   checkdetailspecialrequests: checkdetailspecialrequest_arr_rel_insert_input
   checkid: Int
-  completiontime: timetz
+  completiontime: time
   id: Int
   isreminded: Boolean
   item: item_obj_rel_insert_input
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   note: String
   quantity: float8
-  starttime: timetz
+  starttime: time
   status: checkdetail_status
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
   voidreason: voidreason_obj_rel_insert_input
   voidreasonid: Int
 }
 
 """aggregate max on columns"""
 type checkdetail_max_fields {
-  amount: Int
+  amount: numeric
   checkid: Int
-  completiontime: timetz
   id: Int
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   note: String
   quantity: float8
-  starttime: timetz
-  subtotal: Int
-  taxamount: Int
+  status: checkdetail_status
+  subtotal: numeric
+  taxamount: numeric
   voidreasonid: Int
 }
 
@@ -3620,13 +3620,12 @@ order by max() on columns of table "checkdetail"
 input checkdetail_max_order_by {
   amount: order_by
   checkid: order_by
-  completiontime: order_by
   id: order_by
   itemid: order_by
   itemprice: order_by
   note: order_by
   quantity: order_by
-  starttime: order_by
+  status: order_by
   subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
@@ -3634,17 +3633,16 @@ input checkdetail_max_order_by {
 
 """aggregate min on columns"""
 type checkdetail_min_fields {
-  amount: Int
+  amount: numeric
   checkid: Int
-  completiontime: timetz
   id: Int
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   note: String
   quantity: float8
-  starttime: timetz
-  subtotal: Int
-  taxamount: Int
+  status: checkdetail_status
+  subtotal: numeric
+  taxamount: numeric
   voidreasonid: Int
 }
 
@@ -3654,13 +3652,12 @@ order by min() on columns of table "checkdetail"
 input checkdetail_min_order_by {
   amount: order_by
   checkid: order_by
-  completiontime: order_by
   id: order_by
   itemid: order_by
   itemprice: order_by
   note: order_by
   quantity: order_by
-  starttime: order_by
+  status: order_by
   subtotal: order_by
   taxamount: order_by
   voidreasonid: order_by
@@ -3774,19 +3771,19 @@ enum checkdetail_select_column {
 input type for updating data in table "checkdetail"
 """
 input checkdetail_set_input {
-  amount: Int
+  amount: numeric
   checkid: Int
-  completiontime: timetz
+  completiontime: time
   id: Int
   isreminded: Boolean
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   note: String
   quantity: float8
-  starttime: timetz
+  starttime: time
   status: checkdetail_status
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
   voidreasonid: Int
 }
 
@@ -3893,14 +3890,14 @@ input checkdetail_stddev_samp_order_by {
 
 """aggregate sum on columns"""
 type checkdetail_sum_fields {
-  amount: Int
+  amount: numeric
   checkid: Int
   id: Int
   itemid: Int
-  itemprice: Int
+  itemprice: numeric
   quantity: float8
-  subtotal: Int
-  taxamount: Int
+  subtotal: numeric
+  taxamount: numeric
   voidreasonid: Int
 }
 
@@ -4685,6 +4682,7 @@ type item_max_fields {
   image: String
   majorgroupid: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -4695,6 +4693,7 @@ input item_max_order_by {
   image: order_by
   majorgroupid: order_by
   name: order_by
+  status: order_by
 }
 
 """aggregate min on columns"""
@@ -4703,6 +4702,7 @@ type item_min_fields {
   image: String
   majorgroupid: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -4713,6 +4713,7 @@ input item_min_order_by {
   image: order_by
   majorgroupid: order_by
   name: order_by
+  status: order_by
 }
 
 """
@@ -5255,12 +5256,14 @@ input location_insert_input {
 type location_max_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """aggregate min on columns"""
 type location_min_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -5533,12 +5536,14 @@ input majorgroup_insert_input {
 type majorgroup_max_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """aggregate min on columns"""
 type majorgroup_min_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -5774,12 +5779,14 @@ input mealtype_insert_input {
 type mealtype_max_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """aggregate min on columns"""
 type mealtype_min_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -6063,6 +6070,7 @@ type menu_max_fields {
   id: Int
   mealtypeid: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -6072,6 +6080,7 @@ input menu_max_order_by {
   id: order_by
   mealtypeid: order_by
   name: order_by
+  status: order_by
 }
 
 """aggregate min on columns"""
@@ -6079,6 +6088,7 @@ type menu_min_fields {
   id: Int
   mealtypeid: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -6088,6 +6098,7 @@ input menu_min_order_by {
   id: order_by
   mealtypeid: order_by
   name: order_by
+  status: order_by
 }
 
 """
@@ -6298,7 +6309,7 @@ type menuitem {
   """An object relationship"""
   menu: menu!
   menuid: Int!
-  price: Int!
+  price: numeric!
 }
 
 """
@@ -6383,7 +6394,7 @@ input menuitem_bool_exp {
   itemid: Int_comparison_exp
   menu: menu_bool_exp
   menuid: Int_comparison_exp
-  price: Int_comparison_exp
+  price: numeric_comparison_exp
 }
 
 """
@@ -6401,7 +6412,7 @@ input menuitem_inc_input {
   id: Int
   itemid: Int
   menuid: Int
-  price: Int
+  price: numeric
 }
 
 """
@@ -6413,7 +6424,7 @@ input menuitem_insert_input {
   itemid: Int
   menu: menu_obj_rel_insert_input
   menuid: Int
-  price: Int
+  price: numeric
 }
 
 """aggregate max on columns"""
@@ -6421,7 +6432,7 @@ type menuitem_max_fields {
   id: Int
   itemid: Int
   menuid: Int
-  price: Int
+  price: numeric
 }
 
 """
@@ -6439,7 +6450,7 @@ type menuitem_min_fields {
   id: Int
   itemid: Int
   menuid: Int
-  price: Int
+  price: numeric
 }
 
 """
@@ -6511,7 +6522,7 @@ input menuitem_set_input {
   id: Int
   itemid: Int
   menuid: Int
-  price: Int
+  price: numeric
 }
 
 """aggregate stddev on columns"""
@@ -6573,7 +6584,7 @@ type menuitem_sum_fields {
   id: Int
   itemid: Int
   menuid: Int
-  price: Int
+  price: numeric
 }
 
 """
@@ -8272,12 +8283,14 @@ input paymentmethod_insert_input {
 type paymentmethod_max_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """aggregate min on columns"""
 type paymentmethod_min_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -10023,6 +10036,7 @@ type shift_max_fields {
   id: Int
   name: String
   openerid: Int
+  status: basic_status
   worksessionid: Int
 }
 
@@ -10034,6 +10048,7 @@ input shift_max_order_by {
   id: order_by
   name: order_by
   openerid: order_by
+  status: order_by
   worksessionid: order_by
 }
 
@@ -10043,6 +10058,7 @@ type shift_min_fields {
   id: Int
   name: String
   openerid: Int
+  status: basic_status
   worksessionid: Int
 }
 
@@ -10054,6 +10070,7 @@ input shift_min_order_by {
   id: order_by
   name: order_by
   openerid: order_by
+  status: order_by
   worksessionid: order_by
 }
 
@@ -10475,6 +10492,7 @@ type specialrequest_max_fields {
   id: Int
   majorgroupid: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -10484,6 +10502,7 @@ input specialrequest_max_order_by {
   id: order_by
   majorgroupid: order_by
   name: order_by
+  status: order_by
 }
 
 """aggregate min on columns"""
@@ -10491,6 +10510,7 @@ type specialrequest_min_fields {
   id: Int
   majorgroupid: Int
   name: String
+  status: basic_status
 }
 
 """
@@ -10500,6 +10520,7 @@ input specialrequest_min_order_by {
   id: order_by
   majorgroupid: order_by
   name: order_by
+  status: order_by
 }
 
 """
@@ -12175,6 +12196,7 @@ type table_max_fields {
   locationid: Int
   name: String
   seat: Int
+  status: table_status
 }
 
 """
@@ -12185,6 +12207,7 @@ input table_max_order_by {
   locationid: order_by
   name: order_by
   seat: order_by
+  status: order_by
 }
 
 """aggregate min on columns"""
@@ -12193,6 +12216,7 @@ type table_min_fields {
   locationid: Int
   name: String
   seat: Int
+  status: table_status
 }
 
 """
@@ -12203,6 +12227,7 @@ input table_min_order_by {
   locationid: order_by
   name: order_by
   seat: order_by
+  status: order_by
 }
 
 """
@@ -12465,23 +12490,6 @@ input timestamp_comparison_exp {
   _nin: [timestamp!]
 }
 
-scalar timetz
-
-"""
-Boolean expression to compare columns of type "timetz". All fields are combined with logical 'AND'.
-"""
-input timetz_comparison_exp {
-  _eq: timetz
-  _gt: timetz
-  _gte: timetz
-  _in: [timetz!]
-  _is_null: Boolean
-  _lt: timetz
-  _lte: timetz
-  _neq: timetz
-  _nin: [timetz!]
-}
-
 scalar user_status
 
 """
@@ -12653,12 +12661,14 @@ input voidreason_insert_input {
 type voidreason_max_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """aggregate min on columns"""
 type voidreason_min_fields {
   id: Int
   name: String
+  status: basic_status
 }
 
 """
