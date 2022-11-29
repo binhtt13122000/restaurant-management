@@ -177,11 +177,7 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                                                       ? new Date(x?.workdate)
                                                                       : new Date(),
                                                                   "yyyy/MM/dd"
-                                                              ) >=
-                                                                  format(
-                                                                      new Date(),
-                                                                      "yyyy/MM/dd"
-                                                                  ) && !x.isopen
+                                                              ) >= format(new Date(), "yyyy/MM/dd")
                                                       )
                                                       .sort((a, b) => a.workdate - b.workdate)
                                                       .map((x) => {
