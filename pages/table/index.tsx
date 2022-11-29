@@ -99,6 +99,7 @@ const Table: NextPage = () => {
             title: "Số chỗ ngồi",
             index: 3,
             type: "number",
+            disableFilter: true,
         },
         {
             field: "location",

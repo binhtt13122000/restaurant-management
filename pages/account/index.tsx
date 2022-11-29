@@ -129,7 +129,7 @@ const Account: NextPage = () => {
                 },
                 {
                     key: "INACTIVE",
-                    value: "KHÔNG HOẠT ĐỘNG",
+                    value: "NGƯNG HOẠT ĐỘNG",
                 },
             ],
             render: (status: string) => {
@@ -137,7 +137,7 @@ const Account: NextPage = () => {
                     return (
                         <ChipBase
                             color={"success"}
-                            label={"ONLINE"}
+                            label={"TRỰC TUYẾN"}
                             size="small"
                             sx={{
                                 fontSize: 12,
@@ -149,7 +149,7 @@ const Account: NextPage = () => {
                     return (
                         <ChipBase
                             color={"error"}
-                            label={"OFFLINE"}
+                            label={"NGOẠI TUYẾN"}
                             size="small"
                             sx={{
                                 fontSize: 12,
@@ -161,7 +161,7 @@ const Account: NextPage = () => {
                     return (
                         <ChipBase
                             color={"warning"}
-                            label={"INACTIVE"}
+                            label={"NGƯNG HOẠT ĐỘNG"}
                             size="small"
                             sx={{
                                 fontSize: 12,
