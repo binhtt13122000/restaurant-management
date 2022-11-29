@@ -59,7 +59,7 @@ export const routes = [
                 id: 4.2,
                 name: "Phân quyền hệ thống",
                 path: ROUTES.ROLE,
-                icon: "/images/combo.png",
+                icon: "/images/account.png",
             },
         ],
     },
