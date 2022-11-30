@@ -11307,7 +11307,7 @@ export type GetWorksessionByIdQuery = {
         updaterid?: number | null;
         updatetime?: any | null;
         workdate: any;
-        shifts: Array<{ __typename?: "shift"; id: number; isopen: boolean }>;
+        shifts: Array<{ __typename?: "shift"; id: number; isopen: boolean; status: any }>;
     } | null;
 };
 

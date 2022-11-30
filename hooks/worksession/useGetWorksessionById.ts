@@ -25,6 +25,7 @@ const useGetWorksessionById = (id: number | null) => {
                             shifts {
                                 id
                                 isopen
+                                status
                             }
                         }
                     }

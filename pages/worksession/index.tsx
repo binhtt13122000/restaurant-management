@@ -279,7 +279,9 @@ const WorkSession = () => {
                 dataById?.worksession_by_pk?.isopen &&
                 dataById?.worksession_by_pk?.shifts &&
                 dataById?.worksession_by_pk?.shifts.length > 0 &&
-                dataById?.worksession_by_pk?.shifts.findIndex((x) => x.isopen) !== -1
+                dataById?.worksession_by_pk?.shifts
+                    .filter((x) => x.status === "ACTIVE")
+                    .findIndex((x) => x.isopen) !== -1
             ) {
                 showSnackbar({
                     children: "Các ca làm việc chưa được đóng hết",
