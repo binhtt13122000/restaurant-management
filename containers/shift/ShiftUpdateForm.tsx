@@ -115,6 +115,13 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
         );
     };
     const openShift = () => {
+        if (!dataById?.shift_by_pk?.worksession?.isopen) {
+            showSnackbar({
+                children: "Không thể mở ca làm việc với phiên làm việc đã đóng",
+                severity: "error",
+            });
+            return;
+        }
         mutate(
             {
                 id: id,
@@ -160,6 +167,7 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                             const endTimeString = `${data.endTime.getHours()}:${data.endTime.getMinutes()}:00}`;
                             const index = xs.shift
                                 .filter((x) => x.id !== id)
+                                .filter((x) => x.status === "ACTIVE")
                                 .findIndex(
                                     (k) =>
                                         (convert(startTimeString) < convert(k.endtime) &&
@@ -489,9 +497,8 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                                   )
                                 : new Date(),
                             "yyyy/MM/dd"
-                        ) === format(new Date(), "yyyy/MM/dd") && (
+                        ) <= format(new Date(), "yyyy/MM/dd") && (
                             <Button
-                                disabled={watch("startTime") >= watch("endTime")}
                                 variant="contained"
                                 color="primary"
                                 onClick={dataById?.shift_by_pk?.isopen ? closeShift : openShift}

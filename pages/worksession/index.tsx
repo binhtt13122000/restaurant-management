@@ -594,8 +594,8 @@ const WorkSession = () => {
                                             dataById?.worksession_by_pk?.workdate
                                                 ? new Date(dataById?.worksession_by_pk?.workdate)
                                                 : new Date(),
-                                            "dd/MM/yyyy"
-                                        ) !== format(new Date(), "dd/MM/yyyy")
+                                            "yyyy/MM/dd"
+                                        ) > format(new Date(), "yyyy/MM/dd")
                                     }
                                 >
                                     {dataById?.worksession_by_pk?.isopen
