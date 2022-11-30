@@ -14,6 +14,7 @@ const publicRuntimeConfig =
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+    basePath: "/admin",
     images: {
         domains: ["st3.depositphotos.com", "firebasestorage.googleapis.com"],
     },

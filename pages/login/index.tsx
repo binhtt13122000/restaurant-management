@@ -95,7 +95,7 @@ const Login: NextPageWithLayout = () => {
             sx={{
                 width: "auto",
                 height: "100vh",
-                backgroundImage: "url(/images/login_background.png)",
+                backgroundImage: "url(/admin/images/login_background.png)",
                 backgroundSize: "cover",
                 display: "flex",
                 justifyContent: "center",
