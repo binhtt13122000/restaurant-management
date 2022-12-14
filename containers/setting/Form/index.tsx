@@ -146,6 +146,10 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                                     value: true,
                                     message: "Tên nhà hàng là bắt buộc!",
                                 },
+                                maxLength: {
+                                    value: 50,
+                                    message: "Tên nhà hàng tối đa 50 kí tự",
+                                },
                                 onBlur: () =>
                                     setValue(
                                         "restaurantname",
@@ -244,7 +248,7 @@ const SettingForm: React.FC<IForm<Systemsetting>> = (props: IForm<Systemsetting>
                             {"Trở lại"}
                         </Button>
                         <Button variant="contained" type="submit" autoFocus>
-                            {defaultData.id ? "Chỉnhh sửa" : "Tạo mới"}
+                            {defaultData.id ? "Chỉnh sửa" : "Tạo mới"}
                         </Button>
                     </Box>
                 </Grid>

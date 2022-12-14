@@ -53,6 +53,12 @@ export interface ShiftCreate {
 }
 
 const WorkSession = () => {
+    useEffect(() => {
+        const userJson = localStorage.getItem("user");
+        if (!userJson) {
+            window.location.replace("https://binhtruongthanh.tech/login");
+        }
+    }, []);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [check, setCheck] = useState(false);
@@ -151,7 +157,7 @@ const WorkSession = () => {
     };
 
     const tomorrowFns = add(new Date(), {
-        days: 1,
+        days: 0,
     });
 
     const showSnackbar = useSnackbar();

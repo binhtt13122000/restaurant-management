@@ -26,7 +26,7 @@ export const routes = [
             },
             {
                 id: 2.3,
-                name: "Quản lý các khu vực",
+                name: "Quản lý khu vực",
                 path: ROUTES.LOCATION,
                 icon: "/admin/images/select.png",
             },

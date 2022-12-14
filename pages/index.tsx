@@ -1,12 +1,11 @@
 import { NextPage } from "next";
 import React, { useEffect } from "react";
-import router from "next/router";
 
 const Home: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            router.push("/login");
+            window.location.replace("https://binhtruongthanh.tech/login");
         }
     }, []);
     // const initData: AccountDTO = {

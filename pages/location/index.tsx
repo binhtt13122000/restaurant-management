@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import ChipBase from "components/Chip";
 import { BASIC_ENUM } from "utils/enums";
 import useSnackbar from "components/Snackbar/useSnackbar";
-import router from "next/router";
 import LocationForm, { LocationMutationType } from "containers/location/LocationForm";
 import useCreateLocation from "hooks/location/useCreateLocation";
 import useUpdateLocation from "hooks/location/useUpdateLocation";
@@ -15,7 +14,7 @@ const Location: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            router.push("/login");
+            window.location.replace("https://binhtruongthanh.tech/login");
         }
     }, []);
     const initData: LocationMutationType = {
@@ -209,7 +208,7 @@ const Location: NextPage = () => {
             <CRUDTable
                 queryKey="LocationQuery"
                 columns={columns}
-                title={"Quản lý các khu vực"}
+                title={"Quản lý khu vực"}
                 entity="location"
                 firstOrderField="id"
                 sort

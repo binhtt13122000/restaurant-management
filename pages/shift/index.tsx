@@ -23,7 +23,7 @@ import ShiftUpdateForm from "containers/shift/ShiftUpdateForm";
 import { format } from "date-fns";
 import useGetAllShift from "hooks/shift/useGetAllShift";
 import useGetAllWorkSession from "hooks/worksession/useGetAll";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const SchedulerOk: React.FC<SchedulerProps & { children: React.ReactNode }> = ({
     children,
@@ -72,6 +72,12 @@ const StyledWeekViewDayScaleCell = styled(WeekView.DayScaleCell)(({ theme }) => 
 }));
 
 const Shift = () => {
+    useEffect(() => {
+        const userJson = localStorage.getItem("user");
+        if (!userJson) {
+            window.location.replace("https://binhtruongthanh.tech/login");
+        }
+    }, []);
     const { data: dataWS } = useGetAllWorkSession();
 
     const [selected, setSelected] = useState<number>(0);

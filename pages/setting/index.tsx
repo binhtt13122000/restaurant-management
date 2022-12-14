@@ -21,7 +21,6 @@ import { Box } from "@mui/system";
 import LoadingCustomize from "components/Loading";
 
 import { NextPage } from "next";
-import router from "next/router";
 import RestaurantImage from "containers/setting/RestaurantImage";
 import SettingForm from "containers/setting/Form";
 import useGetSystemSetting from "hooks/system-setting/useGetSystemSetting";
@@ -46,7 +45,7 @@ const Setting: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            router.push("/login");
+            window.location.replace("https://binhtruongthanh.tech/login");
         }
     }, []);
 

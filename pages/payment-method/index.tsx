@@ -11,13 +11,12 @@ import PaymentMethodForm, {
 import useSnackbar from "components/Snackbar/useSnackbar";
 import useUpdatePaymentMethod from "hooks/payment-methods/useUpdatePaymentMethod";
 import useDeletePaymentMethod from "hooks/payment-methods/useDeletePaymentMethod";
-import router from "next/router";
 
 const PaymentMethod: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            router.push("/login");
+            window.location.replace("https://binhtruongthanh.tech/login");
         }
     }, []);
     const initData: PaymentmethodMutationType = {

@@ -4,7 +4,6 @@ import { NextPage } from "next";
 import React, { useCallback, useEffect, useState } from "react";
 import { USER_ENUM } from "utils/enums";
 import useSnackbar from "components/Snackbar/useSnackbar";
-import router from "next/router";
 import useGetRole from "hooks/role/useGetRole";
 import { Box, Tab, Tabs } from "@mui/material";
 import TabPanel from "components/Tab/TabPanel";
@@ -24,7 +23,7 @@ const Account: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            router.push("/login");
+            window.location.replace("https://binhtruongthanh.tech/login");
         } else {
             setUser(JSON.parse(localStorage.getItem("user") || "{}"));
         }

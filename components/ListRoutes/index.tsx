@@ -239,12 +239,18 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
     };
 
     const logout = async () => {
-        localStorage.clear();
-        mutateDelete({
-            id: (userCurrent && userCurrent?.account && userCurrent?.account[0]?.id) || 0,
-            status: USER_ENUM.OFFLINE,
-        });
-        router.push("/login");
+        mutateDelete(
+            {
+                id: (userCurrent && userCurrent?.account && userCurrent?.account[0]?.id) || 0,
+                status: USER_ENUM.OFFLINE,
+            },
+            {
+                onSuccess: () => {
+                    localStorage.clear();
+                    window.location.replace("https://binhtruongthanh.tech/login");
+                },
+            }
+        );
     };
 
     const [open, setOpen] = useState(false);

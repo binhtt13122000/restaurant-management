@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import ChipBase from "components/Chip";
 import { TABLE_ENUM } from "utils/enums";
 import useSnackbar from "components/Snackbar/useSnackbar";
-import router from "next/router";
 import TableForm, { TableMutationType } from "containers/table/TableForm";
 import useCreateTable from "hooks/table/useCreateTable";
 import useUpdateTable from "hooks/table/useUpdateTable";
@@ -15,7 +14,7 @@ const Table: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            router.push("/login");
+            window.location.replace("https://binhtruongthanh.tech/login");
         }
     }, []);
     const initData: TableMutationType = {
