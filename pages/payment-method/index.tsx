@@ -87,7 +87,7 @@ const PaymentMethod: NextPage = () => {
         },
         {
             field: "name",
-            title: "Tên phuơng thức thanh toán",
+            title: "Tên phương thức thanh toán",
             index: 2,
             type: "string",
         },

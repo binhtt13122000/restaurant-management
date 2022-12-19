@@ -80,7 +80,7 @@ const AppBarWithDrawer: React.FC<IAppBarWithDrawer> = ({ appbarHeight, handleDra
                     >
                         {user?.account &&
                             user?.account[0] &&
-                            ` ${user?.account[0].role.name} | ${user?.account[0].fullname}`}
+                            ` Quản trị viên | ${user?.account[0].fullname}`}
                     </Typography>
                     {/* <Tooltip title="Thông báo">
                         <IconButton

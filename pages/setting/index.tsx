@@ -365,7 +365,7 @@ const Setting: NextPage = () => {
                                                                                         "bold",
                                                                                 }}
                                                                             >
-                                                                                {"Mã số thuế"}
+                                                                                {"Giá trị thuế"}
                                                                             </Typography>
                                                                         }
                                                                     />

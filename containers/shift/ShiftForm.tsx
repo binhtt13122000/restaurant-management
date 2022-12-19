@@ -179,7 +179,11 @@ const ShiftForm: React.FC<{ opened: boolean; action: Function }> = (props) => {
                                                                   "yyyy/MM/dd"
                                                               ) >= format(new Date(), "yyyy/MM/dd")
                                                       )
-                                                      .sort((a, b) => a.workdate - b.workdate)
+                                                      .sort((a, b) =>
+                                                          String(a.workdate) > String(b.workdate)
+                                                              ? 1
+                                                              : -1
+                                                      )
                                                       .map((x) => {
                                                           return {
                                                               key: x.id,

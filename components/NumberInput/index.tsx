@@ -35,10 +35,11 @@ export const CurrencyFormatInput = <T extends object>(props: INumberFormatInput<
                 <NumericFormat
                     inputRef={ref}
                     customInput={TextField}
-                    thousandSeparator
+                    thousandSeparator="."
+                    decimalSeparator={","}
                     valueIsNumericString
                     fullWidth={fullWidth}
-                    suffix=" VND"
+                    suffix=""
                     label={
                         <Typography>
                             {label}{" "}

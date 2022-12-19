@@ -137,7 +137,7 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
             {
                 onSuccess() {
                     showSnackbar({
-                        children: "Đóng thành công",
+                        children: "Mở thành công",
                         severity: "success",
                     });
                     action();
@@ -146,7 +146,7 @@ const ShiftUpdateForm: React.FC<{ opened: boolean; action: Function; id: number 
                 },
                 onError() {
                     showSnackbar({
-                        children: "Đóng thất bại",
+                        children: "Mở thất bại",
                         severity: "error",
                     });
                 },

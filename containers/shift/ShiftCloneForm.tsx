@@ -196,7 +196,11 @@ const ShiftCloneForm: React.FC<{ opened: boolean; action: Function }> = (props) 
                                         options={
                                             data
                                                 ? data.worksession
-                                                      .sort((a, b) => a.workdate - b.workdate)
+                                                      .sort((a, b) =>
+                                                          String(a.workdate) > String(b.workdate)
+                                                              ? 1
+                                                              : -1
+                                                      )
                                                       .map((x) => {
                                                           return {
                                                               key: x.id,

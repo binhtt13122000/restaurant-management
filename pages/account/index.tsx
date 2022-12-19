@@ -321,7 +321,9 @@ const Account: NextPage = () => {
                         return (
                             <Tab
                                 key={x.name}
-                                label={`${x.name}(${x.accounts_aggregate.aggregate?.count || 0})`}
+                                label={`${convert(x.name)}(${
+                                    x.accounts_aggregate.aggregate?.count || 0
+                                })`}
                                 value={key}
                             />
                         );
@@ -360,6 +362,20 @@ const Account: NextPage = () => {
             })}
         </>
     );
+};
+
+const convert = (name: string) => {
+    if (name === "ADMIN") {
+        return "Quản trị viên";
+    } else if (name === "MANAGER") {
+        return "Quản lý viên";
+    } else if (name === "CASHIER") {
+        return "Thu ngân";
+    } else if (name === "WAITER") {
+        return "Bồi bàn";
+    } else {
+        return "Nhân viên bếp";
+    }
 };
 
 export default Account;
