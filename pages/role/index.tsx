@@ -8,7 +8,7 @@ const Role: NextPage = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            window.location.replace("https://binhtruongthanh.tech/login");
+            window.location.replace("https://capstoneposrestaurant.tech/login");
         }
     }, []);
 

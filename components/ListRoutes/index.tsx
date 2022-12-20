@@ -247,7 +247,7 @@ const ListRoutes: React.FC<ListRoutesType> = ({ appbarHeight, user }) => {
             {
                 onSuccess: () => {
                     localStorage.clear();
-                    window.location.replace("https://binhtruongthanh.tech/login");
+                    window.location.replace("https://capstoneposrestaurant.tech/login");
                 },
             }
         );

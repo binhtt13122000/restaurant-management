@@ -75,7 +75,7 @@ const Shift = () => {
     useEffect(() => {
         const userJson = localStorage.getItem("user");
         if (!userJson) {
-            window.location.replace("https://binhtruongthanh.tech/login");
+            window.location.replace("https://capstoneposrestaurant.tech/login");
         }
     }, []);
     const { data: dataWS } = useGetAllWorkSession();
